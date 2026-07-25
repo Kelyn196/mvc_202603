@@ -42,7 +42,6 @@ class Products extends PublicController
     $this->setParamsToContext();
     $this->setParamsToDataView();
 
-    // 🔑 Traducción de estado antes de enviar a la vista
     foreach ($this->products as &$product) {
       $product["productStatusDsc"] = ($product["productStatus"] === "ACT") ? "Disponible" : "Agotado";
     }

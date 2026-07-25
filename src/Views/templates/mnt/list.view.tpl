@@ -9,8 +9,8 @@
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Precio</th>
-                <th>Imagen</th>
                 <th>Stock</th>
+                <th>Imagen</th>
                 <th>Estado</th>
                 <th>
                     {{if PRODUCT_INS_MODE}}
@@ -26,10 +26,10 @@
                 <td>{{productName}}</td>
                 <td>{{productDescription}}</td>
                 <td class="right">{{productPrice}}</td>
+                <td class="center">{{productStock}}</td>
                 <td class="center">
                     <img src="{{productImgUrl}}" alt="{{productName}}" width="80" height="60" />
                 </td>
-                <td class="center">{{productStock}}</td>
                 <td class="center">
                     {{if productStatus == "ACT"}}Activo{{endif productStatus}}
                     {{if productStatus == "INA"}}Inactivo{{endif productStatus}}

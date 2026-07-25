@@ -8,7 +8,7 @@
         <div class="col-8 row">
 
           <label class="col-3" for="partialName">Buscar</label>
-          <input class="col-9" type="text" name="partialName" id="partialName" value="{{partialName}}" placeholder="Nombre del rol..." />
+          <input class="col-9" type="text" name="partialName" id="partialName" value="{{partialName}}" />
 
           <label class="col-3" for="status">Estado</label>
           <select class="col-9" name="status" id="status">

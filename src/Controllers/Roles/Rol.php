@@ -3,157 +3,151 @@
 namespace Controllers\Roles;
 
 use Controllers\PublicController;
-use Dao\Roles\Roles as RolesDAO;
 use Views\Renderer;
+use Dao\Roles\Roles as RolesDao;
+use Utilities\Site;
 use Utilities\Validators;
 
 class Rol extends PublicController
 {
-    private $mode = "DSP";
+    private $viewData = [];
+    private $mode = "INS";
+
     private $modeDescriptions = [
+        "DSP" => "Detalle del Rol %s",
         "INS" => "Nuevo Rol",
-        "UPD" => "Editar Rol (%s)",
-        "DEL" => "Eliminar Rol (%s)",
-        "DSP" => "Detalle de Rol (%s)"
+        "UPD" => "Editar Rol %s",
+        "DEL" => "Eliminar Rol %s"
     ];
 
-    private $rolescod = "";
-    private $rolesdsc = "";
-    private $rolesest = "ACT";
+    private $readonly = "";
+    private $showCommitBtn = true;
 
-    private $hasErrors = false;
-    private $errors = [];
+    private $rol = [
+        "rolescod" => "",
+        "rolesdsc" => "",
+        "rolesest" => "ACT"
+    ];
 
     public function run(): void
     {
-        $this->init();
+        try {
+            $this->getData();
 
-        if ($this->isPostBack()) {
-            $this->handlePost();
+            if ($this->isPostBack()) {
+                if ($this->validateData()) {
+                    $this->handlePostAction();
+                }
+            }
+
+            $this->setViewData();
+
+            Renderer::render("roles/rol", $this->viewData);
+
+        } catch (\Throwable $ex) {
+            echo "<pre>";
+            echo $ex->getMessage();
+            echo "</pre>";
+            die();
         }
-
-        $this->render();
     }
 
-    private function init()
+    private function getData()
     {
-        if (isset($_GET["mode"])) {
-            $this->mode = $_GET["mode"];
+        $this->mode = strtoupper($_GET["mode"] ?? "INS");
+
+        if (!array_key_exists($this->mode, $this->modeDescriptions)) {
+            throw new \Exception("Modo inválido");
         }
 
-        if (isset($_GET["rolescod"])) {
-            $this->rolescod = $_GET["rolescod"];
-        }
-
-        if (!key_exists($this->mode, $this->modeDescriptions)) {
-            \Utilities\Site::redirectToWithMsg(
-                "index.php?page=Roles_Roles",
-                "Modo no válido"
-            );
-        }
+        $this->readonly = ($this->mode === "DEL") ? "readonly" : "";
+        $this->showCommitBtn = ($this->mode !== "DSP");
 
         if ($this->mode !== "INS") {
-            $tmpRol = RolesDAO::getRolById($this->rolescod);
-            if ($tmpRol) {
-                $this->rolescod = $tmpRol["rolescod"];
-                $this->rolesdsc = $tmpRol["rolesdsc"];
-                $this->rolesest = $tmpRol["rolesest"];
-            } else {
-                \Utilities\Site::redirectToWithMsg(
-                    "index.php?page=Roles_Roles",
-                    "Registro no encontrado"
+            $this->rol = RolesDao::getRolById($_GET["rolescod"] ?? "");
+
+            if (!$this->rol) {
+                throw new \Exception("Rol no encontrado");
+            }
+        }
+    }
+
+    private function validateData()
+    {
+        $errors = [];
+
+        $this->rol["rolescod"] = $_POST["rolescod"] ?? "";
+        $this->rol["rolesdsc"] = $_POST["rolesdsc"] ?? "";
+        $this->rol["rolesest"] = $_POST["rolesest"] ?? "";
+
+        if (Validators::IsEmpty($this->rol["rolescod"])) {
+            $errors["rolescod_error"] = "Código requerido";
+        }
+
+        if (Validators::IsEmpty($this->rol["rolesdsc"])) {
+            $errors["rolesdsc_error"] = "Descripción requerida";
+        }
+
+        if (!in_array($this->rol["rolesest"], ["ACT", "INA"])) {
+            $errors["rolesest_error"] = "Estado inválido";
+        }
+
+        if (count($errors) > 0) {
+            foreach ($errors as $k => $v) {
+                $this->rol[$k] = $v;
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    private function handlePostAction()
+    {
+        switch ($this->mode) {
+            case "INS":
+                RolesDao::insertRol(
+                    $this->rol["rolescod"],
+                    $this->rol["rolesdsc"],
+                    $this->rol["rolesest"]
                 );
-            }
-        }
-    }
+                break;
 
-    private function handlePost()
-    {
-        $this->rolescod = $_POST["rolescod"] ?? "";
-        $this->rolesdsc = $_POST["rolesdsc"] ?? "";
-        $this->rolesest = $_POST["rolesest"] ?? "ACT";
+            case "UPD":
+                RolesDao::updateRol(
+                    $this->rol["rolescod"],
+                    $this->rol["rolesdsc"],
+                    $this->rol["rolesest"]
+                );
+                break;
 
-        // Validaciones básicas
-        if (Validators::isEmpty($this->rolescod)) {
-            $this->errors["rolescod"] = "El código del rol es obligatorio.";
-            $this->hasErrors = true;
-        }
-
-        if (Validators::isEmpty($this->rolesdsc)) {
-            $this->errors["rolesdsc"] = "La descripción del rol es obligatoria.";
-            $this->hasErrors = true;
+            case "DEL":
+                RolesDao::deleteRol($this->rol["rolescod"]);
+                break;
         }
 
-        if (!$this->hasErrors) {
-            switch ($this->mode) {
-                case "INS":
-                    $result = RolesDAO::insertRol(
-                        $this->rolescod,
-                        $this->rolesdsc,
-                        $this->rolesest
-                    );
-                    if ($result > 0) {
-                        \Utilities\Site::redirectToWithMsg(
-                            "index.php?page=Roles_Roles",
-                            "Rol creado exitosamente."
-                        );
-                    }
-                    break;
-
-                case "UPD":
-                    $result = RolesDAO::updateRol(
-                        $this->rolescod,
-                        $this->rolesdsc,
-                        $this->rolesest
-                    );
-                    if ($result > 0) {
-                        \Utilities\Site::redirectToWithMsg(
-                            "index.php?page=Roles_Roles",
-                            "Rol actualizado exitosamente."
-                        );
-                    }
-                    break;
-
-                case "DEL":
-                    $result = RolesDAO::deleteRol($this->rolescod);
-                    if ($result > 0) {
-                        \Utilities\Site::redirectToWithMsg(
-                            "index.php?page=Roles_Roles",
-                            "Rol eliminado exitosamente."
-                        );
-                    }
-                    break;
-            }
-        }
-    }
-
-    private function render()
-    {
-        $viewData = [];
-        $viewData["mode"] = $this->mode;
-        $viewData["modeDsc"] = sprintf(
-            $this->modeDescriptions[$this->mode],
-            $this->rolescod
+        Site::redirectToWithMsg(
+            "index.php?page=Roles_Roles",
+            "Operación realizada correctamente"
         );
+    }
 
-        $viewData["rolescod"] = $this->rolescod;
-        $viewData["rolesdsc"] = $this->rolesdsc;
-        $viewData["rolesest"] = $this->rolesest;
+    private function setViewData(): void
+    {
+        $this->viewData["mode"] = $this->mode;
 
-        // Banderas de estado para el formulario
-        $viewData["readonly"] = ($this->mode === "DEL" || $this->mode === "DSP") ? "readonly" : "";
-        $viewData["showBtn"] = ($this->mode !== "DSP");
-        $viewData["isInsert"] = ($this->mode === "INS");
+        $this->viewData["FormTitle"] =
+            ($this->mode === "INS")
+            ? "Nuevo Rol"
+            : sprintf($this->modeDescriptions[$this->mode], $this->rol["rolescod"]);
 
-        $viewData["statusOptions"] = [
-            ["value" => "ACT", "text" => "Activo", "selected" => $this->rolesest === "ACT" ? "selected" : ""],
-            ["value" => "INA", "text" => "Inactivo", "selected" => $this->rolesest === "INA" ? "selected" : ""]
-        ];
+        $this->viewData["showCommitBtn"] = $this->showCommitBtn;
+        $this->viewData["readonly"] = $this->readonly;
 
-        $viewData["hasErrors"] = $this->hasErrors;
-        $viewData["errors"] = $this->errors;
+        $this->rol["rolesest_act"] = ($this->rol["rolesest"] == "ACT") ? "selected" : "";
+        $this->rol["rolesest_ina"] = ($this->rol["rolesest"] == "INA") ? "selected" : "";
 
-        Renderer::render("roles/rol", $viewData);
+        $this->viewData["rol"] = $this->rol;
     }
 }
 ?>

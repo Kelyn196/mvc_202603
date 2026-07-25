@@ -9,8 +9,8 @@
           <input class="col-9" type="text" name="partialName" id="partialName" value="{{partialName}}" />
           <label class="col-3" for="status">Estado</label>
           <select class="col-9" name="status" id="status">
-              <option value="ACT" {{status_DISP}}>Activo</option>
-              <option value="INA" {{status_AGO}}>Inactivo</option>
+              <option value="ACT" {{status_ACT}}>Activo</option>
+              <option value="INA" {{status_INA}}>Inactivo</option>
           </select>
         </div>
         <div class="col-4 align-end">

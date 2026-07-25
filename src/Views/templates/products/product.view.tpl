@@ -59,8 +59,8 @@
     <div class="row my-2 align-center">
       <label class="col-12 col-m-3" for="productStatus">Estado</label>
       <select name="productStatus" id="productStatus" class="col-12 col-m-9" {{if ~readonly}} readonly disabled {{endif ~readonly}}>
-        <option value="ACT" {{productStatus_ACT}}>Disponible</option>
-        <option value="INA" {{productStatus_INA}}>Agotado</option>
+        <option value="ACT" {{productStatus_ACT}}>Activo</option>
+        <option value="INA" {{productStatus_INA}}>Inactivo</option>
       </select>
     </div>
     {{endwith product}}

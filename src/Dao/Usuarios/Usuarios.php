@@ -1,4 +1,5 @@
 <?php
+
 namespace Dao\Usuarios;
 
 use Dao\Table;
@@ -15,25 +16,26 @@ class Usuarios extends Table
     ) {
 
         $sqlstr = "SELECT
-                u.usercod,
-                u.useremail,
-                u.username,
-                u.userpswd,
-                u.userfching,
-                u.userpswdest,
-                u.userpswdexp,
-                u.userest,
-                u.useractcod,
-                u.userpswdchg,
-                u.usertipo,
-                CASE
-                    WHEN u.userest='ACT' THEN 'Activo'
-                    WHEN u.userest='INA' THEN 'Inactivo'
-                    ELSE 'Sin Asignar'
-                END AS userestDsc
-            FROM usuario u";
+                    u.usercod,
+                    u.useremail,
+                    u.username,
+                    u.userpswd,
+                    u.userfching,
+                    u.userpswdest,
+                    u.userpswdexp,
+                    u.userest,
+                    u.useractcod,
+                    u.userpswdchg,
+                    u.usertipo,
+                    CASE
+                        WHEN u.userest = 'ACT' THEN 'Activo'
+                        WHEN u.userest = 'INA' THEN 'Inactivo'
+                        ELSE 'Sin Asignar'
+                    END AS userestDsc
+                FROM usuario u";
 
-        $sqlstrCount = "SELECT COUNT(*) as count FROM usuario u";
+        $sqlstrCount = "SELECT COUNT(*) AS count
+                        FROM usuario u";
 
         $conditions = [];
         $params = [];
@@ -63,13 +65,13 @@ class Usuarios extends Table
 
         if ($orderBy != "") {
             $sqlstr .= " ORDER BY " . $orderBy;
-
-            if ($orderDescending) {
-                $sqlstr .= " DESC";
-            }
+            $sqlstr .= $orderDescending ? " DESC" : " ASC";
         }
 
-        $numeroDeRegistros = self::obtenerUnRegistro($sqlstrCount, $params)["count"] ?? 0;
+        $numeroDeRegistros = self::obtenerUnRegistro(
+            $sqlstrCount,
+            $params
+        )["count"] ?? 0;
 
         $pagesCount = ($numeroDeRegistros > 0)
             ? ceil($numeroDeRegistros / $itemsPerPage)
@@ -87,7 +89,10 @@ class Usuarios extends Table
 
         $sqlstr .= " LIMIT " . intval($offset) . ", " . intval($itemsPerPage);
 
-        $registros = self::obtenerRegistros($sqlstr, $params);
+        $registros = self::obtenerRegistros(
+            $sqlstr,
+            $params
+        );
 
         return [
             "usuarios" => $registros,
@@ -114,9 +119,12 @@ class Usuarios extends Table
                 FROM usuario
                 WHERE usercod = :usercod";
 
-        return self::obtenerUnRegistro($sqlstr, [
-            "usercod" => $usercod
-        ]);
+        return self::obtenerUnRegistro(
+            $sqlstr,
+            [
+                "usercod" => $usercod
+            ]
+        );
     }
 
     public static function insertUsuario(
@@ -133,41 +141,44 @@ class Usuarios extends Table
     ) {
 
         $sqlstr = "INSERT INTO usuario (
-                    useremail,
-                    username,
-                    userpswd,
-                    userfching,
-                    userpswdest,
-                    userpswdexp,
-                    userest,
-                    useractcod,
-                    userpswdchg,
-                    usertipo
-                ) VALUES (
-                    :useremail,
-                    :username,
-                    :userpswd,
-                    :userfching,
-                    :userpswdest,
-                    :userpswdexp,
-                    :userest,
-                    :useractcod,
-                    :userpswdchg,
-                    :usertipo
-                )";
+                        useremail,
+                        username,
+                        userpswd,
+                        userfching,
+                        userpswdest,
+                        userpswdexp,
+                        userest,
+                        useractcod,
+                        userpswdchg,
+                        usertipo
+                    ) VALUES (
+                        :useremail,
+                        :username,
+                        :userpswd,
+                        :userfching,
+                        :userpswdest,
+                        :userpswdexp,
+                        :userest,
+                        :useractcod,
+                        :userpswdchg,
+                        :usertipo
+                    )";
 
-        return self::executeNonQuery($sqlstr, [
-            "useremail" => $useremail,
-            "username" => $username,
-            "userpswd" => $userpswd,
-            "userfching" => $userfching,
-            "userpswdest" => $userpswdest,
-            "userpswdexp" => $userpswdexp,
-            "userest" => $userest,
-            "useractcod" => $useractcod,
-            "userpswdchg" => $userpswdchg,
-            "usertipo" => $usertipo
-        ]);
+        return self::executeNonQuery(
+            $sqlstr,
+            [
+                "useremail" => $useremail,
+                "username" => $username,
+                "userpswd" => $userpswd,
+                "userfching" => $userfching,
+                "userpswdest" => $userpswdest,
+                "userpswdexp" => $userpswdexp,
+                "userest" => $userest,
+                "useractcod" => $useractcod,
+                "userpswdchg" => $userpswdchg,
+                "usertipo" => $usertipo
+            ]
+        );
     }
 
     public static function updateUsuario(
@@ -184,39 +195,46 @@ class Usuarios extends Table
         string $usertipo
     ) {
 
-        $sqlstr = "UPDATE usuario SET
-                useremail = :useremail,
-                username = :username,
-                userpswd = :userpswd,
-                userfching = :userfching,
-                userpswdest = :userpswdest,
-                userpswdexp = :userpswdexp,
-                userest = :userest,
-                useractcod = :useractcod,
-                userpswdchg = :userpswdchg,
-                usertipo = :usertipo
-                WHERE usercod = :usercod";
+        $sqlstr = "UPDATE usuario
+                    SET
+                        useremail = :useremail,
+                        username = :username,
+                        userpswd = :userpswd,
+                        userfching = :userfching,
+                        userpswdest = :userpswdest,
+                        userpswdexp = :userpswdexp,
+                        userest = :userest,
+                        useractcod = :useractcod,
+                        userpswdchg = :userpswdchg,
+                        usertipo = :usertipo
+                    WHERE usercod = :usercod";
 
-        return self::executeNonQuery($sqlstr, [
-            "usercod" => $usercod,
-            "useremail" => $useremail,
-            "username" => $username,
-            "userpswd" => $userpswd,
-            "userfching" => $userfching,
-            "userpswdest" => $userpswdest,
-            "userpswdexp" => $userpswdexp,
-            "userest" => $userest,
-            "useractcod" => $useractcod,
-            "userpswdchg" => $userpswdchg,
-            "usertipo" => $usertipo
-        ]);
+        return self::executeNonQuery(
+            $sqlstr,
+            [
+                "usercod" => $usercod,
+                "useremail" => $useremail,
+                "username" => $username,
+                "userpswd" => $userpswd,
+                "userfching" => $userfching,
+                "userpswdest" => $userpswdest,
+                "userpswdexp" => $userpswdexp,
+                "userest" => $userest,
+                "useractcod" => $useractcod,
+                "userpswdchg" => $userpswdchg,
+                "usertipo" => $usertipo
+            ]
+        );
     }
 
     public static function deleteUsuario(int $usercod)
     {
         return self::executeNonQuery(
-            "DELETE FROM usuario WHERE usercod = :usercod",
-            ["usercod" => $usercod]
+            "DELETE FROM usuario
+             WHERE usercod = :usercod",
+            [
+                "usercod" => $usercod
+            ]
         );
     }
 }

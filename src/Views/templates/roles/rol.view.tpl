@@ -12,30 +12,22 @@
         <input type="hidden" name="token" value="{{~rol_xss_token}}">
 
         <div class="row my-2">
-            <label class="col-12 col-m-3" for="rolescod">Código</label>
-            {{if isInsert}}
-            <input class="col-12 col-m-9" type="text" id="rolescod" name="rolescod" value="{{rolescod}}" placeholder="Ej: ADMIN" required />
-            {{else isInsert}}
-            <input class="col-12 col-m-9" type="text" id="rolescod" name="rolescod" value="{{rolescod}}" readonly />
-            {{endif isInsert}}
-
-            {{if rolescod_error}}
-            <div class="error col-12 offset-m-3">{{rolescod_error}}</div>
-            {{endif rolescod_error}}
+            <label class="col-12 col-m-3">Código</label>
+            <input class="col-12 col-m-9" value="{{rolescod}}" readonly>
         </div>
 
         <div class="row my-2">
-            <label class="col-12 col-m-3" for="rolesdsc">Descripción</label>
-            <input class="col-12 col-m-9" type="text" id="rolesdsc" name="rolesdsc" value="{{rolesdsc}}" {{readonly}} />
+            <label class="col-12 col-m-3">Descripción</label>
+            <input class="col-12 col-m-9" name="rolesdsc" value="{{rolesdsc}}">
 
             {{if rolesdsc_error}}
-            <div class="error col-12 offset-m-3">{{rolesdsc_error}}</div>
+            <div class="error">{{rolesdsc_error}}</div>
             {{endif rolesdsc_error}}
         </div>
 
         <div class="row my-2">
-            <label class="col-12 col-m-3" for="rolesest">Estado</label>
-            <select class="col-12 col-m-9" name="rolesest" id="rolesest" {{readonly}}>
+            <label class="col-12 col-m-3">Estado</label>
+            <select class="col-12 col-m-9" name="rolesest">
                 <option value="ACT" {{rolesest_act}}>Activo</option>
                 <option value="INA" {{rolesest_ina}}>Inactivo</option>
             </select>
@@ -46,7 +38,6 @@
             <button class="primary col-12 col-m-2" type="submit">
                 Confirmar
             </button>
-            &nbsp;
             {{endif showCommitBtn}}
 
             <button class="col-12 col-m-2" type="button" id="btnCancelar">
@@ -58,8 +49,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("btnCancelar").addEventListener("click", (e) => {
-        e.preventDefault();
+    document.getElementById("btnCancelar").addEventListener("click", () => {
         window.location.href = "index.php?page=Roles_Roles";
     });
 });
