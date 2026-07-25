@@ -10,7 +10,7 @@ CREATE TABLE
         `userest` char(3) DEFAULT NULL,
         `useractcod` varchar(128) DEFAULT NULL,
         `userpswdchg` varchar(128) DEFAULT NULL,
-        `usertipo` char(3) DEFAULT NULL COMMENT 'admin','empleado','cliente','supervisor',
+        `usertipo` char(3) DEFAULT NULL COMMENT 'Tipo de Usuario, admin, empleado,cliente, supervisor',
         PRIMARY KEY (`usercod`),
         UNIQUE KEY `useremail_UNIQUE` (`useremail`),
         KEY `usertipo` (
@@ -20,7 +20,7 @@ CREATE TABLE
             `userest`
         )
     ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
-    
+
 CREATE TABLE
     `roles` (
         `rolescod` varchar(128) NOT NULL,
