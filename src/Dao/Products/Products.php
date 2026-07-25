@@ -5,40 +5,37 @@ use Dao\Table;
 
 class Products extends Table
 {
-
     public static function getProducts(
         string $partialName = "",
-        string $categoria = "",
+        string $status = "",
         string $orderBy = "",
         bool $orderDescending = false,
         int $page = 0,
         int $itemsPerPage = 10
     ) {
-
         $sqlstr = "SELECT
-                        p.id_producto,
-                        p.nombre,
-                        p.descripcion,
-                        p.precio_menor,
-                        p.precio_mayor,
-                        p.stock,
-                        p.imagen,
-                        p.categoria
-                    FROM productos p";
+                        p.productId,
+                        p.productName,
+                        p.productDescription,
+                        p.productPrice,
+                        p.productImgUrl,
+                        p.productStock,
+                        p.productStatus
+                    FROM products p";
 
-        $sqlstrCount = "SELECT COUNT(*) as count FROM productos p";
+        $sqlstrCount = "SELECT COUNT(*) as count FROM products p";
 
         $conditions = [];
         $params = [];
 
         if ($partialName != "") {
-            $conditions[] = "p.nombre LIKE :partialName";
+            $conditions[] = "p.productName LIKE :partialName";
             $params["partialName"] = "%" . $partialName . "%";
         }
 
-        if ($categoria != "") {
-            $conditions[] = "p.categoria = :categoria";
-            $params["categoria"] = $categoria;
+        if ($status != "") {
+            $conditions[] = "p.productStatus = :status";
+            $params["status"] = $status;
         }
 
         if (count($conditions) > 0) {
@@ -47,38 +44,33 @@ class Products extends Table
         }
 
         if (!in_array($orderBy, [
-            "id_producto",
-            "nombre",
-            "precio_menor",
-            "precio_mayor",
-            "stock",
+            "productId",
+            "productName",
+            "productPrice",
+            "productStock",
             ""
         ])) {
-            throw new \Exception("Error Processing Request OrderBy has invalid value");
+            throw new \Exception("Error Processing Request: OrderBy has invalid value");
         }
 
         if ($orderBy != "") {
             $sqlstr .= " ORDER BY " . $orderBy;
-
             if ($orderDescending) {
                 $sqlstr .= " DESC";
             }
         }
 
         $numeroDeRegistros = self::obtenerUnRegistro($sqlstrCount, $params)["count"];
-
         $pagesCount = ceil($numeroDeRegistros / $itemsPerPage);
 
         if ($page > $pagesCount - 1) {
             $page = $pagesCount - 1;
         }
-
         if ($page < 0) {
             $page = 0;
         }
 
         $sqlstr .= " LIMIT " . ($page * $itemsPerPage) . ", " . $itemsPerPage;
-
         $registros = self::obtenerRegistros($sqlstr, $params);
 
         return [
@@ -89,115 +81,97 @@ class Products extends Table
         ];
     }
 
-    public static function getProductById(int $id_producto)
+    public static function getProductById(int $productId)
     {
         $sqlstr = "SELECT
-                        id_producto,
-                        nombre,
-                        descripcion,
-                        precio_menor,
-                        precio_mayor,
-                        stock,
-                        imagen,
-                        categoria
-                    FROM productos
-                    WHERE id_producto = :id_producto";
+                        productId,
+                        productName,
+                        productDescription,
+                        productPrice,
+                        productImgUrl,
+                        productStock,
+                        productStatus
+                    FROM products
+                    WHERE productId = :productId";
 
-        return self::obtenerUnRegistro(
-            $sqlstr,
-            ["id_producto" => $id_producto]
-        );
+        return self::obtenerUnRegistro($sqlstr, ["productId" => $productId]);
     }
 
     public static function insertProduct(
-        string $nombre,
-        string $descripcion,
-        float $precio_menor,
-        float $precio_mayor,
-        int $stock,
-        string $imagen,
-        string $categoria
+        string $productName,
+        string $productDescription,
+        float $productPrice,
+        string $productImgUrl,
+        int $productStock,
+        string $productStatus
     ) {
-
-        $sqlstr = "INSERT INTO productos
+        $sqlstr = "INSERT INTO products
                     (
-                        nombre,
-                        descripcion,
-                        precio_menor,
-                        precio_mayor,
-                        stock,
-                        imagen,
-                        categoria
+                        productName,
+                        productDescription,
+                        productPrice,
+                        productImgUrl,
+                        productStock,
+                        productStatus
                     )
                     VALUES
                     (
-                        :nombre,
-                        :descripcion,
-                        :precio_menor,
-                        :precio_mayor,
-                        :stock,
-                        :imagen,
-                        :categoria
+                        :productName,
+                        :productDescription,
+                        :productPrice,
+                        :productImgUrl,
+                        :productStock,
+                        :productStatus
                     )";
 
         $params = [
-            "nombre" => $nombre,
-            "descripcion" => $descripcion,
-            "precio_menor" => $precio_menor,
-            "precio_mayor" => $precio_mayor,
-            "stock" => $stock,
-            "imagen" => $imagen,
-            "categoria" => $categoria
+            "productName" => $productName,
+            "productDescription" => $productDescription,
+            "productPrice" => $productPrice,
+            "productImgUrl" => $productImgUrl,
+            "productStock" => $productStock,
+            "productStatus" => $productStatus
         ];
 
         return self::executeNonQuery($sqlstr, $params);
     }
 
     public static function updateProduct(
-        int $id_producto,
-        string $nombre,
-        string $descripcion,
-        float $precio_menor,
-        float $precio_mayor,
-        int $stock,
-        string $imagen,
-        string $categoria
+        int $productId,
+        string $productName,
+        string $productDescription,
+        float $productPrice,
+        string $productImgUrl,
+        int $productStock,
+        string $productStatus
     ) {
-
-        $sqlstr = "UPDATE productos
+        $sqlstr = "UPDATE products
                     SET
-                        nombre = :nombre,
-                        descripcion = :descripcion,
-                        precio_menor = :precio_menor,
-                        precio_mayor = :precio_mayor,
-                        stock = :stock,
-                        imagen = :imagen,
-                        categoria = :categoria
-                    WHERE id_producto = :id_producto";
+                        productName = :productName,
+                        productDescription = :productDescription,
+                        productPrice = :productPrice,
+                        productImgUrl = :productImgUrl,
+                        productStock = :productStock,
+                        productStatus = :productStatus
+                    WHERE productId = :productId";
 
         $params = [
-            "id_producto" => $id_producto,
-            "nombre" => $nombre,
-            "descripcion" => $descripcion,
-            "precio_menor" => $precio_menor,
-            "precio_mayor" => $precio_mayor,
-            "stock" => $stock,
-            "imagen" => $imagen,
-            "categoria" => $categoria
+            "productId" => $productId,
+            "productName" => $productName,
+            "productDescription" => $productDescription,
+            "productPrice" => $productPrice,
+            "productImgUrl" => $productImgUrl,
+            "productStock" => $productStock,
+            "productStatus" => $productStatus
         ];
 
         return self::executeNonQuery($sqlstr, $params);
     }
 
-    public static function deleteProduct(int $id_producto)
+    public static function deleteProduct(int $productId)
     {
-        $sqlstr = "DELETE FROM productos
-                    WHERE id_producto = :id_producto";
-
-        return self::executeNonQuery(
-            $sqlstr,
-            ["id_producto" => $id_producto]
-        );
+        $sqlstr = "DELETE FROM products WHERE productId = :productId";
+        return self::executeNonQuery($sqlstr, ["productId" => $productId]);
     }
 }
 ?>

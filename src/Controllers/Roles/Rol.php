@@ -3,126 +3,157 @@
 namespace Controllers\Roles;
 
 use Controllers\PublicController;
-use Utilities\Context;
-use Utilities\Paging;
-use Dao\Roles\Roles as DaoRoles;
+use Dao\Roles\Roles as RolesDAO;
 use Views\Renderer;
+use Utilities\Validators;
 
-class Roles extends PublicController
+class Rol extends PublicController
 {
-    private $partialName = "";
-    private $status = "";
-    private $orderBy = "rolescod";
-    private $orderDescending = false;
-    private $pageNumber = 1;
-    private $itemsPerPage = 10;
+    private $mode = "DSP";
+    private $modeDescriptions = [
+        "INS" => "Nuevo Rol",
+        "UPD" => "Editar Rol (%s)",
+        "DEL" => "Eliminar Rol (%s)",
+        "DSP" => "Detalle de Rol (%s)"
+    ];
 
-    private $viewData = [];
-    private $roles = [];
-    private $rolesCount = 0;
-    private $pages = 1;
+    private $rolescod = "";
+    private $rolesdsc = "";
+    private $rolesest = "ACT";
+
+    private $hasErrors = false;
+    private $errors = [];
 
     public function run(): void
     {
-        $this->getParamsFromContext();
-        $this->getParams();
+        $this->init();
 
-        $tmpRoles = DaoRoles::getRoles(
-            $this->partialName,
-            $this->status,
-            $this->orderBy,
-            $this->orderDescending,
-            $this->pageNumber - 1,
-            $this->itemsPerPage
+        if ($this->isPostBack()) {
+            $this->handlePost();
+        }
+
+        $this->render();
+    }
+
+    private function init()
+    {
+        if (isset($_GET["mode"])) {
+            $this->mode = $_GET["mode"];
+        }
+
+        if (isset($_GET["rolescod"])) {
+            $this->rolescod = $_GET["rolescod"];
+        }
+
+        if (!key_exists($this->mode, $this->modeDescriptions)) {
+            \Utilities\Site::redirectToWithMsg(
+                "index.php?page=Roles_Roles",
+                "Modo no válido"
+            );
+        }
+
+        if ($this->mode !== "INS") {
+            $tmpRol = RolesDAO::getRolById($this->rolescod);
+            if ($tmpRol) {
+                $this->rolescod = $tmpRol["rolescod"];
+                $this->rolesdsc = $tmpRol["rolesdsc"];
+                $this->rolesest = $tmpRol["rolesest"];
+            } else {
+                \Utilities\Site::redirectToWithMsg(
+                    "index.php?page=Roles_Roles",
+                    "Registro no encontrado"
+                );
+            }
+        }
+    }
+
+    private function handlePost()
+    {
+        $this->rolescod = $_POST["rolescod"] ?? "";
+        $this->rolesdsc = $_POST["rolesdsc"] ?? "";
+        $this->rolesest = $_POST["rolesest"] ?? "ACT";
+
+        // Validaciones básicas
+        if (Validators::isEmpty($this->rolescod)) {
+            $this->errors["rolescod"] = "El código del rol es obligatorio.";
+            $this->hasErrors = true;
+        }
+
+        if (Validators::isEmpty($this->rolesdsc)) {
+            $this->errors["rolesdsc"] = "La descripción del rol es obligatoria.";
+            $this->hasErrors = true;
+        }
+
+        if (!$this->hasErrors) {
+            switch ($this->mode) {
+                case "INS":
+                    $result = RolesDAO::insertRol(
+                        $this->rolescod,
+                        $this->rolesdsc,
+                        $this->rolesest
+                    );
+                    if ($result > 0) {
+                        \Utilities\Site::redirectToWithMsg(
+                            "index.php?page=Roles_Roles",
+                            "Rol creado exitosamente."
+                        );
+                    }
+                    break;
+
+                case "UPD":
+                    $result = RolesDAO::updateRol(
+                        $this->rolescod,
+                        $this->rolesdsc,
+                        $this->rolesest
+                    );
+                    if ($result > 0) {
+                        \Utilities\Site::redirectToWithMsg(
+                            "index.php?page=Roles_Roles",
+                            "Rol actualizado exitosamente."
+                        );
+                    }
+                    break;
+
+                case "DEL":
+                    $result = RolesDAO::deleteRol($this->rolescod);
+                    if ($result > 0) {
+                        \Utilities\Site::redirectToWithMsg(
+                            "index.php?page=Roles_Roles",
+                            "Rol eliminado exitosamente."
+                        );
+                    }
+                    break;
+            }
+        }
+    }
+
+    private function render()
+    {
+        $viewData = [];
+        $viewData["mode"] = $this->mode;
+        $viewData["modeDsc"] = sprintf(
+            $this->modeDescriptions[$this->mode],
+            $this->rolescod
         );
 
-        $this->roles = $tmpRoles["roles"] ?? [];
-        $this->rolesCount = $tmpRoles["total"] ?? 0;
+        $viewData["rolescod"] = $this->rolescod;
+        $viewData["rolesdsc"] = $this->rolesdsc;
+        $viewData["rolesest"] = $this->rolesest;
 
-        $this->pages = max(1, ceil($this->rolesCount / $this->itemsPerPage));
+        // Banderas de estado para el formulario
+        $viewData["readonly"] = ($this->mode === "DEL" || $this->mode === "DSP") ? "readonly" : "";
+        $viewData["showBtn"] = ($this->mode !== "DSP");
+        $viewData["isInsert"] = ($this->mode === "INS");
 
-        if ($this->pageNumber > $this->pages) {
-            $this->pageNumber = $this->pages;
-        }
-
-        $this->setParamsToContext();
-        $this->setParamsToDataView();
-
-        Renderer::render("roles/roles", $this->viewData);
-    }
-
-    private function getParams(): void
-    {
-        $this->partialName = $_GET["partialName"] ?? "";
-        $this->status = $_GET["status"] ?? "";
-
-        if (!in_array($this->status, ["ACT", "INA"])) {
-            $this->status = "";
-        }
-
-        $this->orderBy = $_GET["orderBy"] ?? "rolescod";
-        $this->orderDescending = isset($_GET["orderDescending"]);
-
-        $this->pageNumber = max(1, intval($_GET["pageNum"] ?? 1));
-        $this->itemsPerPage = intval($_GET["itemsPerPage"] ?? 10);
-    }
-
-    private function getParamsFromContext(): void
-    {
-        $this->partialName = Context::getContextByKey("roles_partialName") ?? "";
-        $this->status = Context::getContextByKey("roles_status") ?? "";
-        $this->orderBy = Context::getContextByKey("roles_orderBy") ?? "rolescod";
-        $this->orderDescending = boolval(Context::getContextByKey("roles_orderDescending"));
-        $this->pageNumber = intval(Context::getContextByKey("roles_page") ?? 1);
-        $this->itemsPerPage = intval(Context::getContextByKey("roles_itemsPerPage") ?? 10);
-    }
-
-    private function setParamsToContext(): void
-    {
-        Context::setContext("roles_partialName", $this->partialName, true);
-        Context::setContext("roles_status", $this->status, true);
-        Context::setContext("roles_orderBy", $this->orderBy, true);
-        Context::setContext("roles_orderDescending", $this->orderDescending, true);
-        Context::setContext("roles_page", $this->pageNumber, true);
-        Context::setContext("roles_itemsPerPage", $this->itemsPerPage, true);
-    }
-
-    private function setParamsToDataView(): void
-    {
-        $this->viewData = [
-            "partialName" => $this->partialName,
-            "status" => $this->status,
-            "orderBy" => $this->orderBy,
-            "orderDescending" => $this->orderDescending,
-            "pageNum" => $this->pageNumber,
-            "itemsPerPage" => $this->itemsPerPage,
-            "roles" => $this->roles,
-            "rolesCount" => $this->rolesCount,
-            "pages" => $this->pages
+        $viewData["statusOptions"] = [
+            ["value" => "ACT", "text" => "Activo", "selected" => $this->rolesest === "ACT" ? "selected" : ""],
+            ["value" => "INA", "text" => "Inactivo", "selected" => $this->rolesest === "INA" ? "selected" : ""]
         ];
 
-        if ($this->orderBy != "") {
-            $key = "Order" . ucfirst($this->orderBy);
-            $keyDesc = "OrderBy" . ucfirst($this->orderBy);
+        $viewData["hasErrors"] = $this->hasErrors;
+        $viewData["errors"] = $this->errors;
 
-            $this->viewData[$keyDesc] = true;
-
-            if ($this->orderDescending) {
-                $key .= "Desc";
-            }
-
-            $this->viewData[$key] = true;
-        }
-
-        $statusKey = "status_" . ($this->status == "" ? "EMP" : $this->status);
-        $this->viewData[$statusKey] = "selected";
-
-        $this->viewData["pagination"] = Paging::getPagination(
-            $this->rolesCount,
-            $this->itemsPerPage,
-            $this->pageNumber,
-            "index.php?page=Roles_Roles"
-        );
+        Renderer::render("roles/rol", $viewData);
     }
 }
 ?>

@@ -10,224 +10,189 @@ use Utilities\Validators;
 
 class Product extends PublicController
 {
-    private $viewData = [];
-    private $mode = "DSP";
+  private $viewData = [];
+  private $mode = "DSP";
+  private $modeDescriptions = [
+    "DSP" => "Detalle de %s %s",
+    "INS" => "Nuevo Producto",
+    "UPD" => "Editar %s %s",
+    "DEL" => "Eliminar %s %s"
+  ];
+  private $readonly = "";
+  private $showCommitBtn = true;
+  private $product = [
+    "productId" => 0,
+    "productName" => "",
+    "productDescription" => "",
+    "productPrice" => 0,
+    "productImgUrl" => "",
+    "productStock" => 0,
+    "productStatus" => "ACT"
+  ];
+  private $product_xss_token = "";
 
-    private $modeDescriptions = [
-        "DSP" => "Detalle del Producto %s",
-        "INS" => "Nuevo Producto",
-        "UPD" => "Editar Producto %s",
-        "DEL" => "Eliminar Producto %s"
-    ];
-
-    private $readonly = "";
-    private $showCommitBtn = true;
-
-    private $product = [
-        "id_producto" => 0,
-        "nombre" => "",
-        "descripcion" => "",
-        "precio_menor" => 0,
-        "precio_mayor" => 0,
-        "stock" => 0,
-        "imagen" => "",
-        "categoria" => ""
-    ];
-
-    private $product_xss_token = "";
-
-    public function run(): void
-    {
-        try {
-            $this->getData();
-
-            if ($this->isPostBack()) {
-                if ($this->validateData()) {
-                    $this->handlePostAction();
-                }
-            }
-
-            $this->setViewData();
-
-            Renderer::render("products/product", $this->viewData);
-
-        } catch (\Exception $ex) {
-            Site::redirectToWithMsg(
-                "index.php?page=Products_Products",
-                $ex->getMessage()
-            );
+  public function run(): void
+  {
+    try {
+      $this->getData();
+      if ($this->isPostBack()) {
+        if ($this->validateData()) {
+          $this->handlePostAction();
         }
+      }
+      $this->setViewData();
+      Renderer::render("products/product", $this->viewData);
+    } catch (\Exception $ex) {
+      Site::redirectToWithMsg(
+        "index.php?page=Products_Products",
+        $ex->getMessage()
+      );
+    }
+  }
+
+  private function getData()
+  {
+    $this->mode = $_GET["mode"] ?? "NOF";
+    if (isset($this->modeDescriptions[$this->mode])) {
+      $this->readonly = $this->mode === "DEL" ? "readonly" : "";
+      $this->showCommitBtn = $this->mode !== "DSP";
+      if ($this->mode !== "INS") {
+        $this->product = ProductsDao::getProductById(intval($_GET["productId"]));
+        if (!$this->product) {
+          throw new \Exception("No se encontró el Producto", 1);
+        }
+      }
+    } else {
+      throw new \Exception("Formulario cargado en modalidad invalida", 1);
+    }
+  }
+
+  private function validateData()
+  {
+    $errors = [];
+    $this->product_xss_token = $_POST["product_xss_token"] ?? "";
+    $this->product["productId"] = intval($_POST["productId"] ?? "");
+    $this->product["productName"] = strval($_POST["productName"] ?? "");
+    $this->product["productDescription"] = strval($_POST["productDescription"] ?? "");
+    $this->product["productPrice"] = floatval($_POST["productPrice"] ?? "");
+    $this->product["productImgUrl"] = strval($_POST["productImgUrl"] ?? "");
+    $this->product["productStock"] = intval($_POST["productStock"] ?? 0);
+    $this->product["productStatus"] = strval($_POST["productStatus"] ?? "");
+
+    if (Validators::IsEmpty($this->product["productName"])) {
+      $errors["productName_error"] = "El nombre del producto es requerido";
     }
 
-    private function getData()
-    {
-        $this->mode = $_GET["mode"] ?? "NOF";
-
-        if (isset($this->modeDescriptions[$this->mode])) {
-
-            $this->readonly = ($this->mode == "DEL") ? "readonly" : "";
-            $this->showCommitBtn = ($this->mode != "DSP");
-
-            if ($this->mode != "INS") {
-
-                $this->product = ProductsDao::getProductById(
-                    intval($_GET["id_producto"])
-                );
-
-                if (!$this->product) {
-                    throw new \Exception("Producto no encontrado");
-                }
-            }
-
-        } else {
-            throw new \Exception("Modo inválido");
-        }
+    if (Validators::IsEmpty($this->product["productDescription"])) {
+      $errors["productDescription_error"] = "La descripción del producto es requerida";
     }
 
-    private function validateData()
-    {
-        $errors = [];
-
-        $this->product_xss_token = $_POST["product_xss_token"] ?? "";
-
-        $this->product["id_producto"] = intval($_POST["id_producto"] ?? 0);
-        $this->product["nombre"] = trim($_POST["nombre"] ?? "");
-        $this->product["descripcion"] = trim($_POST["descripcion"] ?? "");
-        $this->product["precio_menor"] = floatval($_POST["precio_menor"] ?? 0);
-        $this->product["precio_mayor"] = floatval($_POST["precio_mayor"] ?? 0);
-        $this->product["stock"] = intval($_POST["stock"] ?? 0);
-        $this->product["imagen"] = trim($_POST["imagen"] ?? "");
-        $this->product["categoria"] = trim($_POST["categoria"] ?? "");
-
-        if (Validators::IsEmpty($this->product["nombre"])) {
-            $errors["nombre_error"] = "Ingrese el nombre";
-        }
-
-        if (Validators::IsEmpty($this->product["descripcion"])) {
-            $errors["descripcion_error"] = "Ingrese la descripción";
-        }
-
-        if ($this->product["precio_menor"] <= 0) {
-            $errors["precio_menor_error"] = "Precio menor inválido";
-        }
-
-        if ($this->product["precio_mayor"] <= 0) {
-            $errors["precio_mayor_error"] = "Precio mayor inválido";
-        }
-
-        if ($this->product["stock"] < 0) {
-            $errors["stock_error"] = "Stock inválido";
-        }
-
-        if (Validators::IsEmpty($this->product["imagen"])) {
-            $errors["imagen_error"] = "Ingrese la imagen";
-        }
-
-        if (Validators::IsEmpty($this->product["categoria"])) {
-            $errors["categoria_error"] = "Ingrese la categoría";
-        }
-
-        if (count($errors) > 0) {
-
-            foreach ($errors as $key => $value) {
-                $this->product[$key] = $value;
-            }
-
-            return false;
-        }
-
-        return true;
+    if (Validators::IsEmpty($this->product["productPrice"]) || $this->product["productPrice"] <= 0) {
+      $errors["productPrice_error"] = "El precio del producto es requerido y debe ser mayor a cero";
     }
 
-    private function handlePostAction()
-    {
-        switch ($this->mode) {
-
-            case "INS":
-                $this->handleInsert();
-                break;
-
-            case "UPD":
-                $this->handleUpdate();
-                break;
-
-            case "DEL":
-                $this->handleDelete();
-                break;
-
-            default:
-                throw new \Exception("Modo inválido");
-        }
+    if (Validators::IsEmpty($this->product["productImgUrl"])) {
+      $errors["productImgUrl_error"] = "La imagen del producto es requerida";
     }
 
-    private function handleInsert()
-    {
-        $result = ProductsDao::insertProduct(
-            $this->product["nombre"],
-            $this->product["descripcion"],
-            $this->product["precio_menor"],
-            $this->product["precio_mayor"],
-            $this->product["stock"],
-            $this->product["imagen"],
-            $this->product["categoria"]
-        );
-
-        if ($result > 0) {
-            Site::redirectToWithMsg(
-                "index.php?page=Products_Products",
-                "Producto agregado correctamente"
-            );
-        }
+    if ($this->product["productStock"] < 0) {
+      $errors["productStock_error"] = "El stock no puede ser negativo";
     }
 
-    private function handleUpdate()
-    {
-        $result = ProductsDao::updateProduct(
-            $this->product["id_producto"],
-            $this->product["nombre"],
-            $this->product["descripcion"],
-            $this->product["precio_menor"],
-            $this->product["precio_mayor"],
-            $this->product["stock"],
-            $this->product["imagen"],
-            $this->product["categoria"]
-        );
-
-        if ($result > 0) {
-            Site::redirectToWithMsg(
-                "index.php?page=Products_Products",
-                "Producto actualizado correctamente"
-            );
-        }
+    if (!in_array($this->product["productStatus"], ["ACT", "INA"])) {
+      $errors["productStatus_error"] = "El estado del producto es inválido";
     }
 
-    private function handleDelete()
-    {
-        $result = ProductsDao::deleteProduct(
-            $this->product["id_producto"]
-        );
-
-        if ($result > 0) {
-            Site::redirectToWithMsg(
-                "index.php?page=Products_Products",
-                "Producto eliminado correctamente"
-            );
-        }
+    if (count($errors) > 0) {
+      foreach ($errors as $key => $value) {
+        $this->product[$key] = $value;
+      }
+      return false;
     }
+    return true;
+  }
 
-    private function setViewData(): void
-    {
-        $this->viewData["mode"] = $this->mode;
-        $this->viewData["readonly"] = $this->readonly;
-        $this->viewData["showCommitBtn"] = $this->showCommitBtn;
-        $this->viewData["product_xss_token"] = $this->product_xss_token;
-
-        $this->viewData["FormTitle"] = sprintf(
-            $this->modeDescriptions[$this->mode],
-            $this->product["nombre"]
-        );
-
-        $this->viewData["product"] = $this->product;
+  private function handlePostAction()
+  {
+    switch ($this->mode) {
+      case "INS":
+        $this->handleInsert();
+        break;
+      case "UPD":
+        $this->handleUpdate();
+        break;
+      case "DEL":
+        $this->handleDelete();
+        break;
+      default:
+        throw new \Exception("Modo inválido", 1);
     }
+  }
+
+  private function handleInsert()
+  {
+    $result = ProductsDao::insertProduct(
+      $this->product["productName"],
+      $this->product["productDescription"],
+      $this->product["productPrice"],
+      $this->product["productImgUrl"],
+      $this->product["productStock"],
+      $this->product["productStatus"]
+    );
+    if ($result > 0) {
+      Site::redirectToWithMsg(
+        "index.php?page=Products_Products",
+        "Producto creado exitosamente"
+      );
+    }
+  }
+
+  private function handleUpdate()
+  {
+    $result = ProductsDao::updateProduct(
+      $this->product["productId"],
+      $this->product["productName"],
+      $this->product["productDescription"],
+      $this->product["productPrice"],
+      $this->product["productImgUrl"],
+      $this->product["productStock"],
+      $this->product["productStatus"]
+    );
+    if ($result > 0) {
+      Site::redirectToWithMsg(
+        "index.php?page=Products_Products",
+        "Producto actualizado exitosamente"
+      );
+    }
+  }
+
+  private function handleDelete()
+  {
+    $result = ProductsDao::deleteProduct($this->product["productId"]);
+    if ($result > 0) {
+      Site::redirectToWithMsg(
+        "index.php?page=Products_Products",
+        "Producto eliminado exitosamente"
+      );
+    }
+  }
+
+  private function setViewData(): void
+  {
+    $this->viewData["mode"] = $this->mode;
+    $this->viewData["product_xss_token"] = $this->product_xss_token;
+    $this->viewData["FormTitle"] = sprintf(
+      $this->modeDescriptions[$this->mode],
+      $this->product["productId"],
+      $this->product["productName"]
+    );
+    $this->viewData["showCommitBtn"] = $this->showCommitBtn;
+    $this->viewData["readonly"] = $this->readonly;
+
+    $productStatusKey = "productStatus_" . strtolower($this->product["productStatus"]);
+    $this->product[$productStatusKey] = "selected";
+
+    $this->viewData["product"] = $this->product;
+  }
 }
 ?>
