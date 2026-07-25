@@ -42,20 +42,20 @@ class Products extends PublicController
     $this->setParamsToContext();
     $this->setParamsToDataView();
 
-    foreach ($this->products as &$product) {
-      $product["productStatusDsc"] = ($product["productStatus"] === "ACT") ? "Disponible" : "Agotado";
-    }
+    
     $this->viewData["products"] = $this->products;
-
     Renderer::render("products/products", $this->viewData);
   }
 
   private function getParams(): void
   {
     $this->partialName = isset($_GET["partialName"]) ? $_GET["partialName"] : $this->partialName;
-    $this->status = isset($_GET["status"]) && in_array($_GET["status"], ['ACT', 'INA', 'EMP']) ? $_GET["status"] : $this->status;
-    if ($this->status === "EMP") {
-      $this->status = "";
+    //Filtrado de todos 
+    if (isset($_GET["status"])) {
+    $this->status = $_GET["status"];
+      if (!in_array($this->status, ["", "DISPO", "AGO"])) {
+          $this->status = "";
+      }
     }
 
     $this->orderBy = isset($_GET["orderBy"]) && in_array($_GET["orderBy"], ["productId", "productName", "productPrice", "productStock", "clear"]) ? $_GET["orderBy"] : $this->orderBy;

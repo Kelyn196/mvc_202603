@@ -55,7 +55,6 @@ class Roles extends PublicController
     {
         $this->partialName = $_GET["partialName"] ?? "";
         $this->status = $_GET["status"] ?? "";
-
         if (!in_array($this->status, ["ACT", "INA"])) {
             $this->status = "";
         }

@@ -27,7 +27,7 @@ class Product extends PublicController
     "productPrice" => 0,
     "productImgUrl" => "",
     "productStock" => 0,
-    "productStatus" => "ACT"
+    "productStatus" => "DISPO"
   ];
   private $product_xss_token = "";
 
@@ -69,47 +69,55 @@ class Product extends PublicController
 
   private function validateData()
   {
-    $errors = [];
-    $this->product_xss_token = $_POST["product_xss_token"] ?? "";
-    $this->product["productId"] = intval($_POST["productId"] ?? "");
-    $this->product["productName"] = strval($_POST["productName"] ?? "");
-    $this->product["productDescription"] = strval($_POST["productDescription"] ?? "");
-    $this->product["productPrice"] = floatval($_POST["productPrice"] ?? "");
-    $this->product["productImgUrl"] = strval($_POST["productImgUrl"] ?? "");
-    $this->product["productStock"] = intval($_POST["productStock"] ?? 0);
-    $this->product["productStatus"] = strval($_POST["productStatus"] ?? "");
-
-    if (Validators::IsEmpty($this->product["productName"])) {
-      $errors["productName_error"] = "El nombre del producto es requerido";
-    }
-
-    if (Validators::IsEmpty($this->product["productDescription"])) {
-      $errors["productDescription_error"] = "La descripción del producto es requerida";
-    }
-
-    if (Validators::IsEmpty($this->product["productPrice"]) || $this->product["productPrice"] <= 0) {
-      $errors["productPrice_error"] = "El precio del producto es requerido y debe ser mayor a cero";
-    }
-
-    if (Validators::IsEmpty($this->product["productImgUrl"])) {
-      $errors["productImgUrl_error"] = "La imagen del producto es requerida";
-    }
-
-    if ($this->product["productStock"] < 0) {
-      $errors["productStock_error"] = "El stock no puede ser negativo";
-    }
-
-    if (!in_array($this->product["productStatus"], ["ACT", "INA"])) {
-      $errors["productStatus_error"] = "El estado del producto es inválido";
-    }
-
-    if (count($errors) > 0) {
-      foreach ($errors as $key => $value) {
-        $this->product[$key] = $value;
+      // Si es eliminar, solo necesitamos el ID
+      if ($this->mode === "DEL") {
+          $this->product["productId"] = intval($_POST["productId"] ?? 0);
+          return ($this->product["productId"] > 0);
       }
-      return false;
-    }
-    return true;
+
+      $errors = [];
+
+      $this->product_xss_token = $_POST["product_xss_token"] ?? "";
+      $this->product["productId"] = intval($_POST["productId"] ?? 0);
+      $this->product["productName"] = strval($_POST["productName"] ?? "");
+      $this->product["productDescription"] = strval($_POST["productDescription"] ?? "");
+      $this->product["productPrice"] = floatval($_POST["productPrice"] ?? 0);
+      $this->product["productImgUrl"] = strval($_POST["productImgUrl"] ?? "");
+      $this->product["productStock"] = intval($_POST["productStock"] ?? 0);
+      $this->product["productStatus"] = strval($_POST["productStatus"] ?? "");
+
+      if (Validators::IsEmpty($this->product["productName"])) {
+          $errors["productName_error"] = "El nombre del producto es requerido";
+      }
+
+      if (Validators::IsEmpty($this->product["productDescription"])) {
+          $errors["productDescription_error"] = "La descripción del producto es requerida";
+      }
+
+      if ($this->product["productPrice"] <= 0) {
+          $errors["productPrice_error"] = "El precio debe ser mayor a cero";
+      }
+
+      if (Validators::IsEmpty($this->product["productImgUrl"])) {
+          $errors["productImgUrl_error"] = "La imagen es requerida";
+      }
+
+      if ($this->product["productStock"] < 0) {
+          $errors["productStock_error"] = "El stock no puede ser negativo";
+      }
+
+      if (!in_array($this->product["productStatus"], ["DISPO", "AGO"])) {
+          $errors["productStatus_error"] = "Estado inválido";
+      }
+
+      if (count($errors) > 0) {
+          foreach ($errors as $key => $value) {
+              $this->product[$key] = $value;
+          }
+          return false;
+      }
+
+      return true;
   }
 
   private function handlePostAction()

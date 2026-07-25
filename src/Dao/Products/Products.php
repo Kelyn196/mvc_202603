@@ -1,10 +1,30 @@
 <?php
+
 namespace Dao\Products;
 
 use Dao\Table;
 
 class Products extends Table
 {
+    public static function getFeaturedProducts()
+    {
+        $sqlstr = "SELECT
+                        p.productId,
+                        p.productName,
+                        p.productDescription,
+                        p.productPrice,
+                        p.productImgUrl,
+                        p.productStock,
+                        p.productStatus
+                    FROM products p
+                    INNER JOIN highlights h
+                        ON p.productId = h.productId
+                    WHERE h.highlightStart <= NOW()
+                      AND h.highlightEnd >= NOW()";
+
+        return self::obtenerRegistros($sqlstr, []);
+    }
+
     public static function getProducts(
         string $partialName = "",
         string $status = "",
@@ -20,10 +40,15 @@ class Products extends Table
                         p.productPrice,
                         p.productImgUrl,
                         p.productStock,
-                        p.productStatus
+                        p.productStatus,
+                        CASE
+                            WHEN p.productStatus='DISPO' THEN 'Disponible'
+                            WHEN p.productStatus='AGO' THEN 'Agotado'
+                            ELSE 'Sin Estado'
+                            END AS productStatusDsc
                     FROM products p";
 
-        $sqlstrCount = "SELECT COUNT(*) as count FROM products p";
+        $sqlstrCount = "SELECT COUNT(*) AS count FROM products p";
 
         $conditions = [];
         $params = [];
@@ -31,6 +56,10 @@ class Products extends Table
         if ($partialName != "") {
             $conditions[] = "p.productName LIKE :partialName";
             $params["partialName"] = "%" . $partialName . "%";
+        }
+
+        if (!in_array($status, ["DISPO", "AGO", ""])) {
+            throw new \Exception("Error Processing Request: Status has invalid value");
         }
 
         if ($status != "") {
@@ -55,6 +84,7 @@ class Products extends Table
 
         if ($orderBy != "") {
             $sqlstr .= " ORDER BY " . $orderBy;
+
             if ($orderDescending) {
                 $sqlstr .= " DESC";
             }
@@ -63,14 +93,16 @@ class Products extends Table
         $numeroDeRegistros = self::obtenerUnRegistro($sqlstrCount, $params)["count"];
         $pagesCount = ceil($numeroDeRegistros / $itemsPerPage);
 
-        if ($page > $pagesCount - 1) {
+        if ($page > ($pagesCount - 1)) {
             $page = $pagesCount - 1;
         }
+
         if ($page < 0) {
             $page = 0;
         }
 
         $sqlstr .= " LIMIT " . ($page * $itemsPerPage) . ", " . $itemsPerPage;
+
         $registros = self::obtenerRegistros($sqlstr, $params);
 
         return [
@@ -94,7 +126,10 @@ class Products extends Table
                     FROM products
                     WHERE productId = :productId";
 
-        return self::obtenerUnRegistro($sqlstr, ["productId" => $productId]);
+        return self::obtenerUnRegistro(
+            $sqlstr,
+            ["productId" => $productId]
+        );
     }
 
     public static function insertProduct(
@@ -170,8 +205,50 @@ class Products extends Table
 
     public static function deleteProduct(int $productId)
     {
-        $sqlstr = "DELETE FROM products WHERE productId = :productId";
-        return self::executeNonQuery($sqlstr, ["productId" => $productId]);
+        $sqlstr = "DELETE FROM products
+                   WHERE productId = :productId";
+
+        return self::executeNonQuery(
+            $sqlstr,
+            ["productId" => $productId]
+        );
+    }
+
+    public static function getNewProducts()
+    {
+        $sqlstr = "SELECT
+                        p.productId,
+                        p.productName,
+                        p.productDescription,
+                        p.productPrice,
+                        p.productImgUrl,
+                        p.productStock,
+                        p.productStatus
+                    FROM products p
+                    WHERE p.productStatus = 'DISPO'
+                    ORDER BY p.productId DESC
+                    LIMIT 3";
+
+        return self::obtenerRegistros($sqlstr, []);
+    }
+
+    public static function getDailyDeals()
+    {
+        $sqlstr = "SELECT
+                        p.productId,
+                        p.productName,
+                        p.productDescription,
+                        s.salePrice AS productPrice,
+                        p.productImgUrl,
+                        p.productStock,
+                        p.productStatus
+                    FROM products p
+                    INNER JOIN sales s
+                        ON p.productId = s.productId
+                    WHERE s.saleStart <= NOW()
+                      AND s.saleEnd >= NOW()";
+
+        return self::obtenerRegistros($sqlstr, []);
     }
 }
 ?>
