@@ -74,8 +74,9 @@
             <label class="col-12 col-m-3">Tipo de Usuario</label>
 
             <select class="col-12 col-m-9" name="usertipo" {{if readonly}}disabled{{endif readonly}}>
-                <option value="NOR" {{usertipo_NOR}}>Normal</option>
-                <option value="CON" {{usertipo_CON}}>Consultor</option>
+                <option value="NOR" {{usertipo_ADMIN}}>Administrador</option>
+                <option value="CON" {{usertipo_SUP}}>Supervisor</option>
+                <option value="CLI" {{usertipo_EMP}}>Empleado</option>
                 <option value="CLI" {{usertipo_CLI}}>Cliente</option>
             </select>
 

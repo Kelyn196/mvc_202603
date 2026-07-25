@@ -9,12 +9,14 @@ use Dao\Products\Products as ProductDAO;
 use Utilities\Site;
 use Utilities\Validators;
 
-const LIST_VIEW_URI = "index.php?page=Products_Products";
-const FORM_VIEW_URI = "index.php?page=Products_Product";
-const FORM_VIEW_TEMPLATE = "products/product";
-const FORM_XSS_TOKEN = "product_form";
+const LIST_VIEW_URI = "index.php?page=Mnt-ResultList";
+const FORM_VIEW_URI = "index.php?page=Mnt-ResultForm";
+const FORM_VIEW_TEMPLATE = "mnt/form";
 
-class ProductForm extends PublicController
+const FORM_XSS_TOKEN = "result_form";
+
+
+class ResultFrom extends PublicController
 {
     private string $mode = "NAS"; 
     private array  $modes = [
