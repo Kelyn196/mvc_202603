@@ -12,7 +12,7 @@
     {{with product}}
     <form 
         class="col-12 col-m-6 offset-m-3 depth-1 px-4 py-4"
-        action="index.php?page=Products_Product&mode={{~mode}}&productId={{productId}}"
+        action="index.php?page=Mnt_ResultForm&mode={{~mode}}&productId={{productId}}"
         method="POST"
         novalidate
     >
@@ -76,7 +76,7 @@
         document.getElementById("returnBtn").addEventListener("click", (e)=>{
             e.preventDefault();
             e.stopPropagation();
-            window.location.assign("index.php?page=Products_Products");
+            window.location.assign("index.php?page=Mnt_ProductList");
         });
     });
 </script>
