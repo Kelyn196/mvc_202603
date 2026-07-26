@@ -21,9 +21,14 @@ class Products extends Table
 
     public static function getAll(): array
     {
-        $sqlstr = "SELECT * FROM products;";
-        // if soft delete
-        // $sqlstr = "SELECT * FROM products where deleted_at is null;";
+        $sqlstr = "SELECT *,
+        CASE
+            WHEN productStatus='DISPO' THEN 'Disponible'
+            WHEN productStatus='AGO' THEN 'Agotado'
+            ELSE 'Sin Estado'
+        END AS productStatusDsc
+        FROM products;";
+
         return self::obtenerRegistros($sqlstr, []);
     }
 

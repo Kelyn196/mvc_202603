@@ -11,7 +11,7 @@ use Utilities\Validators;
 
 const LIST_VIEW_URI = "index.php?page=Mnt-ResultList";
 const FORM_VIEW_URI = "index.php?page=Mnt-ProductForm";
-const FORM_VIEW_TEMPLATE = "mnt/productform";
+const FORM_VIEW_TEMPLATE = "mnt/form";
 
 const FORM_XSS_TOKEN = "product_form";
 
@@ -100,7 +100,6 @@ class ProductForm extends PublicController
             $productoFromDb = ProductDAO::getById(
                 $this->producto["productId"]
             );
-
 
             $this->producto["productName"] = $productoFromDb["productName"];
             $this->producto["productDescription"] = $productoFromDb["productDescription"];
@@ -347,6 +346,8 @@ class ProductForm extends PublicController
 
         $dataView["editable"] = ($this->mode !== "DSP");
         $dataView["xssToken"] = $this->generarXssToken();
+
+    
         Renderer::render(
             FORM_VIEW_TEMPLATE,
             $dataView
