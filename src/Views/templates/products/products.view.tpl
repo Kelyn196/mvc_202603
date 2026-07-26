@@ -34,6 +34,7 @@
         <th>Stock</th>
         <th>Estado</th>
         <th><a href="index.php?page=Products_Product&mode=INS">Nuevo</a></th>
+        <th class="center">Carretilla</th>
       </tr>
     </thead>
     <tbody>
@@ -54,6 +55,16 @@
           <a href="index.php?page=Products_Product&mode=UPD&productId={{productId}}">Editar</a>
           &nbsp;
           <a href="index.php?page=Products_Product&mode=DEL&productId={{productId}}">Eliminar</a>
+        </td>
+        <td class="center">
+          <form action="index.php?page=Carretilla_Carretilla" method="POST" style="display: inline;">
+            <input type="hidden" name="action" value="ADD">
+            <input type="hidden" name="productId" value="{{productId}}">
+            <input type="hidden" name="crrctd" value="1">
+            <button type="submit" class="primary" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 4px; cursor: pointer;">
+              <i class="fas fa-cart-plus"></i> Agregar
+            </button>
+          </form>
         </td>
       </tr>
       {{endfor products}}
