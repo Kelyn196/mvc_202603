@@ -1,6 +1,6 @@
 <?php
 
-namespace Dao\Mantenimientos;
+namespace Dao\Mantenimientos\ProductsasProductDAO;
 
 use Dao\Table;
 
