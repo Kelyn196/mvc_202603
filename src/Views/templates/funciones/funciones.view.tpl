@@ -31,23 +31,12 @@
                 <button type="submit" class="btnop">
                     Filtrar
                 </button>
-
-                <a href="index.php?page=Funciones_Funcion&mode=INS" class="btnop">
-                    Nuevo
-                </a>
-
             </div>
-
         </div>
-
     </form>
 </section>
-
-
 <section class="WWList">
-
     <table>
-
         <thead>
             <tr>
                 <th>Código</th>
@@ -57,16 +46,10 @@
                 <th>Acciones</th>
             </tr>
         </thead>
-
-
         <tbody>
-
             {{foreach funciones}}
-
             <tr>
-
                 <td>{{fncod}}</td>
-
                 <td>
                     <a class="link" href="index.php?page=Funciones_Funcion&mode=DSP&fncod={{fncod}}">
                         {{fndsc}}

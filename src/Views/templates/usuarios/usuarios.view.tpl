@@ -27,10 +27,6 @@
 
             <div class="filtros-botones">
                 <button type="submit" class="btnop">Filtrar</button>
-
-                <a href="index.php?page=Usuarios_Usuario&mode=INS" class="btnop">
-                    Nuevo
-                </a>
             </div>
 
         </div>

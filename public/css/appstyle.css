@@ -521,7 +521,6 @@ form.grid .form-actions {
   box-shadow: 0 0 6px rgba(139, 94, 60, 0.3);
 }
 
-
 /* Botones */
 .btn-brown {
   background-color: #8b5e3c;
@@ -548,6 +547,14 @@ form.grid .form-actions {
   margin-top: 25px;
   gap: 10px;
 }
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+    margin-bottom:30px;
+}
+
 
 
 /* ====== CARRETILLA ====== */

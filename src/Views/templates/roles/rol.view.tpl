@@ -35,19 +35,18 @@
                 <option value="INA" {{rolesest_ina}}>Inactivo</option>
             </select>
         </div>
-
         <div class="row my-4 flex-end">
-            {{if showCommitBtn}}
-            <button class="primary col-12 col-m-2" type="submit">
+    <div class="form-actions">
+        {{if showCommitBtn}}
+            <button class="btn-brown" type="submit" name="btnConfirmar">
                 Confirmar
             </button>
-            {{endif showCommitBtn}}
+        {{endif showCommitBtn}}
 
-            <button class="col-12 col-m-2" type="button" id="btnCancelar">
-                Cancelar
-            </button>
-        </div>
-    </form>
+        <button class="btn-brown" type="button" id="btnCancelar">
+            {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
+    </div>
+</form>
 </section>
 
 <script>

@@ -97,12 +97,9 @@
         <h3>SOMOS UNA MARCA DE TRADICIÓN</h3>
         <img src="{{BASE_DIR}}/public/img/logolacteos.png" alt="Lácteos Axume" class="logo-footer">
         <p>Hechos con leche 100% local.</p>
+        <p>TODOS LOS DERECHOS RESERVADOS {{~CURRENT_YEAR}}</p>
       </div>
 
-    </div>
-
-    <div class="footer-bottom">
-      <p>TODOS LOS DERECHOS RESERVADOS {{~CURRENT_YEAR}}</p>
     </div>
   </footer>
 
