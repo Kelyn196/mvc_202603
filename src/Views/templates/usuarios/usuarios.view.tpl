@@ -1,98 +1,83 @@
 <h1>Trabajar con Usuarios</h1>
 
-<section class="grid">
-    <div class="row">
-        <form class="col-12 col-m-8" action="index.php" method="get">
+<section>
+    <form action="index.php" method="get">
 
-            <input type="hidden" name="page" value="Usuarios_Usuarios">
+        <input type="hidden" name="page" value="Usuarios_Usuarios">
 
-            <div class="flex align-center">
+        <div class="filtros-grid">
 
-                <div class="col-8 row">
+            <div class="filtros-campos">
 
-                    <label class="col-3" for="partialName">
-                        Buscar
-                    </label>
-
-                    <input class="col-9" type="text" name="partialName" id="partialName" value="{{partialName}}">
-
-                    <label class="col-3" for="status">
-                        Estado
-                    </label>
-
-                    <select class="col-9" name="status" id="status">
-                        <option value="EMP" {{status_EMP}}>
-                            Todos
-                        </option>
-
-                        <option value="ACT" {{status_ACT}}>
-                            Activo
-                        </option>
-
-                        <option value="INA" {{status_INA}}>
-                            Inactivo
-                        </option>
-                    </select>
-
+                <div>
+                    <label for="partialName">Buscar</label>
+                    <input type="text" id="partialName" name="partialName" value="{{partialName}}">
                 </div>
 
-                <div class="col-4 align-end">
-                    <button type="submit">
-                        Filtrar
-                    </button>
+                <div>
+                    <label for="status">Estado</label>
+                    <select id="status" name="status">
+                        <option value="EMP" {{status_EMP}}>Todos</option>
+                        <option value="ACT" {{status_ACT}}>Activo</option>
+                        <option value="INA" {{status_INA}}>Inactivo</option>
+                    </select>
                 </div>
 
             </div>
 
-        </form>
-    </div>
+            <div class="filtros-botones">
+                <button type="submit" class="btnop">Filtrar</button>
+
+                <a href="index.php?page=Usuarios_Usuario&mode=INS" class="btnop">
+                    Nuevo
+                </a>
+            </div>
+
+        </div>
+
+    </form>
 </section>
 
 <section class="WWList">
-    <table>
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Correo Electrónico</th>
-                <th>Nombre de Usuario</th>
-                <th>Contraseña</th>
-                <th></th>
-                <th>Estado</th>
-                <th>Tipo</th>
-
-                <th class="center">
-                    <a href="index.php?page=Usuarios_Usuario&mode=INS">
-                        Nuevo
-                    </a>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-
-            {{foreach usuarios}}
-            <tr>
-                <td>{{usercod}}</td>
-                <td>{{useremail}}</td>
-                <td>
-                    <a class="link" href="index.php?page=Usuarios_Usuario&mode=DSP&usercod={{usercod}}">
-                        {{username}}
-                    </a>
-                </td>
-                <td>{{userpswd}}</td>
-                <td>{{userestDsc}}</td>
-                <td>{{usertipo}}</td>
-                <td class="center">
-                    <a href="index.php?page=Usuarios_Usuario&mode=UPD&usercod={{usercod}}">
-                        Editar
-                    </a>
-                    &nbsp;
-                    <a href="index.php?page=Usuarios_Usuario&mode=DEL&usercod={{usercod}}">
-                        Eliminar
-                    </a>
-                </td>
-            </tr>
-            {{endfor usuarios}}
-        </tbody>
-    </table>
-    {{pagination}}
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Correo Electrónico</th>
+        <th>Nombre de Usuario</th>
+        <th>Contraseña</th>
+        <th>Estado</th>
+        <th>Tipo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{foreach usuarios}}
+      <tr>
+        <td>{{usercod}}</td>
+        <td>{{useremail}}</td>
+        <td>
+          <a class="link" href="index.php?page=Usuarios_Usuario&mode=DSP&usercod={{usercod}}">
+            {{username}}
+          </a>
+        </td>
+        <td>{{userpswd}}</td>
+        <td class="center">{{userestDsc}}</td>
+        <td class="center">{{usertipo}}</td>
+        <td class="center">
+          <a href="index.php?page=Usuarios_Usuario&mode=DSP&usercod={{usercod}}" class="btn btn-info" title="Ver">
+            <i class="fa-solid fa-eye"></i>
+          </a>
+          <a href="index.php?page=Usuarios_Usuario&mode=UPD&usercod={{usercod}}" class="btn btn-warning" title="Editar">
+            <i class="fa-solid fa-edit"></i>
+          </a>
+          <a href="index.php?page=Usuarios_Usuario&mode=DEL&usercod={{usercod}}" class="btn btn-danger" title="Eliminar" onclick="return confirm('¿Seguro que deseas eliminar este registro?');">
+            <i class="fa-solid fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+      {{endfor usuarios}}
+    </tbody>
+  </table>
+  {{pagination}}
 </section>
