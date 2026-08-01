@@ -27,6 +27,11 @@ class Usuarios extends PublicController
         $this->getParamsFromContext();
         $this->getParams();
 
+        // Seguridad adicional contra división entre cero
+        if ($this->itemsPerPage <= 0) {
+            $this->itemsPerPage = 10;
+        }
+
         $tmpUsuarios = DaoUsuarios::getUsuarios(
             $this->partialName,
             $this->status,
@@ -57,6 +62,7 @@ class Usuarios extends PublicController
         );
     }
 
+
     private function getParams(): void
     {
         $this->partialName = $_GET["partialName"] ?? $this->partialName;
@@ -75,31 +81,58 @@ class Usuarios extends PublicController
 
         $this->orderDescending = isset($_GET["orderDescending"]);
 
+
         $this->pageNumber = max(
             1,
             intval($_GET["pageNum"] ?? $this->pageNumber)
         );
 
+
         $this->itemsPerPage = intval(
             $_GET["itemsPerPage"] ?? $this->itemsPerPage
         );
+
+
+        if ($this->itemsPerPage <= 0) {
+            $this->itemsPerPage = 10;
+        }
     }
+
 
     private function getParamsFromContext(): void
     {
         $this->partialName = Context::getContextByKey("usuarios_partialName") ?? "";
+
         $this->status = Context::getContextByKey("usuarios_status") ?? "";
+
         $this->orderBy = Context::getContextByKey("usuarios_orderBy") ?? "";
+
+
         $this->orderDescending = boolval(
             Context::getContextByKey("usuarios_orderDescending")
         );
+
+
         $this->pageNumber = intval(
             Context::getContextByKey("usuarios_page") ?? 1
         );
+
+
+        if ($this->pageNumber <= 0) {
+            $this->pageNumber = 1;
+        }
+
+
         $this->itemsPerPage = intval(
             Context::getContextByKey("usuarios_itemsPerPage") ?? 10
         );
+
+
+        if ($this->itemsPerPage <= 0) {
+            $this->itemsPerPage = 10;
+        }
     }
+
 
     private function setParamsToContext(): void
     {
@@ -140,6 +173,7 @@ class Usuarios extends PublicController
         );
     }
 
+
     private function setParamsToDataView(): void
     {
         $this->viewData = [
@@ -154,22 +188,30 @@ class Usuarios extends PublicController
             "usuarios" => $this->usuarios
         ];
 
+
         if ($this->orderBy != "") {
 
             $orderByKey = "Order" . ucfirst($this->orderBy);
+
             $orderByKeyNoOrder = "OrderBy" . ucfirst($this->orderBy);
 
+
             $this->viewData[$orderByKeyNoOrder] = true;
+
 
             if ($this->orderDescending) {
                 $orderByKey .= "Desc";
             }
 
+
             $this->viewData[$orderByKey] = true;
         }
 
+
         $statusKey = "status_" . ($this->status == "" ? "EMP" : $this->status);
+
         $this->viewData[$statusKey] = "selected";
+
 
         $this->viewData["pagination"] = Paging::getPagination(
             $this->usuariosCount,
@@ -180,4 +222,5 @@ class Usuarios extends PublicController
         );
     }
 }
+
 ?>

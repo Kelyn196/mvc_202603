@@ -25,15 +25,6 @@
       <div class="hmb dgn pt-2"></div>
     </label>
     <h1>{{SITE_TITLE}}</h1>
-    <nav id="menu">
-      <ul>
-        <li><a href="index.php?page={{PRIVATE_DEFAULT_CONTROLLER}}"><i class="fas fa-home"></i>&nbsp;Inicio</a></li>
-        {{foreach NAVIGATION}}
-            <li><a href="{{nav_url}}">{{nav_label}}</a></li>
-        {{endfor NAVIGATION}}
-        <li><a href="index.php?page=sec_logout"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
-      </ul>
-    </nav>
     {{with login}}
     <span class="username">{{userName}} <a href="index.php?page=sec_logout"><i class="fas fa-sign-out-alt"></i></a></span>
     {{endwith login}}

@@ -233,6 +233,8 @@ thead th {
 tbody td {
   padding: 10px;
   border-bottom: 1px solid #E0E0E0;
+  text-align: center;
+
 }
 tbody tr:nth-child(even) { background-color: #FAFAFA; }
 tbody tr:hover { background-color: #EEE; transition: background 0.3s ease; }
@@ -356,6 +358,95 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
   background-color: #5D4037;
   transform: translateY(-2px); /* pequeño efecto de elevación */
 }
+
+/* Contenedor general */
+.container-m {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fafafa;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+/* Título */
+.container-m h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4a2c2a; /* Café elegante */
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* Formulario */
+.form-product {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+/* Grupos de campos */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #4a2c2a;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #c4b7a6;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fdfcf9;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #8b5e3c;
+  background-color: #fff;
+  box-shadow: 0 0 6px rgba(139,94,60,0.3);
+}
+
+
+/* Botones */
+.btn-brown {
+  background-color: #8b5e3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-right: 10px;
+}
+
+.btn-brown:hover {
+  background-color: #5c4033;
+  transform: translateY(-2px);
+}
+
+/* Acciones */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+  gap: 10px;
+}
+
 
 /* ====== CARRETILLA ====== */
 .cart-container {

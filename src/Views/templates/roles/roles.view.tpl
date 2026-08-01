@@ -1,29 +1,45 @@
 <h1>Trabajar con Roles</h1>
 
-<section class="grid">
-  <div class="row">
-    <form class="col-12 col-m-8" action="index.php" method="get">
-      <input type="hidden" name="page" value="Roles_Roles">
-      <div class="flex align-center">
-        <div class="col-8 row">
+<section>
+    <form action="index.php" method="get">
 
-          <label class="col-3" for="partialName">Buscar</label>
-          <input class="col-9" type="text" name="partialName" id="partialName" value="{{partialName}}" />
+        <input type="hidden" name="page" value="Roles_Roles">
 
-          <label class="col-3" for="status">Estado</label>
-          <select class="col-9" name="status" id="status">
-              <option value="" {{status_EMP}}>Todos</option>
-              <option value="ACT" {{status_ACT}}>Activo</option>
-              <option value="INA" {{status_INA}}>Inactivo</option>
-          </select>
+        <div class="filtros-grid">
+
+            <div class="filtros-campos">
+
+                <div>
+                    <label for="partialName">Codigo</label>
+                    <input type="text" id="partialName" name="partialName" value="{{partialName}}">
+                </div>
+
+                <div>
+                    <label for="status">Estado</label>
+                    <select id="status" name="status">
+                        <option value="EMP" {{status_EMP}}>Todos</option>
+                        <option value="ACT" {{status_ACT}}>Activo</option>
+                        <option value="INA" {{status_INA}}>Inactivo</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="filtros-botones">
+
+                <button type="submit" class="btnop">
+                    Filtrar
+                </button>
+
+                <a href="index.php?page=Roles_Rol&mode=INS" class="btnop">
+                    Nuevo
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="col-4 align-end">
-          <button type="submit">Filtrar</button>
-        </div>
-      </div>
     </form>
-  </div>
 </section>
 
 <section class="WWList">
