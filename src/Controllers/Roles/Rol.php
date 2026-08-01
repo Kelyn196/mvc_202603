@@ -21,6 +21,7 @@ class Rol extends PublicController
     ];
 
     private $readonly = "";
+    private $disabled = "";
     private $showCommitBtn = true;
 
     private $rol = [
@@ -60,8 +61,15 @@ class Rol extends PublicController
             throw new \Exception("Modo inválido");
         }
 
-        $this->readonly = ($this->mode === "DEL") ? "readonly" : "";
-        $this->showCommitBtn = ($this->mode !== "DSP");
+        if ($this->mode === "DSP" || $this->mode === "DEL") {
+            $this->readonly = "readonly";
+            $this->disabled = "disabled";
+        } else {
+            $this->readonly = "";
+            $this->disabled = "";
+        }
+
+$this->showCommitBtn = ($this->mode !== "DSP");
 
         if ($this->mode !== "INS") {
             $this->rol = RolesDao::getRolById($_GET["rolescod"] ?? "");
@@ -143,11 +151,11 @@ class Rol extends PublicController
 
         $this->viewData["showCommitBtn"] = $this->showCommitBtn;
         $this->viewData["readonly"] = $this->readonly;
+        $this->viewData["disabled"] = $this->disabled;
 
         $this->rol["rolesest_act"] = ($this->rol["rolesest"] == "ACT") ? "selected" : "";
         $this->rol["rolesest_ina"] = ($this->rol["rolesest"] == "INA") ? "selected" : "";
 
-        $this->viewData["rol"] = $this->rol;
-    }
+        $this->viewData = array_merge($this->viewData, $this->rol);             }
 }
 ?>

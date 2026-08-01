@@ -175,7 +175,8 @@ class Funcion extends PublicController
         
         $this->funcion["fntyp_MEN"] =($this->funcion["fntyp"] == "MEN") ? "selected" : "";
         $this->funcion["fntyp_API"] =($this->funcion["fntyp"] == "API") ? "selected" : "";
-        $this->viewData["funcion"] = $this->funcion;
-    }
+        
+        $this->viewData = array_merge($this->viewData, $this->funcion);
+}
 }
 ?>

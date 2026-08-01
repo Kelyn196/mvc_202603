@@ -54,8 +54,13 @@ class Product extends PublicController
   {
     $this->mode = $_GET["mode"] ?? "NOF";
     if (isset($this->modeDescriptions[$this->mode])) {
-      $this->readonly = $this->mode === "DEL" ? "readonly" : "";
-      $this->showCommitBtn = $this->mode !== "DSP";
+      if ($this->mode === "DSP" || $this->mode === "DEL") {
+    $this->readonly = "readonly";
+    } else {
+        $this->readonly = "";
+    }
+
+$this->showCommitBtn = ($this->mode !== "DSP");
       if ($this->mode !== "INS") {
         $this->product = ProductsDao::getProductById(intval($_GET["productId"]));
         if (!$this->product) {

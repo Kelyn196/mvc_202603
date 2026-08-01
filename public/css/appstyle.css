@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 /* ====== RESET Y BASE ====== */
-* { box-sizing: border-box; }
-html { min-height: 100%; }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
@@ -11,7 +17,7 @@ body {
   background-color: #F5F5F5;
   color: #212121;
   height: 100%;
-  overflow-y:auto;
+  overflow-y: auto;
 }
 
 /* ====== HEADER ====== */
@@ -28,8 +34,9 @@ header {
   color: #fff;
   padding: 0 15px;
   z-index: 1001;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+
 header h1 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -42,6 +49,7 @@ main {
   margin-top: 70px;
   padding: 15px;
 }
+
 main h1 {
   margin-top: 0;
   text-align: center;
@@ -49,7 +57,10 @@ main h1 {
 }
 
 /* ====== ICONO HAMBURGUESA ====== */
-.menu_toggle { display: none; }
+.menu_toggle {
+  display: none;
+}
+
 .menu_toggle_icon {
   cursor: pointer;
   display: flex;
@@ -60,6 +71,7 @@ main h1 {
   height: 30px;
   margin-right: 10px;
 }
+
 .hmb {
   width: 25px;
   height: 3px;
@@ -67,14 +79,23 @@ main h1 {
   margin: 4px 0;
   transition: all 0.3s ease;
 }
-.menu_toggle:checked + .menu_toggle_icon .hmb:nth-child(1) {
+
+.menu_toggle:checked+.menu_toggle_icon .hmb:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
-.menu_toggle:checked + .menu_toggle_icon .hmb:nth-child(2) { opacity: 0; }
-.menu_toggle:checked + .menu_toggle_icon .hmb:nth-child(3) {
+
+.menu_toggle:checked+.menu_toggle_icon .hmb:nth-child(2) {
+  opacity: 0;
+}
+
+.menu_toggle:checked+.menu_toggle_icon .hmb:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
 }
-.menu_toggle:checked + .menu_toggle_icon { position: relative; z-index: 1002; }
+
+.menu_toggle:checked+.menu_toggle_icon {
+  position: relative;
+  z-index: 1002;
+}
 
 /* ====== MENÚ LATERAL ====== */
 #menu {
@@ -89,16 +110,31 @@ main h1 {
   padding-top: 60px;
   z-index: 999;
 }
-.menu_toggle:checked ~ #menu { left: 0; }
-#menu ul { list-style: none; padding: 0; margin: 0; }
-#menu ul li { border-bottom: 1px solid rgba(255,255,255,0.2); }
+
+.menu_toggle:checked~#menu {
+  left: 0;
+}
+
+#menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#menu ul li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 #menu ul li a {
   display: block;
   padding: 15px 20px;
   color: #fff;
   text-decoration: none;
 }
-#menu ul li a:hover { background-color: #6D4C41; }
+
+#menu ul li a:hover {
+  background-color: #6D4C41;
+}
 
 /* ====== FORMULARIOS ====== */
 form {
@@ -109,13 +145,18 @@ form {
   background: #fff;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+
 label {
   font-weight: 500;
   color: #4E342E;
 }
-input[type="text"], input[type="number"], select, textarea {
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
   flex: 1;
   padding: 6px 10px;
   border: 1px solid #BDBDBD;
@@ -132,16 +173,19 @@ input[type="text"], input[type="number"], select, textarea {
   align-items: center;
   width: 100%;
 }
+
 .filtros-campos {
   display: flex;
   flex-direction: column;
   gap: 15px;
   width: 100%;
 }
+
 .filtros-campos label {
   font-weight: 600;
   margin-bottom: 4px;
 }
+
 .filtros-campos input,
 .filtros-campos select {
   width: 100%;
@@ -150,6 +194,7 @@ input[type="text"], input[type="number"], select, textarea {
   border-radius: 6px;
   font-size: 0.95rem;
 }
+
 .filtros-botones {
   display: flex;
   flex-direction: column;
@@ -159,7 +204,8 @@ input[type="text"], input[type="number"], select, textarea {
 }
 
 /* ====== BOTONES ====== */
-.btn, button.primary {
+.btn,
+button.primary {
   background-color: #8D6E63;
   color: #fff;
   border: none;
@@ -175,9 +221,21 @@ input[type="text"], input[type="number"], select, textarea {
   align-items: center;
   justify-content: center;
 }
-.btn:hover, button.primary:hover { background-color: #5D4037; }
-.btn:active, button.primary:active { background-color: #2E7D32; }
-.btn i { font-size: 1rem; color: #fff; }
+
+.btn:hover,
+button.primary:hover {
+  background-color: #5D4037;
+}
+
+.btn:active,
+button.primary:active {
+  background-color: #2E7D32;
+}
+
+.btn i {
+  font-size: 1rem;
+  color: #fff;
+}
 
 .btnop {
   background-color: #8D6E63;
@@ -195,10 +253,22 @@ input[type="text"], input[type="number"], select, textarea {
   justify-content: center;
   width: 100%;
 }
-.btnop:hover { background-color: #5D4037; }
-.btnop-primary { background-color: #8D6E63; }
-.btnop-success { background-color: #8D6E63; }
-.btnop-success:hover { background-color: #388E3C; }
+
+.btnop:hover {
+  background-color: #5D4037;
+}
+
+.btnop-primary {
+  background-color: #8D6E63;
+}
+
+.btnop-success {
+  background-color: #8D6E63;
+}
+
+.btnop-success:hover {
+  background-color: #388E3C;
+}
 
 #btnCancelar {
   background: #f8f9fa;
@@ -209,7 +279,10 @@ input[type="text"], input[type="number"], select, textarea {
   font-weight: 600;
   cursor: pointer;
 }
-#btnCancelar:hover { background: #e9ecef; }
+
+#btnCancelar:hover {
+  background: #e9ecef;
+}
 
 /* ====== TABLA ====== */
 table {
@@ -219,32 +292,43 @@ table {
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+
 thead {
   background-color: #4E342E;
   color: #fff;
 }
+
 thead th {
   padding: 10px;
   text-align: center;
   font-weight: 600;
 }
+
 tbody td {
   padding: 10px;
   border-bottom: 1px solid #E0E0E0;
   text-align: center;
 
 }
-tbody tr:nth-child(even) { background-color: #FAFAFA; }
-tbody tr:hover { background-color: #EEE; transition: background 0.3s ease; }
+
+tbody tr:nth-child(even) {
+  background-color: #FAFAFA;
+}
+
+tbody tr:hover {
+  background-color: #EEE;
+  transition: background 0.3s ease;
+}
 
 /* ====== LOGIN ====== */
 .fullCenter {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* ocupa toda la altura de la pantalla */
+  height: 100vh;
+  /* ocupa toda la altura de la pantalla */
   background-color: #f5f5f5;
 }
 
@@ -278,7 +362,8 @@ form.grid input[type="password"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* ocupa toda la altura de la pantalla */
+  height: 100vh;
+  /* ocupa toda la altura de la pantalla */
   background-color: #f5f5f5;
 }
 
@@ -286,9 +371,10 @@ form.grid input[type="password"] {
 form.grid {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 30px 40px;
-  width: 640px; /* doble del tamaño anterior */
+  width: 640px;
+  /* doble del tamaño anterior */
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -314,7 +400,8 @@ form.grid label {
 /* Inputs a lo largo del grid */
 form.grid input[type="email"],
 form.grid input[type="password"] {
-  width: 100%; /* ocupa todo el ancho del formulario */
+  width: 100%;
+  /* ocupa todo el ancho del formulario */
   padding: 10px 12px;
   border: 1px solid #BDBDBD;
   border-radius: 6px;
@@ -328,7 +415,8 @@ form.grid input[type="password"] {
 form.grid .row.right,
 form.grid .form-actions {
   display: flex;
-  justify-content: center; /* centra horizontalmente */
+  justify-content: center;
+  /* centra horizontalmente */
   align-items: center;
   width: 100%;
   margin-top: 20px;
@@ -337,18 +425,30 @@ form.grid .form-actions {
 /* Botón cuadrado y proporcionado */
 #btnLogin,
 #btnSignin {
-border: none;                /* Elimina el borde del botón */
-border-radius: 6px;          /* Redondea ligeramente las esquinas */
-padding: 10px 0;             /* Espaciado interno: 10px arriba/abajo, 0 a los lados */
-font-size: 0.9rem;           /* Tamaño del texto */
-font-weight: 600;            /* Grosor del texto (semi-negrita) */
-cursor: pointer;             /* Cambia el cursor a “mano” al pasar encima */
-transition: background-color 0.3s ease; /* Suaviza el cambio de color al hacer hover */
-text-decoration: none;       /* Quita subrayado si el botón es un enlace */
-display: inline-flex;        /* Permite usar flexbox dentro del botón */
-align-items: center;         /* Centra verticalmente el texto dentro del botón */
-justify-content: center;     /* Centra horizontalmente el texto dentro del botón */
-width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible */
+  border: none;
+  /* Elimina el borde del botón */
+  border-radius: 6px;
+  /* Redondea ligeramente las esquinas */
+  padding: 10px 0;
+  /* Espaciado interno: 10px arriba/abajo, 0 a los lados */
+  font-size: 0.9rem;
+  /* Tamaño del texto */
+  font-weight: 600;
+  /* Grosor del texto (semi-negrita) */
+  cursor: pointer;
+  /* Cambia el cursor a “mano” al pasar encima */
+  transition: background-color 0.3s ease;
+  /* Suaviza el cambio de color al hacer hover */
+  text-decoration: none;
+  /* Quita subrayado si el botón es un enlace */
+  display: inline-flex;
+  /* Permite usar flexbox dentro del botón */
+  align-items: center;
+  /* Centra verticalmente el texto dentro del botón */
+  justify-content: center;
+  /* Centra horizontalmente el texto dentro del botón */
+  width: 30%;
+  /* Hace que el botón ocupe todo el ancho disponible */
 
 }
 
@@ -356,7 +456,8 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
 #btnLogin:hover,
 #btnSignin:hover {
   background-color: #5D4037;
-  transform: translateY(-2px); /* pequeño efecto de elevación */
+  transform: translateY(-2px);
+  /* pequeño efecto de elevación */
 }
 
 /* Contenedor general */
@@ -365,7 +466,7 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
   margin: 0 auto;
   background: #fafafa;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
@@ -373,7 +474,8 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
 .container-m h1 {
   font-size: 2rem;
   font-weight: 700;
-  color: #4a2c2a; /* Café elegante */
+  color: #4a2c2a;
+  /* Café elegante */
   text-align: center;
   margin-bottom: 25px;
 }
@@ -416,7 +518,7 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
   outline: none;
   border-color: #8b5e3c;
   background-color: #fff;
-  box-shadow: 0 0 6px rgba(139,94,60,0.3);
+  box-shadow: 0 0 6px rgba(139, 94, 60, 0.3);
 }
 
 
@@ -450,13 +552,15 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
 
 /* ====== CARRETILLA ====== */
 .cart-container {
-  margin-top: 80px; /* espacio debajo del header fijo */
+  margin-top: 80px;
+  /* espacio debajo del header fijo */
   padding: 20px;
 }
 
 .cart-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* izquierda tabla, derecha resumen */
+  grid-template-columns: 2fr 1fr;
+  /* izquierda tabla, derecha resumen */
   gap: 20px;
   align-items: flex-start;
 }
@@ -468,7 +572,7 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .cart-header {
@@ -532,27 +636,82 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
   color: #b71c1c;
 }
 
+/* ===== Acciones Mantenimiento ===== */
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #8D6E63;
+  color: #fff;
+  text-decoration: none;
+  transition: .3s;
+}
+
+.action-btn:hover {
+  background: #5D4037;
+  color: #fff;
+}
+
+.new-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border-radius:8px;
+    background:#8D6E63;
+    color:#fff;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.new-btn:hover{
+    background:#5D4037;
+    color:#fff;
+}
 /* Acciones debajo de la tabla */
 .cart-actions {
-   display: flex;
-  justify-content: center; /* Centra los botones */
+  display: flex;
+  justify-content: center;
+  /* Centra los botones */
   gap: 15px;
   margin-top: 15px;
 }
 
 .cart-btn {
-  border: none;                /* Elimina el borde del botón */
-  border-radius: 6px;          /* Redondea ligeramente las esquinas */
-  padding: 10px 0;             /* Espaciado interno: 10px arriba/abajo, 0 a los lados */
-  font-size: 0.9rem;           /* Tamaño del texto */
-  font-weight: 600;            /* Grosor del texto (semi-negrita) */
-  cursor: pointer;             /* Cambia el cursor a “mano” al pasar encima */
-  transition: background-color 0.3s ease; /* Suaviza el cambio de color al hacer hover */
-  text-decoration: none;       /* Quita subrayado si el botón es un enlace */
-  display: inline-flex;        /* Permite usar flexbox dentro del botón */
-  align-items: center;         /* Centra verticalmente el texto dentro del botón */
-  justify-content: center;     /* Centra horizontalmente el texto dentro del botón */
-  width: 30%; 
+  border: none;
+  /* Elimina el borde del botón */
+  border-radius: 6px;
+  /* Redondea ligeramente las esquinas */
+  padding: 10px 0;
+  /* Espaciado interno: 10px arriba/abajo, 0 a los lados */
+  font-size: 0.9rem;
+  /* Tamaño del texto */
+  font-weight: 600;
+  /* Grosor del texto (semi-negrita) */
+  cursor: pointer;
+  /* Cambia el cursor a “mano” al pasar encima */
+  transition: background-color 0.3s ease;
+  /* Suaviza el cambio de color al hacer hover */
+  text-decoration: none;
+  /* Quita subrayado si el botón es un enlace */
+  display: inline-flex;
+  /* Permite usar flexbox dentro del botón */
+  align-items: center;
+  /* Centra verticalmente el texto dentro del botón */
+  justify-content: center;
+  /* Centra horizontalmente el texto dentro del botón */
+  width: 30%;
 }
 
 .cart-btn-update {
@@ -578,7 +737,7 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
 .cart-summary {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
@@ -628,6 +787,7 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
   padding: 40px 20px 0;
   font-size: 0.95rem;
 }
+
 .footer-container {
   display: flex;
   flex-wrap: wrap;
@@ -636,18 +796,27 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px 0;
-  border-top: 2px solid rgba(255,255,255,0.2);
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
 }
+
 .footer-section {
   flex: 1 1 300px;
   min-width: 280px;
   padding: 0 20px;
-  border-right: 1px solid rgba(255,255,255,0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
-.footer-section:last-child { border-right: none; }
+
+.footer-section:last-child {
+  border-right: none;
+}
+
 .footer-section h3 {
   font-weight: 600;
   margin-bottom: 15px;
   color: #FFD54F;
 }
-.footer-section p { line-height: 1.6; margin: 0 0 10px}
+
+.footer-section p {
+  line-height: 1.6;
+  margin: 0 0 10px
+}

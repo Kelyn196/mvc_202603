@@ -18,7 +18,10 @@
 
         <div class="row my-2">
             <label class="col-12 col-m-3">Descripción</label>
-            <input class="col-12 col-m-9" name="rolesdsc" value="{{rolesdsc}}">
+            <input class="col-12 col-m-9"
+                   name="rolesdsc"
+                   value="{{rolesdsc}}"
+                   {{readonly}}>
 
             {{if rolesdsc_error}}
             <div class="error">{{rolesdsc_error}}</div>
@@ -27,7 +30,7 @@
 
         <div class="row my-2">
             <label class="col-12 col-m-3">Estado</label>
-            <select class="col-12 col-m-9" name="rolesest">
+            <select class="col-12 col-m-9" name="rolesest" {{disabled}}>
                 <option value="ACT" {{rolesest_act}}>Activo</option>
                 <option value="INA" {{rolesest_ina}}>Inactivo</option>
             </select>

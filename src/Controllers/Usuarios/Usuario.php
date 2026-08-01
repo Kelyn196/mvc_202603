@@ -78,7 +78,7 @@ class Usuario extends PublicController
             );
         }
 
-        $this->readonly = ($this->mode == "DEL") ? "readonly" : "";
+        $this->readonly = ($this->mode == "DSP" || $this->mode == "DEL") ? "readonly" : "";
         $this->showCommitBtn = ($this->mode != "DSP");
 
         if ($this->mode != "INS") {
