@@ -27,6 +27,17 @@
       "id":"Menu_PaymentCheckout",
       "nav_url": "index.php?page=Checkout_Checkout",
       "nav_label": "Carretilla de Compra"
+    },
+    {
+      "id": "Menu_Products",
+      "nav_url": "index.php?page=Products_Products",
+      "nav_label":"<i class=\"fas fa-table\"></i>&nbsp;WW Productos"
+    }
+      ,
+      {
+      "id": "Menu_Carretilla",
+      "nav_url": "index.php?page=Carretilla_Carretilla",
+      "nav_label": "<i class=\"fas fa-shopping-cart\"></i>&nbsp;Mi Carretilla"
     }
   ]
 }
