@@ -1,6 +1,5 @@
 <section class="cart-container">
   <div class="cart-grid">
-    <!-- Columna izquierda: productos -->
     <div class="cart-left">
       <table class="cart-table">
         <thead class="cart-header">
@@ -31,14 +30,11 @@
           </tr>
         </tbody>
       </table>
-
       <div class="cart-actions">
         <button class="cart-btn cart-btn-update">Actualizar Cantidades</button>
         <button class="cart-btn cart-btn-continue">Seguir Comprando</button>
       </div>
     </div>
-
-    <!-- Columna derecha: resumen -->
     <div class="cart-right">
       <section class="cart-summary">
         <h3 class="cart-summary-title">Resumen del Pedido</h3>

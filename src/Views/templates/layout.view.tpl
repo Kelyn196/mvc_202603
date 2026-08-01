@@ -61,5 +61,5 @@
   <div class="footer-bottom">
     <p>TODOS LOS DERECHOS RESERVADOS {{~CURRENT_YEAR}}</p>
   </div>
-  </body>
+  
 </footer>

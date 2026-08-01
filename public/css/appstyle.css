@@ -357,6 +357,178 @@ width: 30%;                 /* Hace que el botón ocupe todo el ancho disponible
   transform: translateY(-2px); /* pequeño efecto de elevación */
 }
 
+/* ====== CARRETILLA ====== */
+.cart-container {
+  margin-top: 80px; /* espacio debajo del header fijo */
+  padding: 20px;
+}
+
+.cart-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* izquierda tabla, derecha resumen */
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Tabla de productos */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.cart-header {
+  background-color: #4E342E;
+  color: #fff;
+}
+
+.cart-header-cell {
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.cart-body .cart-item {
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.cart-product {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.cart-name {
+  font-weight: 500;
+  color: #212121;
+}
+
+.cart-price,
+.cart-subtotal {
+  text-align: center;
+  font-weight: 600;
+  color: #388E3C;
+}
+
+.cart-quantity .cart-input {
+  width: 60px;
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Botón eliminar */
+.cart-btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #d32f2f;
+  font-size: 1rem;
+}
+
+.cart-btn-delete:hover {
+  color: #b71c1c;
+}
+
+/* Acciones debajo de la tabla */
+.cart-actions {
+   display: flex;
+  justify-content: center; /* Centra los botones */
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.cart-btn {
+  border: none;                /* Elimina el borde del botón */
+  border-radius: 6px;          /* Redondea ligeramente las esquinas */
+  padding: 10px 0;             /* Espaciado interno: 10px arriba/abajo, 0 a los lados */
+  font-size: 0.9rem;           /* Tamaño del texto */
+  font-weight: 600;            /* Grosor del texto (semi-negrita) */
+  cursor: pointer;             /* Cambia el cursor a “mano” al pasar encima */
+  transition: background-color 0.3s ease; /* Suaviza el cambio de color al hacer hover */
+  text-decoration: none;       /* Quita subrayado si el botón es un enlace */
+  display: inline-flex;        /* Permite usar flexbox dentro del botón */
+  align-items: center;         /* Centra verticalmente el texto dentro del botón */
+  justify-content: center;     /* Centra horizontalmente el texto dentro del botón */
+  width: 30%; 
+}
+
+.cart-btn-update {
+  background-color: #8D6E63;
+  color: #fff;
+}
+
+.cart-btn-update:hover {
+  background-color: #5D4037;
+}
+
+.cart-btn-continue {
+  background-color: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.cart-btn-continue:hover {
+  background-color: #e9ecef;
+}
+
+/* Resumen del pedido */
+.cart-summary {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.cart-summary-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4E342E;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.cart-summary-line {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: #212121;
+}
+
+.cart-btn-pay {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #8D6E63;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: 15px;
+}
+
+.cart-btn-pay:hover {
+  background-color: #5D4037;
+}
+
+.cart-safe {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #388E3C;
+  text-align: center;
+}
+
 
 /* ====== FOOTER ====== */
 .footer-axume {
