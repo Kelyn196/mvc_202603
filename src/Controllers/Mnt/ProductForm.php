@@ -9,7 +9,7 @@ use Dao\Mantenimientos\Products as ProductDAO;
 use Utilities\Site;
 use Utilities\Validators;
 
-const LIST_VIEW_URI = "index.php?page=Mnt-ResultList";
+const LIST_VIEW_URI = "index.php?page=Mnt_ProductList";
 const FORM_VIEW_URI = "index.php?page=Mnt-ProductForm";
 const FORM_VIEW_TEMPLATE = "mnt/form";
 
@@ -26,7 +26,6 @@ class ProductForm extends PublicController
         "DSP" => "Producto %s"
     ];
 
-
     private array $producto = [
         "productId" => null,
         "productName" => "",
@@ -37,11 +36,8 @@ class ProductForm extends PublicController
         "productStatus" => "DISPO"
     ];
 
-
     private $errors = [];
-
     private $xssToken = "";
-
 
     public function run(): void
     {
@@ -58,9 +54,7 @@ class ProductForm extends PublicController
                 }
             }
 
-
             $this->mostrarVista();
-
 
         } catch (Exception $ex) {
 
@@ -73,132 +67,91 @@ class ProductForm extends PublicController
         }
     }
 
-
-
     private function getQueryParams()
     {
-
         $this->mode = $_GET["mode"] ?? "NAS";
-
 
         if (!isset($this->modes[$this->mode])) {
             throw new Exception("Modo no adecuado");
         }
 
-
         if ($this->mode !== "INS") {
 
-
             $this->producto["productId"] = intval($_GET["id"] ?? 0);
-
 
             if ($this->producto["productId"] == 0) {
                 throw new Exception("ID es invalido.");
             }
 
-
             $productoFromDb = ProductDAO::getById(
                 $this->producto["productId"]
             );
 
+            if (!$productoFromDb) {
+                throw new Exception("Producto no encontrado.");
+            }
+
+            $this->producto["productId"] = $productoFromDb["productId"];
             $this->producto["productName"] = $productoFromDb["productName"];
             $this->producto["productDescription"] = $productoFromDb["productDescription"];
             $this->producto["productPrice"] = $productoFromDb["productPrice"];
             $this->producto["productImgUrl"] = $productoFromDb["productImgUrl"];
             $this->producto["productStock"] = $productoFromDb["productStock"];
             $this->producto["productStatus"] = $productoFromDb["productStatus"];
-
         }
-
     }
-
-
-
 
     private function validarPostData(): bool
     {
-
-        $tmp_mode = $_POST["mode"] ?? 'NAP';
-
+        $tmp_mode = $_POST["mode"] ?? "NAP";
 
         if (!isset($this->modes[$tmp_mode])) {
             throw new Exception("Error modo no válido");
         }
 
+        $tmp_xssToken = $_POST["xssToken"] ?? "NAP";
 
-
-        $tmp_xssToken = $_POST["xssToken"] ?? 'NAP';
-
-
-        if ($tmp_xssToken === 'NAP') {
+        if ($tmp_xssToken === "NAP") {
             throw new Exception("No pasó la prueba XSS");
         }
 
+        $local_xssToken = $_SESSION[FORM_XSS_TOKEN] ?? "NAP";
 
-
-        $local_xssToken = $_SESSION[FORM_XSS_TOKEN] ?? 'NAP';
-
-
-        if ($local_xssToken === 'NAP') {
+        if ($local_xssToken === "NAP") {
             throw new Exception("No pasó la prueba XSS");
         }
-
-
 
         if ($local_xssToken !== $tmp_xssToken) {
             throw new Exception("No pasó la prueba XSS");
         }
 
+        $this->producto["productId"] = intval($_POST["productId"] ?? 0);
+        $this->producto["productName"] = $_POST["productName"] ?? "";
+        $this->producto["productDescription"] = $_POST["productDescription"] ?? "";
+        $this->producto["productPrice"] = floatval($_POST["productPrice"] ?? 0);
+        $this->producto["productImgUrl"] = $_POST["productImgUrl"] ?? "";
+        $this->producto["productStock"] = intval($_POST["productStock"] ?? 0);
+        $this->producto["productStatus"] = $_POST["productStatus"] ?? "DISPO";
 
-
-        $productName = $_POST["productName"] ?? "";
-        $productDescription = $_POST["productDescription"] ?? "";
-        $productPrice = floatval($_POST["productPrice"] ?? 0);
-        $productImgUrl = $_POST["productImgUrl"] ?? "";
-        $productStock = intval($_POST["productStock"] ?? 0);
-        $productStatus = $_POST["productStatus"] ?? "DISPO";
-
-
-
-        if (Validators::IsEmpty($productName)) {
+        if (Validators::IsEmpty($this->producto["productName"])) {
             $this->addViewError(
                 "Campo requiere un valor",
                 "productName"
             );
         }
 
-
-        if (Validators::IsEmpty($productDescription)) {
+        if (Validators::IsEmpty($this->producto["productDescription"])) {
             $this->addViewError(
                 "Campo requiere un valor",
                 "productDescription"
             );
         }
 
-
-
-        $this->producto["productName"] = $productName;
-        $this->producto["productDescription"] = $productDescription;
-        $this->producto["productPrice"] = $productPrice;
-        $this->producto["productImgUrl"] = $productImgUrl;
-        $this->producto["productStock"] = $productStock;
-        $this->producto["productStatus"] = $productStatus;
-
-
-
         return count($this->errors) <= 0;
-
     }
-
-
-
-
-
-    private function procesarPost(): void
+        private function procesarPost(): void
     {
-
         switch ($this->mode) {
-
 
             case "INS":
 
@@ -225,13 +178,9 @@ class ProductForm extends PublicController
                     );
                 }
 
-
-            break;
-
-
+                break;
 
             case "UPD":
-
 
                 if (
                     ProductDAO::update(
@@ -245,29 +194,21 @@ class ProductForm extends PublicController
                     ) > 0
                 ) {
 
-
                     Site::redirectToWithMsg(
                         LIST_VIEW_URI,
                         "Producto actualizado satisfactoriamente."
                     );
 
-
                 } else {
-
 
                     $this->addViewError(
                         "No se actualizó producto."
                     );
                 }
 
-
-            break;
-
-
-
+                break;
 
             case "DEL":
-
 
                 if (
                     ProductDAO::delete(
@@ -275,116 +216,85 @@ class ProductForm extends PublicController
                     ) > 0
                 ) {
 
-
                     Site::redirectToWithMsg(
                         LIST_VIEW_URI,
                         "Producto eliminado satisfactoriamente."
                     );
 
-
                 } else {
-
 
                     $this->addViewError(
                         "No se eliminó producto."
                     );
-
                 }
 
-
-            break;
-
+                break;
         }
-
     }
-
-
-
-
 
     private function mostrarVista()
     {
-
         $dataView = [];
-
 
         $dataView["mode"] = $this->mode;
 
-
-
         $dataView["modeDsc"] =
-            ($this->mode === "INS") ?
-            $this->modes[$this->mode]
-            :
-            sprintf(
+            ($this->mode === "INS")
+            ? $this->modes[$this->mode]
+            : sprintf(
                 $this->modes[$this->mode],
                 $this->producto["productName"]
             );
 
-
-
         $dataView["producto"] = $this->producto;
 
-
-
         if (count($this->errors)) {
-
             foreach ($this->errors as $scope => $errors) {
-
-                $dataView['error_' . $scope] = $errors;
-
+                $dataView["error_" . $scope] = $errors;
             }
         }
 
-
-
         if (in_array($this->mode, ["DSP", "DEL"])) {
-
             $dataView["readonly"] = "readonly";
-
         }
+
+        $dataView["productStatus_DISPO"] =
+            ($this->producto["productStatus"] == "DISPO") ? "selected" : "";
+
+        $dataView["productStatus_AGO"] =
+            ($this->producto["productStatus"] == "AGO") ? "selected" : "";
 
         $dataView["editable"] = ($this->mode !== "DSP");
         $dataView["xssToken"] = $this->generarXssToken();
 
-    
         Renderer::render(
             FORM_VIEW_TEMPLATE,
             $dataView
         );
-
     }
 
     private function generarXssToken()
     {
-        $seed = rand(100000,999999);
+        $seed = rand(100000, 999999);
         $dateTime = microtime(true);
         $toHash = md5(
             "product_form_token_" . $seed . $dateTime
         );
+
         $_SESSION[FORM_XSS_TOKEN] = $toHash;
+
         return $toHash;
-
     }
-
 
     private function addViewError(
         $errormsg,
         $context = "global"
-    )
-    {
-
-        if(isset($this->errors[$context])){
-
+    ) {
+        if (isset($this->errors[$context])) {
             $this->errors[$context][] = $errormsg;
-
-        }else{
-
+        } else {
             $this->errors[$context] = [$errormsg];
-
         }
-
     }
-
 }
 ?>

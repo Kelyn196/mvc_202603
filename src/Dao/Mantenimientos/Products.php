@@ -1,6 +1,6 @@
 <?php
 
-namespace Dao\Mantenimientos\ProductsasProductDAO;
+namespace Dao\Mantenimientos;
 
 use Dao\Table;
 
@@ -35,8 +35,6 @@ class Products extends Table
     public static function getById(int $productId): array
     {
         $sqlstr = "SELECT * FROM products where productId=:productId;";
-        // if soft delete
-        // $sqlstr = "SELECT * FROM products where productId=:productId and deleted_at is null;";
         return self::obtenerUnRegistro($sqlstr, ["productId" => $productId]);
     }
 
@@ -109,16 +107,12 @@ class Products extends Table
         return self::executeNonQuery($sqlUpd, $param);
     }
 
-    // HARD Delete
     public static function delete(int $productId)
     {
         $sqlstr = "DELETE FROM products where productId=:productId;";
         return self::executeNonQuery($sqlstr, ["productId" => $productId]);
     }
 
-    // Buena Práctica (NO SE BORRA NADA DE NADA PARA NADA NI DE BROMA)
-    // SOFT Delete
-    // Implica en la tabla existe un campo (columna) deleted_at (null)
     public static function softDelete(int $productId)
     {
         $sqlstr = "UPDATE products set deleted_at = now() where productId=:productId;";
