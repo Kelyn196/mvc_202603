@@ -1,12 +1,14 @@
-<h1>Nuestros Productos</h1>
-
 <section class="grid">
   <div class="row filtros">
     <form class="col-12 col-m-8" action="index.php" method="get">
+
+      <input type="hidden" name="page" value="Products_Products">
+
       <div class="filtros-grid">
         <div class="filtros-campos">
           <label for="partialName">Nombre</label>
           <input type="text" name="partialName" id="partialName" value="{{partialName}}" />
+
           <label for="status">Estado</label>
           <select name="status" id="status">
             <option value="" {{status_EMP}}>Todos</option>
@@ -14,6 +16,7 @@
             <option value="AGO" {{status_AGO}}>Agotado</option>
           </select>
         </div>
+
         <div class="filtros-botones">
           <button type="submit" class="btnop btnop-primary">Filtrar</button>
           <a href="index.php?page=Products_Product&mode=INS" class="btnop btnop-success">Nuevo</a>
