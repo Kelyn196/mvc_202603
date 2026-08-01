@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,11 +12,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   {{foreach SiteLinks}}
-    <link rel="stylesheet" href="{{~BASE_DIR}}/{{this}}" />
+  <link rel="stylesheet" href="{{~BASE_DIR}}/{{this}}" />
   {{endfor SiteLinks}}
 
   {{foreach BeginScripts}}
-    <script src="{{~BASE_DIR}}/{{this}}"></script>
+  <script src="{{~BASE_DIR}}/{{this}}"></script>
   {{endfor BeginScripts}}
 </head>
 
@@ -33,16 +34,17 @@
     <h1>{{SITE_TITLE}}</h1>
 
     {{with login}}
-      <span class="username">
-        {{userName}}
-        <a href="index.php?page=sec_logout">
-          <i class="fas fa-sign-out-alt"></i>
-        </a>
-      </span>
+    <span class="username">
+      {{userName}}
+      <a href="index.php?page=sec_logout">
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </span>
     {{endwith login}}
 
     <nav id="menu">
       <ul>
+
         <li>
           <a href="index.php?page={{PUBLIC_DEFAULT_CONTROLLER}}">
             <i class="fas fa-home"></i>&nbsp;Inicio
@@ -50,10 +52,19 @@
         </li>
 
         {{foreach PUBLIC_NAVIGATION}}
-          <li>
-            <a href="{{nav_url}}">{{nav_label}}</a>
-          </li>
+        <li>
+          <a href="{{nav_url}}">{{nav_label}}</a>
+        </li>
         {{endfor PUBLIC_NAVIGATION}}
+
+        {{with login}}
+        <li>
+          <a href="index.php?page=sec_logout">
+            <i class="fas fa-sign-out-alt"></i>&nbsp;Salir
+          </a>
+        </li>
+        {{endwith login}}
+
       </ul>
     </nav>
 
@@ -84,10 +95,7 @@
 
       <div class="footer-section marca">
         <h3>SOMOS UNA MARCA DE TRADICIÓN</h3>
-        <img
-          src="{{BASE_DIR}}/public/img/logolacteos.png"
-          alt="Lácteos Axume"
-          class="logo-footer">
+        <img src="{{BASE_DIR}}/public/img/logolacteos.png" alt="Lácteos Axume" class="logo-footer">
         <p>Hechos con leche 100% local.</p>
       </div>
 
@@ -99,4 +107,5 @@
   </footer>
 
 </body>
+
 </html>
