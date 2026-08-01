@@ -16,8 +16,6 @@ use Dao\Table;
 
 class Products extends Table
 {
-    //CRUD Create Read Update Delete
-    // Read One Read All
 
     public static function getAll(): array
     {
@@ -34,7 +32,7 @@ class Products extends Table
 
     public static function getById(int $productId): array
     {
-        $sqlstr = "SELECT * FROM products where productId=:productId;";
+        $sqlstr = "SELECT * FROM products WHERE productId = :productId;";
         return self::obtenerUnRegistro($sqlstr, ["productId" => $productId]);
     }
 
@@ -46,7 +44,7 @@ class Products extends Table
         int $productStock,
         string $productStatus
     ) {
-        $sqlIns = "insert into products (
+        $sqlIns = "INSERT INTO products (
             productName,
             productDescription,
             productPrice,
@@ -54,7 +52,7 @@ class Products extends Table
             productStock,
             productStatus
         )
-        values
+        VALUES
         (
             :productName,
             :productDescription,
@@ -85,14 +83,14 @@ class Products extends Table
         int $productStock,
         string $productStatus
     ) {
-        $sqlUpd = "update products set
+        $sqlUpd = "UPDATE products SET
             productName = :productName,
             productDescription = :productDescription,
             productPrice = :productPrice,
             productImgUrl = :productImgUrl,
             productStock = :productStock,
             productStatus = :productStatus
-            where productId = :productId;";
+            WHERE productId = :productId;";
 
         $param = [
             "productName" => $productName,
@@ -109,14 +107,25 @@ class Products extends Table
 
     public static function delete(int $productId)
     {
-        $sqlstr = "DELETE FROM products where productId=:productId;";
-        return self::executeNonQuery($sqlstr, ["productId" => $productId]);
+        self::executeNonQuery(
+            "DELETE FROM carretilla WHERE productId = :productId;",
+            ["productId" => $productId]
+        );
+
+        return self::executeNonQuery(
+            "DELETE FROM products WHERE productId = :productId;",
+            ["productId" => $productId]
+        );
     }
 
     public static function softDelete(int $productId)
     {
-        $sqlstr = "UPDATE products set deleted_at = now() where productId=:productId;";
+        $sqlstr = "UPDATE products
+                   SET deleted_at = NOW()
+                   WHERE productId = :productId;";
+
         return self::executeNonQuery($sqlstr, ["productId" => $productId]);
     }
 }
+
 ?>
