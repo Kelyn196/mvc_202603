@@ -34,7 +34,8 @@ class Funciones extends Table
 
         if ($partialName != "") {
             $conditions[] = "fndsc LIKE :partialName";
-            $params["partialName"] = "%" . $partialName . "%";
+            // trim() elimina espacios innecesarios al inicio y al final
+            $params["partialName"] = "%" . trim($partialName) . "%";
         }
 
         if (!in_array($status, ["ACT", "INA", ""])) {

@@ -39,9 +39,12 @@ class Funciones extends PublicController
         $this->funciones = $result["funciones"] ?? [];
         $this->funcionesCount = $result["total"] ?? 0;
 
+        // Protección contra división entre cero
+        $itemsPerPage = $this->itemsPerPage > 0 ? $this->itemsPerPage : 10;
+
         $this->pages = max(
             1,
-            intval(ceil($this->funcionesCount / $this->itemsPerPage))
+            intval(ceil($this->funcionesCount / $itemsPerPage))
         );
 
         if ($this->pageNumber > $this->pages) {
@@ -74,9 +77,10 @@ class Funciones extends PublicController
             intval($_GET["pageNum"] ?? $this->pageNumber)
         );
 
-        $this->itemsPerPage = intval(
+        $itemsPerPage = intval(
             $_GET["itemsPerPage"] ?? $this->itemsPerPage
         );
+        $this->itemsPerPage = $itemsPerPage > 0 ? $itemsPerPage : 10;
     }
 
     private function getParamsFromContext(): void
@@ -90,9 +94,11 @@ class Funciones extends PublicController
         $this->pageNumber = intval(
             Context::getContextByKey("funciones_page") ?? 1
         );
-        $this->itemsPerPage = intval(
+        
+        $itemsPerPage = intval(
             Context::getContextByKey("funciones_itemsPerPage") ?? 10
         );
+        $this->itemsPerPage = $itemsPerPage > 0 ? $itemsPerPage : 10;
     }
 
     private function setParamsToContext(): void
@@ -110,6 +116,9 @@ class Funciones extends PublicController
         $this->viewData = [
             "partialName" => $this->partialName,
             "status" => $this->status,
+            // Agregamos estas dos líneas para que el menú <select> recuerde lo que elegiste
+            "status_ACT" => $this->status === "ACT" ? "selected" : "",
+            "status_INA" => $this->status === "INA" ? "selected" : "",
             "orderBy" => $this->orderBy,
             "orderDescending" => $this->orderDescending,
             "pageNum" => $this->pageNumber,
