@@ -233,6 +233,8 @@ thead th {
 tbody td {
   padding: 10px;
   border-bottom: 1px solid #E0E0E0;
+  text-align: center;
+
 }
 tbody tr:nth-child(even) { background-color: #FAFAFA; }
 tbody tr:hover { background-color: #EEE; transition: background 0.3s ease; }
