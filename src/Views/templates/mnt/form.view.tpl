@@ -69,7 +69,7 @@
             <button type="button" id="returnBtn" class="mx-4">Cancelar</button>
         </div>
     </form>
-    {{endwith product}}
+    {{endwith producto}}
 </section>
 
 <script>
