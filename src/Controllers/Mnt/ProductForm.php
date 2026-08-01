@@ -56,15 +56,15 @@ class ProductForm extends PublicController
 
             $this->mostrarVista();
 
-        } catch (Exception $ex) {
+    } catch (Exception $ex) {
 
-            error_log($ex->getMessage());
+        error_log($ex->getMessage());
 
-            Site::redirectToWithMsg(
-                LIST_VIEW_URI,
-                "Algo inesperado ocurrió, vuelva a intentar."
-            );
-        }
+        Site::redirectToWithMsg(
+            LIST_VIEW_URI,
+            "Algo inesperado ocurrió, vuelva a intentar."
+        );
+    }
     }
 
     private function getQueryParams()
