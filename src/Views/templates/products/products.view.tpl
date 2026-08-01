@@ -1,27 +1,26 @@
-
 <h1>Nuestros Productos</h1>
 
 <section class="grid">
   <div class="row filtros">
-  <form class="col-12 col-m-8" action="index.php" method="get">
-    <div class="filtros-grid">
-      <div class="filtros-campos">
-        <label for="partialName">Nombre</label>
-        <input type="text" name="partialName" id="partialName" value="{{partialName}}" />
-        <label for="status">Estado</label>
-        <select name="status" id="status">
-          <option value="" {{status_EMP}}>Todos</option>
-          <option value="DISPO" {{status_DISPO}}>Disponible</option>
-          <option value="AGO" {{status_AGO}}>Agotado</option>
-        </select>
+    <form class="col-12 col-m-8" action="index.php" method="get">
+      <div class="filtros-grid">
+        <div class="filtros-campos">
+          <label for="partialName">Nombre</label>
+          <input type="text" name="partialName" id="partialName" value="{{partialName}}" />
+          <label for="status">Estado</label>
+          <select name="status" id="status">
+            <option value="" {{status_EMP}}>Todos</option>
+            <option value="DISPO" {{status_DISPO}}>Disponible</option>
+            <option value="AGO" {{status_AGO}}>Agotado</option>
+          </select>
+        </div>
+        <div class="filtros-botones">
+          <button type="submit" class="btnop btnop-primary">Filtrar</button>
+          <a href="index.php?page=Products_Product&mode=INS" class="btnop btnop-success">Nuevo</a>
+        </div>
       </div>
-      <div class="filtros-botones">
-        <button type="submit" class="btnop btnop-primary">Filtrar</button>
-        <a href="index.php?page=Products_Product&mode=INS" class="btnop btnop-success">Nuevo</a>
-      </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 </section>
 <section class="WWList">
   <table>
@@ -52,13 +51,13 @@
         <td class="center">{{productStatusDsc}}</td>
         <td class="center">
           <a href="index.php?page=Products_Product&mode=DSP&productId={{productId}}" class="btn btn-info" title="Ver">
-            <i class="fas fa-eye"></i>
+            <i class="fa-solid fa-eye"></i>
           </a>
           <a href="index.php?page=Products_Product&mode=UPD&productId={{productId}}" class="btn btn-warning" title="Editar">
-            <i class="fas fa-edit"></i>
+            <i class="fa-solid fa-edit"></i>
           </a>
           <a href="index.php?page=Products_Product&mode=DEL&productId={{productId}}" class="btn btn-danger" title="Eliminar" onclick="return confirm('¿Seguro que deseas eliminar este registro?');">
-            <i class="fas fa-trash-alt"></i>
+            <i class="fa-solid fa-trash"></i>
           </a>
         </td>
         <td class="center">
@@ -67,7 +66,7 @@
             <input type="hidden" name="productId" value="{{productId}}">
             <input type="hidden" name="crrctd" value="1">
             <button type="submit" class="btn btn-success" title="Agregar a carretilla">
-              <i class="fas fa-cart-plus"></i>
+              <i class="fa-solid fa-cart-plus"></i>
             </button>
           </form>
         </td>

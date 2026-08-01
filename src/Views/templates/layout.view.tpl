@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{BASE_DIR}}/public/css/appstyle.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://kit.fontawesome.com/{{FONT_AWESOME_KIT}}.js" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   {{foreach SiteLinks}}
     <link rel="stylesheet" href="{{~BASE_DIR}}/{{this}}" />
   {{endfor SiteLinks}}
@@ -22,7 +22,8 @@
     <label for="menu_toggle" class="menu_toggle_icon" >
       <div class="hmb dgn pt-1"></div>
       <div class="hmb hrz"></div>
-      <div class="hmb dgn pt-2"></div>
+      <div class="hmb dgn pt-2">
+      </div>
     </label>
     <h1>{{SITE_TITLE}}</h1>
     <nav id="menu">

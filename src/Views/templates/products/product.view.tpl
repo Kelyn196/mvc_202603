@@ -80,7 +80,6 @@
     </div>
   </form>
 </section>
-
 <script>
   document.addEventListener("DOMContentLoaded", ()=>{
     const btnCancelar = document.getElementById("btnCancelar");
