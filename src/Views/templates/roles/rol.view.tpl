@@ -48,8 +48,9 @@
                     </button>
                 {{endif showCommitBtn}}
 
+                <!-- TEXTO CAMBIADO A "Regresar" -->
                 <button class="btn-brown" type="button" id="btnCancelar">
-                    {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
+                    Regresar
                 </button>
             </div>
         </div>

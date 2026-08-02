@@ -43,17 +43,17 @@
         </div>
 
         <div class="row my-4 align-center flex-end">
-    {{if showCommitBtn}}
-    <!-- Cambiamos "primary" por "btn-brown" -->
-    <button class="btn-brown" type="submit" name="btnConfirmar">
-        Confirmar
-    </button>
-    {{endif showCommitBtn}}
+            {{if showCommitBtn}}
+            <button class="btn-brown" type="submit" name="btnConfirmar">
+                Confirmar
+            </button>
+            {{endif showCommitBtn}}
 
-    <button class="btn-brown" type="button" id="btnCancelar">
-        Cancelar
-    </button>
-</div>
+            <!-- TEXTO CAMBIADO A "Regresar" -->
+            <button class="btn-brown" type="button" id="btnCancelar">
+                Regresar
+            </button>
+        </div>
     </form>
 </section>
 
