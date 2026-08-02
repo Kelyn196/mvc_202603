@@ -695,32 +695,28 @@ form.grid .form-actions {
   margin-top: 15px;
 }
 
-.cart-btn {
-  border: none;
-  /* Elimina el borde del botón */
-  border-radius: 6px;
-  /* Redondea ligeramente las esquinas */
-  padding: 10px 0;
-  /* Espaciado interno: 10px arriba/abajo, 0 a los lados */
-  font-size: 0.9rem;
-  /* Tamaño del texto */
-  font-weight: 600;
-  /* Grosor del texto (semi-negrita) */
-  cursor: pointer;
-  /* Cambia el cursor a “mano” al pasar encima */
-  transition: background-color 0.3s ease;
-  /* Suaviza el cambio de color al hacer hover */
-  text-decoration: none;
-  /* Quita subrayado si el botón es un enlace */
-  display: inline-flex;
-  /* Permite usar flexbox dentro del botón */
-  align-items: center;
-  /* Centra verticalmente el texto dentro del botón */
-  justify-content: center;
-  /* Centra horizontalmente el texto dentro del botón */
-  width: 30%;
+.cart-actions{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
 }
 
+.cart-btn{
+    border: none;
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .3s ease;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 48%;
+}
 .cart-btn-update {
   background-color: #8D6E63;
   color: #fff;
@@ -785,6 +781,8 @@ form.grid .form-actions {
   color: #388E3C;
   text-align: center;
 }
+
+
 
 
 /* ====== FOOTER ====== */
