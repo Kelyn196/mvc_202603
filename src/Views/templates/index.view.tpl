@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -9,89 +8,105 @@
   <link rel="stylesheet" href="<?= $BASE_DIR ?>/public/css/appstyle.css">
 </head>
 <body>
-  <!-- Hero Panel con imagen local y logo -->
- <section class="text-white text-center py-5" style="background: url('public/imgs/fondo1.jpg') center/cover no-repeat;">
-    <div class="container bg-dark bg-opacity-50 p-4 rounded">
-      <img src="/negociosWeb/Proyecto/mvc_202603/public/imgs/logolacteos.png" 
-          alt="Lácteos Axume" 
-          class="mb-3" 
-          style="width: 160px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));">
-      <h1 class="display-4 fw-bold">LÁCTEOS AXUME</h1>
-      <p class="lead">Elaboramos nuestros lácteos con ingredientes cuidadosamente seleccionados para ofrecer un sabor auténtico que acompaña a tu familia en cada momento.</p>
-      <a href="index.php?page=Products_Products" class="btn btn-light btn-lg mt-3">Explorar Productos</a>
-    </div>
+  <!-- Hero Panel con imagen local -->
+  <section class="text-white text-center hero-banner"  style="background: url('public/imgs/fondo1.jpg') center/cover no-repeat;">
+    <h1 class="display-4 fw-bold">Calidad, frescura y tradición en cada producto.</h1>
   </section>
+  <section class="banner-section mt-0 mb-5">
+  <img src="public/imgs/promos.png" alt="Banner Promo" class="img-fluid w-100 banner-img">
+</section>
 
-
-  <!-- Carrusel de productos -->
   <section class="container my-5">
-    <h2 class="mb-4 text-center">Nuestros productos destacados</h2>
+    <div class="row g-4">
 
-    <div id="axumeCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-
-        <!-- Producto 1 -->
-        <div class="carousel-item active">
-          <img src="https://images.unsplash.com/photo-1608198093002-0f6f3f3c3e2a" class="d-block w-100 rounded" alt="Pan artesanal hondureño">
-          <div class="carousel-caption bg-dark bg-opacity-50 rounded p-3">
-            <h5>Pan artesanal hondureño</h5>
-            <p>Receta tradicional, sabor auténtico y elaborado con ingredientes locales.</p>
-            <a href="index.php?page=Carretilla_Add&productId=1" class="btn btn-primary btn-sm">Agregar al carrito</a>
+      <!-- Promo 1 -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="public/imgs/quesadillas.jpeg" class="card-img-top" alt="Quesadillas en promoción">
+          <div class="card-body text-center">
+            <h5 class="card-title">Combo Quesadillas</h5>
+            <p class="card-text">Lleva 3 quesadillas por solo <strong>L. 80</strong>.</p>
+            <a href="index.php?page=Products_Products" class="btn btn-success">
+              <i class="fa-solid fa-cart-plus"></i>
+            </a>
           </div>
         </div>
-
-        <!-- Producto 2 -->
-        <div class="carousel-item">
-          <img src="https://images.unsplash.com/photo-1604908177522-3f3a6e6f3c3d" class="d-block w-100 rounded" alt="Frijoles">
-          <div class="carousel-caption bg-dark bg-opacity-50 rounded p-3">
-            <h5>Frijoles</h5>
-            <p>Cultivados localmente, frescos y nutritivos, ideales para acompañar tus comidas.</p>
-            <a href="index.php?page=Carretilla_Add&productId=2" class="btn btn-primary btn-sm">Agregar al carrito</a>
-          </div>
-        </div>
-
-        <!-- Producto 3 -->
-        <div class="carousel-item">
-          <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce" class="d-block w-100 rounded" alt="Aguacates">
-          <div class="carousel-caption bg-dark bg-opacity-50 rounded p-3">
-            <h5>Aguacates</h5>
-            <p>Verdes, cremosos y llenos de sabor, provenientes de fincas hondureñas.</p>
-            <a href="index.php?page=Carretilla_Add&productId=3" class="btn btn-primary btn-sm">Agregar al carrito</a>
-          </div>
-        </div>
-
-        <!-- Producto 4 -->
-        <div class="carousel-item">
-          <img src="https://images.unsplash.com/photo-1604908550032-3f3a6e6f3c3d" class="d-block w-100 rounded" alt="Tortillas de harina">
-          <div class="carousel-caption bg-dark bg-opacity-50 rounded p-3">
-            <h5>Tortillas de harina</h5>
-            <p>Suaves y perfectas para acompañar nuestros productos lácteos.</p>
-            <a href="index.php?page=Carretilla_Add&productId=4" class="btn btn-primary btn-sm">Agregar al carrito</a>
-          </div>
-        </div>
-
-        <!-- Producto 5 -->
-        <div class="carousel-item">
-          <img src="https://images.unsplash.com/photo-1580910051074-7c2c7f3e3e2a" class="d-block w-100 rounded" alt="Queso fresco">
-          <div class="carousel-caption bg-dark bg-opacity-50 rounded p-3">
-            <h5>Queso fresco</h5>
-            <p>Hecho con leche local, sabor auténtico y textura suave. Apoyamos a pequeños productores.</p>
-            <a href="index.php?page=Carretilla_Add&productId=5" class="btn btn-primary btn-sm">Agregar al carrito</a>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Controles -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#axumeCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#axumeCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Siguiente</span>
-      </button>
+      <!-- Promo 2 -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="public/imgs/rosquillas.jpeg" class="card-img-top" alt="Rosquillas en promoción">
+          <div class="card-body text-center">
+            <h5 class="card-title">Rosquillas Doradas</h5>
+            <p class="card-text">Compra 2 bolsas y recibe la tercera <strong>gratis</strong>.</p>
+            <a href="index.php?page=Products_Products" class="btn btn-success">
+              <i class="fa-solid fa-cart-plus"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo 3 -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="public/imgs/aguacate.jpg" class="card-img-top" alt="Aguacates en promoción">
+          <div class="card-body text-center">
+            <h5 class="card-title">Aguacates Frescos</h5>
+            <p class="card-text">Lleva 5 aguacates por solo <strong>L. 150</strong>.</p>
+            <a href="index.php?page=Products_Products" class="btn btn-success">
+              <i class="fa-solid fa-cart-plus"></i>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
+
+
+    <!-- Carrusel y Quiénes somos -->
+    <div class="row mt-5">
+      <!-- Carrusel a la izquierda -->
+      <div class="col-md-6">
+        <div id="axumeCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="public/imgs/productores.jpg" class="d-block w-100 product-img">
+            </div>
+            <div class="carousel-item">
+              <img src="public/imgs/produccionRosquillas.jpg" class="d-block w-100 product-img">
+            </div>
+            <div class="carousel-item">
+              <img src="public/imgs/ProductoraRosqullas.jpg" class="d-block w-100 product-img">
+            </div>
+            <div class="carousel-item">
+              <img src="public/imgs/leche.jpg" class="d-block w-100 product-img">
+            </div>
+          </div>
+
+          <!-- Controles del carrusel -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#axumeCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#axumeCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiénes somos a la derecha -->
+      <div class="col-md-6 bg-light p-4">
+        <h2 class="text-success mb-4">Quiénes Somos</h2>
+        <p class="lead">
+          En Lácteos Axúme nos apasiona elaborar productos que combinan calidad, frescura y tradición. Cada uno de nuestros lácteos es preparado con ingredientes cuidadosamente seleccionados y un proceso que conserva el auténtico sabor de nuestra tierra, para que disfrutes una experiencia única en cada bocado.
+        </p>
+        <p>
+          Somos una empresa familiar orgullosamente ubicada en Morocelí, El Paraíso, dedicada a ofrecer productos lácteos y alimentos elaborados con dedicación, compromiso y altos estándares de calidad. Nuestra misión es llevar a tu mesa el verdadero sabor de Honduras, compartiendo la tradición y el cariño que nos inspiran desde nuestros inicios.
+        </p>
+      </div>
+    </div>
+    <a href="index.php?page=Products_Products" class="btn-lg mt-3">Explorar Productos</a>
   </section>
 
   <!-- Bootstrap JS -->

@@ -1,4 +1,7 @@
+
 <section class="grid">
+
+  <h2 class="text-center">NUESTROS PRODUCTOS</h2>
   <div class="row filtros">
     <form class="col-12 col-m-8" action="index.php" method="get">
 

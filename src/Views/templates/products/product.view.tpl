@@ -61,17 +61,17 @@
   </form>
   {{endwith product}}
 
-  <!-- Botones fuera del form -->
+  <form action="index.php?page=Products_Products" method="post">
   <div class="form-actions">
-      {{if showCommitBtn}}
-      <button class="btn-brown" type="submit" name="btnConfirmar">Confirmar</button>
-      {{endif showCommitBtn}}
-      <button class="btn-brown" type="button" id="btnCancelar">
-        {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
-        {{ifnot showCommitBtn}}Regresar{{endifnot showCommitBtn}}
-      </button>
-    </div>
-</section>
+    {{if showCommitBtn}}
+    <button class="btn-brown" type="submit" name="btnConfirmar">Confirmar</button>
+    {{endif showCommitBtn}}
+    <button class="btn-brown" type="button" id="btnCancelar">
+      {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
+      {{ifnot showCommitBtn}}Regresar{{endifnot showCommitBtn}}
+    </button>
+  </div>
+</form>
 
 <script>
   document.addEventListener("DOMContentLoaded", ()=>{

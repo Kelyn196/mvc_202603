@@ -23,7 +23,7 @@
       <div class="hmb hrz"></div>
       <div class="hmb dgn pt-2"></div>
     </label>
-    <h1>{{SITE_TITLE}}</h1>
+    <h1>Lacteos Axúme</h1>
     <nav id="menu">
       <ul>
         <li>

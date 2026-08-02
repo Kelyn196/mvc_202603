@@ -1,13 +1,10 @@
-<h1>Mi Carretilla de Compras</h1>
 <section class="cart-container">
+<h2>Mi Carretilla de Compras</h2>
   <div class="cart-grid">
-
     <div class="cart-left">
-
       {{if items}}
       <form action="index.php?page=Carretilla_Carretilla" method="POST">
         <input type="hidden" name="action" value="UPD">
-
         <table class="cart-table">
           <thead class="cart-header">
             <tr class="cart-header-row">
@@ -66,7 +63,7 @@
 
         <div class="cart-actions">
           <button type="submit" class="cart-btn cart-btn-update">
-            Actualizar Cantidades
+            Actualizar
           </button>
 
           <a href="index.php?page=Products_Products" class="cart-btn cart-btn-continue">

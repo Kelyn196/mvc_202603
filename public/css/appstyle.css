@@ -41,20 +41,47 @@ header h1 {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
-  color: #fff;
+  color: #fffffff8;
 }
 
 /* ====== MAIN ====== */
 main {
-  margin-top: 70px;
-  padding: 15px;
+  margin-top: 0px;
+  padding: 0px;
 }
 
 main h1 {
-  margin-top: 0;
+  margin-top: 50px;
   text-align: center;
-  color: #4E342E;
+  color: #ffffff;
 }
+
+.hero-banner {
+  min-height: 800px;
+  padding-top: 150px;
+  padding-bottom: 150px;
+  margin-top: 0;                /* elimina espacio arriba */
+  margin-bottom: 0;             /* evita espacio extra abajo */
+  background-position: center bottom;
+}
+
+.hero-banner h1 {
+  font-size: 3.5rem;       /* más grande */
+  font-weight: 900;        /* súper bold */
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6); /* sombra para resaltar */
+  color: #fff;             /* blanco puro sobre fondo */
+  letter-spacing: 1px;     /* separación de letras */
+  text-transform: uppercase;
+}
+
+.banner-section {
+  margin-top: -20px;            /* solapa ligeramente con el Hero */
+  margin-bottom: 2rem;          /* mantiene aire antes del carrusel */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
 
 /* ====== ICONO HAMBURGUESA ====== */
 .menu_toggle {
@@ -390,6 +417,16 @@ form.grid h1 {
   margin-bottom: 10px;
 }
 
+.grid h2 {
+  text-align: center;   /* centra el texto */
+  font-size: 2rem;      /* lo hace más grande */
+  font-weight: 700;     /* más grueso */
+  color: #000000;      /* verde Bootstrap para resaltar */
+  margin-bottom: 1.5rem;
+  padding: 80px 0;
+  
+}
+
 /* Labels */
 form.grid label {
   font-weight: 600;
@@ -686,6 +723,18 @@ form.grid .form-actions {
     background:#5D4037;
     color:#fff;
 }
+
+.cart-container h2 {
+  text-align: center;     /* centra el texto */
+  font-size: 2.2rem;      /* lo hace más grande */
+  font-weight: 700;       /* más grueso para destacar */
+  color: #000000;         /* tono cálido que combina con tu paleta */
+  margin-bottom: 1.5rem;  /* espacio debajo del título */
+  text-transform: uppercase; /* opcional: todo en mayúsculas */
+  letter-spacing: 1px;    /* separación de letras para más impacto */
+}
+
+
 /* Acciones debajo de la tabla */
 .cart-actions {
   display: flex;
@@ -703,22 +752,20 @@ form.grid .form-actions {
 }
 
 .cart-btn{
-    border: none;
-    border-radius: 6px;
-    padding: 12px 20px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color .3s ease;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 48%;
+  background-color: #8b5e3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0
 }
 .cart-btn-update {
-  background-color: #8D6E63;
+  background-color: #4d281cca;
   color: #fff;
 }
 
@@ -727,8 +774,8 @@ form.grid .form-actions {
 }
 
 .cart-btn-continue {
-  background-color: #f8f9fa;
-  color: #495057;
+  background-color: #4d281cca;
+  color: #fff;
   border: 1px solid #dee2e6;
 }
 
@@ -782,8 +829,196 @@ form.grid .form-actions {
   text-align: center;
 }
 
+/* ====== Carrusel de productos ====== */
+.btn-lg.mt-3 {
+  background-color: #8b5e3c;   /* marrón cálido */
+  color: #fff;                 /* texto blanco */
+  border: none;                /* sin borde por defecto */
+  border-radius: 8px;          /* esquinas redondeadas */
+  padding: 12px 24px;          /* espacio interno */
+  font-size: 1.1rem;           /* tamaño de fuente */
+  font-weight: 600; ;           /* grosor de fuente */
+  cursor: pointer;             /* cursor tipo mano */
+  text-decoration: none; 
+  text-align: center;      
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block;
+}
+
+/* Hover: efecto al pasar el mouse */
+.btn-lg.mt-3:hover {
+  background-color: #6d452a;   /* tono más oscuro */
+  transform: scale(1.05);      /* ligero agrandamiento */
+}
+
+.carousel {
+  border-radius: 10px;
+  max-width: 600px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.carousel-inner {
+  border-radius: 10px;
+}
+
+.carousel-item {
+  text-align: center;
+  padding: 20px;
+}
+
+.carousel-item img {
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* ====== Texto de productos ====== */
+.carousel-item p {
+  font-size: 1rem;
+  color: #444;
+  margin: 10px auto 15px;
+  max-width: 600px;
+}
+
+/* ====== Botón de carrito ====== */
+.carousel-item .btn-success {
+  background-color: #2e7d32;
+  border: none;
+  font-weight: bold;
+  padding: 8px 18px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
 
 
+
+/* ====== Título de la sección ====== */
+.container h2 {
+  color: #2e7d32;
+  font-weight: bold;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.product-img {
+  max-height: 320px; /* reduce tamaño */
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-price {
+  font-weight: bold;
+  color: #2e7d32;
+  margin: 5px 0 10px;
+}
+
+/* ====== Sección de Promociones ====== */
+section h2.text-success {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card img {
+  object-fit: cover;
+  height: 200px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2e7d32;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #444;
+}
+
+.card .btn-success {
+  background-color: #2e7d32;
+  border: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.card .btn-success:hover {
+  background-color: #1b5e20;
+  transform: scale(1.05);
+}
+
+/* ====== Sección Quiénes Somos ====== */
+.bg-light h2.text-success {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.bg-light p.lead {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.bg-light p {
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto 15px;
+}
+
+.bg-light img {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ====== Botón principal reutilizable ====== */
+.btn-main {
+  background-color: #8b5e3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-main:hover {
+  background-color: #6d452a;
+  transform: scale(1.05);
+}
+
+.banner-section {
+  border-radius: 12px;             /* esquinas suaves */
+  overflow: hidden;                /* asegura que la imagen respete el borde */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15); /* sombra elegante */
+}
+
+.banner-img {
+  display: block;
+  width: 100%;                     /* ocupa todo el ancho */
+  height: auto;                    /* mantiene proporción */
+}
 
 /* ====== FOOTER ====== */
 .footer-axume {
