@@ -2,7 +2,7 @@
     <h1>{{FormTitle}}</h1>
 </section>
 
-<section class="container-m row px-4 py-4">
+<section class="container-m row px-4 py-4" style="min-height: 60vh;">
     <form action="index.php?page=Roles_Rol&mode={{~mode}}&rolescod={{rolescod}}"
         method="POST"
         class="col-12 col-m-8 offset-m-2">
@@ -13,7 +13,6 @@
 
         <div class="row my-2">
             <label class="col-12 col-m-3">Código</label>
-            <!-- SE AGREGA name="rolescod" Y {{readonly}} -->
             <input class="col-12 col-m-9" name="rolescod" value="{{rolescod}}" {{readonly}}>
             
             {{if rolescod_error}}
@@ -53,7 +52,7 @@
                     {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
                 </button>
             </div>
-        </div> <!-- SE CIERRA EL DIV QUE FALTABA -->
+        </div>
     </form>
 </section>
 
