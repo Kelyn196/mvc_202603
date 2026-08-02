@@ -1,49 +1,120 @@
+<h1>Mi Carretilla de Compras</h1>
 <section class="cart-container">
   <div class="cart-grid">
+
     <div class="cart-left">
-      <table class="cart-table">
-        <thead class="cart-header">
-          <tr class="cart-header-row">
-            <th class="cart-header-cell">Producto</th>
-            <th class="cart-header-cell">Precio</th>
-            <th class="cart-header-cell">Cantidad</th>
-            <th class="cart-header-cell">Subtotal</th>
-            <th class="cart-header-cell">Acción</th>
-          </tr>
-        </thead>
-        <tbody class="cart-body">
-          <tr class="cart-item">
-            <td class="cart-product">
-              <img src="img/queso.jpg" alt="Queso Semi Seco" class="cart-img">
-              <span class="cart-name">Queso Semi Seco</span>
-            </td>
-            <td class="cart-price">L. 45.00</td>
-            <td class="cart-quantity">
-              <input type="number" value="2" class="cart-input">
-            </td>
-            <td class="cart-subtotal">L. 90</td>
-            <td class="cart-action">
-              <button class="cart-btn-delete" title="Eliminar producto">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="cart-actions">
-        <button class="cart-btn cart-btn-update">Actualizar Cantidades</button>
-        <button class="cart-btn cart-btn-continue">Seguir Comprando</button>
-      </div>
+
+      {{if items}}
+      <form action="index.php?page=Carretilla_Carretilla" method="POST">
+        <input type="hidden" name="action" value="UPD">
+
+        <table class="cart-table">
+          <thead class="cart-header">
+            <tr class="cart-header-row">
+              <th class="cart-header-cell">Producto</th>
+              <th class="cart-header-cell">Descripción</th>
+              <th class="cart-header-cell">Precio</th>
+              <th class="cart-header-cell">Imagen</th>
+              <th class="cart-header-cell">Cantidad</th>
+              <th class="cart-header-cell">Subtotal</th>
+              <th class="cart-header-cell">Acción</th>
+            </tr>
+          </thead>
+
+          <tbody class="cart-body">
+
+            {{foreach items}}
+            <tr class="cart-item">
+
+              <td>
+                {{productName}}
+                <input type="hidden" name="items[{{productId}}][productId]" value="{{productId}}">
+              </td>
+
+              <td>
+                {{productDescription}}
+              </td>
+
+              <td class="cart-price">
+                L. {{crrprc}}
+              </td>
+
+              <td class="cart-image">
+                <img src="{{productImgUrl}}" alt="{{productName}}" class="cart-img">
+              </td>
+
+              <td class="cart-quantity">
+                <input type="number" class="cart-input" name="items[{{productId}}][crrctd]" value="{{crrctd}}" min="1">
+              </td>
+
+              <td class="cart-subtotal">
+                L. {{subtotal}}
+              </td>
+
+              <td class="cart-action">
+                <a href="index.php?page=Carretilla_Carretilla&action=DEL&productId={{productId}}"
+                  class="cart-btn-delete" onclick="return confirm('¿Eliminar este producto?');">
+                  <i class="fas fa-trash"></i>
+                </a>
+              </td>
+
+            </tr>
+            {{endfor items}}
+
+          </tbody>
+        </table>
+
+        <div class="cart-actions">
+          <button type="submit" class="cart-btn cart-btn-update">
+            Actualizar Cantidades
+          </button>
+
+          <a href="index.php?page=Products_Products" class="cart-btn cart-btn-continue">
+            Seguir Comprando
+          </a>
+        </div>
+
+      </form>
+
+      {{else}}
+
+
+
+      {{endif items}}
+
     </div>
+
     <div class="cart-right">
+
       <section class="cart-summary">
-        <h3 class="cart-summary-title">Resumen del Pedido</h3>
-        <p class="cart-summary-line">Subtotal: L. 90</p>
-        <p class="cart-summary-line">Envío: Gratis</p>
-        <p class="cart-summary-line">Total: L. 90</p>
-        <a href="#" class="cart-btn cart-btn-pay">Proceder al Pago</a>
-        <p class="cart-safe">Pago 100% seguro</p>
+
+        <h3 class="cart-summary-title">
+          Resumen del Pedido
+        </h3>
+
+        <p class="cart-summary-line">
+          Subtotal: L. {{totalGeneral}}
+        </p>
+
+        <p class="cart-summary-line">
+          Envío: Gratis
+        </p>
+
+        <p class="cart-summary-line">
+          Total: L. {{totalGeneral}}
+        </p>
+
+        <a href="#" class="cart-btn cart-btn-pay">
+          Proceder al Pago
+        </a>
+
+        <p class="cart-safe">
+          Pago 100% seguro
+        </p>
+
       </section>
+
     </div>
+
   </div>
 </section>
