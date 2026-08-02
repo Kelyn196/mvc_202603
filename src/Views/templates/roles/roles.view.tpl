@@ -30,10 +30,17 @@
         <button type="submit" class="btnop">
           Filtrar
         </button>
+
+        <!-- AGREGADO AQUÍ -->
+        <a href="index.php?page=Roles_Rol&mode=INS" class="btnop">
+          Nuevo
+        </a>
+
       </div>
     </div>
   </form>
 </section>
+
 <section class="WWList">
   <table>
     <thead>

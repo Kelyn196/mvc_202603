@@ -13,7 +13,12 @@
 
         <div class="row my-2">
             <label class="col-12 col-m-3">Código</label>
-            <input class="col-12 col-m-9" value="{{rolescod}}" readonly>
+            <!-- SE AGREGA name="rolescod" Y {{readonly}} -->
+            <input class="col-12 col-m-9" name="rolescod" value="{{rolescod}}" {{readonly}}>
+            
+            {{if rolescod_error}}
+            <div class="error">{{rolescod_error}}</div>
+            {{endif rolescod_error}}
         </div>
 
         <div class="row my-2">
@@ -35,18 +40,21 @@
                 <option value="INA" {{rolesest_ina}}>Inactivo</option>
             </select>
         </div>
+        
         <div class="row my-4 flex-end">
-    <div class="form-actions">
-        {{if showCommitBtn}}
-            <button class="btn-brown" type="submit" name="btnConfirmar">
-                Confirmar
-            </button>
-        {{endif showCommitBtn}}
+            <div class="form-actions">
+                {{if showCommitBtn}}
+                    <button class="btn-brown" type="submit" name="btnConfirmar">
+                        Confirmar
+                    </button>
+                {{endif showCommitBtn}}
 
-        <button class="btn-brown" type="button" id="btnCancelar">
-            {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
-    </div>
-</form>
+                <button class="btn-brown" type="button" id="btnCancelar">
+                    {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
+                </button>
+            </div>
+        </div> <!-- SE CIERRA EL DIV QUE FALTABA -->
+    </form>
 </section>
 
 <script>

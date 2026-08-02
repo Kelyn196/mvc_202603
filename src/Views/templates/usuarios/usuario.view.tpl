@@ -2,7 +2,7 @@
     <h1>{{FormTitle}}</h1>
 </section>
 
-<section class="container-m row px-4 py-4">
+<section class="container-m row px-4 py-4" style="min-height: 60vh;">
 
     <form action="index.php?page=Usuarios_Usuario&mode={{~mode}}" method="POST" class="col-12 col-m-8 offset-m-2">
 
@@ -89,12 +89,12 @@
         <div class="row my-4 align-center flex-end">
 
             {{if showCommitBtn}}
-            <button class="primary col-12 col-m-2" type="submit">
+            <button class="btn-brown" type="submit" name="btnConfirmar">
                 Confirmar
             </button>
             {{endif showCommitBtn}}
 
-            <button class="col-12 col-m-2" type="button" id="btnCancelar">
+            <button class="btn-brown" type="button" id="btnCancelar">
                 Cancelar
             </button>
 

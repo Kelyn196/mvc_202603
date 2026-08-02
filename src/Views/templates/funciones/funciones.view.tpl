@@ -25,12 +25,16 @@
 
             </div>
 
-
             <div class="filtros-botones">
 
                 <button type="submit" class="btnop">
                     Filtrar
                 </button>
+
+                <a href="index.php?page=Funciones_Funcion&mode=INS" class="btnop">
+                    Nuevo
+                </a>
+
             </div>
         </div>
     </form>
@@ -62,7 +66,6 @@
                     {{fnestDsc}}
                 </td>
 
-
                 <td class="center">
 
                     <a href="index.php?page=Funciones_Funcion&mode=DSP&fncod={{fncod}}" 
@@ -71,13 +74,11 @@
                         <i class="fa-solid fa-eye"></i>
                     </a>
 
-
                     <a href="index.php?page=Funciones_Funcion&mode=UPD&fncod={{fncod}}" 
                        class="btn btn-warning" 
                        title="Editar">
                         <i class="fa-solid fa-edit"></i>
                     </a>
-
 
                     <a href="index.php?page=Funciones_Funcion&mode=DEL&fncod={{fncod}}" 
                        class="btn btn-danger" 
