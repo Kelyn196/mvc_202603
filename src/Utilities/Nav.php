@@ -2,17 +2,48 @@
 
 namespace Utilities;
 
+use Dao\CarretillaAnon\CarretillaAnon as DaoCarretillaAnon;
+
 class Nav
 {
     public static function setPublicNavContext()
     {
         $tmpNAVIGATION = Context::getContextByKey("PUBLIC_NAVIGATION");
+
         if ($tmpNAVIGATION === "") {
-            $navigationData = self::getNavFromJson()["public"];
-            $saveToSession = intval(Context::getContextByKey("DEVELOPMENT")) !== 1;
-            Context::setContext("PUBLIC_NAVIGATION", $navigationData, $saveToSession);
+            $tmpNAVIGATION = self::getNavFromJson()["public"];
         }
+
+        // El redireccionamiento depende de la sesion y si hay productos en la caretilla anonima
+        foreach ($tmpNAVIGATION as &$navEntry) {
+            if ($navEntry["id"] === "Menu_Carretilla") {
+                $navEntry["nav_url"] = self::resolveCartUrl();
+            }
+        }
+        unset($navEntry);
+
+        $saveToSession = intval(Context::getContextByKey("DEVELOPMENT")) !== 1;
+        Context::setContext("PUBLIC_NAVIGATION", $tmpNAVIGATION, $saveToSession);
     }
+
+    private static function resolveCartUrl(): string
+    {
+        if (Security::isLogged()) {
+            return "index.php?page=Carretilla_Carretilla";
+        }
+
+        $anoncod = $_SESSION["anoncod"] ?? null;
+
+        if ($anoncod) {
+            $count = DaoCarretillaAnon::getItemsCount($anoncod);
+            if ($count && intval($count["cantidad"]) > 0) {
+                return "index.php?page=CarretillaAnon_CarretillaAnon";
+            }
+        }
+
+        return "index.php?page=Sec_Login";
+    }
+
     public static function setNavContext()
     {
         $tmpNAVIGATION = Context::getContextByKey("NAVIGATION");

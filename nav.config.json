@@ -3,38 +3,36 @@
     {
       "id": "Menu_SignIn",
       "nav_url": "index.php?page=Sec_Login",
-      "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Iniciar Sesión"
+      "nav_label": "<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Iniciar Sesión"
     },
-     {
+    {
       "id": "Menu_SignUp",
       "nav_url": "index.php?page=Sec_Register",
-      "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Crear Cuenta"
+      "nav_label": "<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Crear Cuenta"
     },
     {
       "id": "Menu_Products",
       "nav_url": "index.php?page=Products_Products",
-      "nav_label":"<i class=\"fas fa-table\"></i>&nbsp;WW Productos"
-    }
-      ,
-      {
+      "nav_label": "<i class=\"fas fa-table\"></i>&nbsp;WW Productos"
+    },
+    {
       "id": "Menu_Carretilla",
-      "nav_url": "index.php?page=Carretilla_Carretilla",
+      "nav_url": "index.php?page=CarretillaAnon_CarretillaAnon",
       "nav_label": "<i class=\"fas fa-shopping-cart\"></i>&nbsp;Mi Carretilla"
     }
   ],
   "private": [
     {
-      "id":"Menu_PaymentCheckout",
+      "id": "Menu_PaymentCheckout",
       "nav_url": "index.php?page=Checkout_Checkout",
       "nav_label": "Carretilla de Compra"
     },
     {
       "id": "Menu_Products",
       "nav_url": "index.php?page=Products_Products",
-      "nav_label":"<i class=\"fas fa-table\"></i>&nbsp;WW Productos"
-    }
-      ,
-      {
+      "nav_label": "<i class=\"fas fa-table\"></i>&nbsp;WW Productos"
+    },
+    {
       "id": "Menu_Carretilla",
       "nav_url": "index.php?page=Carretilla_Carretilla",
       "nav_label": "<i class=\"fas fa-shopping-cart\"></i>&nbsp;Mi Carretilla"
