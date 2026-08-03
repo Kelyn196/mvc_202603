@@ -7,6 +7,7 @@ use Utilities\Context;
 use Utilities\Paging;
 use Dao\Products\Products as DaoProducts;
 use Views\Renderer;
+use Utilities\Security;
 
 class Products extends PublicController
 {
@@ -42,7 +43,9 @@ class Products extends PublicController
     $this->setParamsToContext();
     $this->setParamsToDataView();
 
-    
+    $this->viewData["cartPage"] = Security::getUserId() > 0
+        ? "Carretilla_Carretilla"
+        : "CarretillaAnon_CarretillaAnon";
     $this->viewData["products"] = $this->products;
     Renderer::render("products/products", $this->viewData);
   }

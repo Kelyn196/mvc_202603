@@ -6,6 +6,11 @@ use Dao\Table;
 
 class CarretillaAnon extends Table
 {
+    private const ESTADO_ABIERTO = 'ABIERTO';
+    private const ESTADO_CERRADO = 'CERRADO';
+    private const ESTADO_PROCESADO = 'PROCESADO';
+    private const ESTADO_CANCELADO = 'CANCELADO';
+
     public static function getCarretillaByAnon(string $anoncod)
     {
         $sqlstr = "SELECT
@@ -13,6 +18,7 @@ class CarretillaAnon extends Table
                         c.productId,
                         c.crrctd,
                         c.crrprc,
+                        c.crrestado,
                         c.crrfching,
                         p.productName,
                         p.productDescription,
@@ -22,11 +28,15 @@ class CarretillaAnon extends Table
                     FROM carretillaanon c
                     INNER JOIN products p
                         ON c.productId = p.productId
-                    WHERE c.anoncod = :anoncod";
+                    WHERE c.anoncod = :anoncod
+                      AND c.crrestado = :estado";
 
         return self::obtenerRegistros(
             $sqlstr,
-            ["anoncod" => $anoncod]
+            [
+                "anoncod" => $anoncod,
+                "estado" => self::ESTADO_ABIERTO
+            ]
         );
     }
 
@@ -37,33 +47,25 @@ class CarretillaAnon extends Table
         float $crrprc
     ) {
 
-        // Verificar stock disponible
         $product = self::obtenerUnRegistro(
-            "SELECT productStock
-             FROM products
-             WHERE productId = :productId",
-            [
-                "productId" => $productId
-            ]
+            "SELECT productStock FROM products WHERE productId = :productId",
+            ["productId" => $productId]
         );
 
-        if (!$product) {
+        if (!$product || $product["productStock"] < $crrctd) {
             return 0;
         }
 
-        if ($product["productStock"] < $crrctd) {
-            return 0;
-        }
-
-        // Verificar si ya existe en la carretilla
         $exists = self::obtenerUnRegistro(
             "SELECT crrctd
              FROM carretillaanon
              WHERE anoncod = :anoncod
-             AND productId = :productId",
+             AND productId = :productId
+             AND crrestado = :estado",
             [
                 "anoncod" => $anoncod,
-                "productId" => $productId
+                "productId" => $productId,
+                "estado" => self::ESTADO_ABIERTO
             ]
         );
 
@@ -77,12 +79,14 @@ class CarretillaAnon extends Table
                      crrprc = :crrprc,
                      crrfching = NOW()
                  WHERE anoncod = :anoncod
-                 AND productId = :productId",
+                 AND productId = :productId
+                 AND crrestado = :estado",
                 [
                     "crrctd" => $newQty,
                     "crrprc" => $crrprc,
                     "anoncod" => $anoncod,
-                    "productId" => $productId
+                    "productId" => $productId,
+                    "estado" => self::ESTADO_ABIERTO
                 ]
             );
 
@@ -90,27 +94,22 @@ class CarretillaAnon extends Table
 
             self::executeNonQuery(
                 "INSERT INTO carretillaanon
-                (anoncod, productId, crrctd, crrprc, crrfching)
+                (anoncod, productId, crrctd, crrprc, crrestado, crrfching)
                 VALUES
-                (:anoncod, :productId, :crrctd, :crrprc, NOW())",
+                (:anoncod, :productId, :crrctd, :crrprc, :estado, NOW())",
                 [
                     "anoncod" => $anoncod,
                     "productId" => $productId,
                     "crrctd" => $crrctd,
-                    "crrprc" => $crrprc
+                    "crrprc" => $crrprc,
+                    "estado" => self::ESTADO_ABIERTO
                 ]
             );
         }
 
-        // Descontar stock
         self::executeNonQuery(
-            "UPDATE products
-             SET productStock = productStock - :cantidad
-             WHERE productId = :productId",
-            [
-                "cantidad" => $crrctd,
-                "productId" => $productId
-            ]
+            "UPDATE products SET productStock = productStock - :cantidad WHERE productId = :productId",
+            ["cantidad" => $crrctd, "productId" => $productId]
         );
 
         return 1;
@@ -126,36 +125,30 @@ class CarretillaAnon extends Table
             "SELECT crrctd
              FROM carretillaanon
              WHERE anoncod = :anoncod
-             AND productId = :productId",
+             AND productId = :productId
+             AND crrestado = :estado",
             [
                 "anoncod" => $anoncod,
-                "productId" => $productId
+                "productId" => $productId,
+                "estado" => self::ESTADO_ABIERTO
             ]
         );
 
         if (!$actual) {
-            return 0;
+            return 0; // no existe o no está ABIERTO -> no se toca
         }
 
         if ($crrctd <= 0) {
-            return self::removeFromCarretilla(
-                $anoncod,
-                $productId
-            );
+            return self::removeFromCarretilla($anoncod, $productId);
         }
 
         $diferencia = $crrctd - $actual["crrctd"];
 
-        // Aumentó la cantidad
         if ($diferencia > 0) {
 
             $stock = self::obtenerUnRegistro(
-                "SELECT productStock
-                 FROM products
-                 WHERE productId = :productId",
-                [
-                    "productId" => $productId
-                ]
+                "SELECT productStock FROM products WHERE productId = :productId",
+                ["productId" => $productId]
             );
 
             if ($stock["productStock"] < $diferencia) {
@@ -163,27 +156,15 @@ class CarretillaAnon extends Table
             }
 
             self::executeNonQuery(
-                "UPDATE products
-                 SET productStock = productStock - :cantidad
-                 WHERE productId = :productId",
-                [
-                    "cantidad" => $diferencia,
-                    "productId" => $productId
-                ]
+                "UPDATE products SET productStock = productStock - :cantidad WHERE productId = :productId",
+                ["cantidad" => $diferencia, "productId" => $productId]
             );
-        }
 
-        // Disminuyó la cantidad
-        if ($diferencia < 0) {
+        } elseif ($diferencia < 0) {
 
             self::executeNonQuery(
-                "UPDATE products
-                 SET productStock = productStock + :cantidad
-                 WHERE productId = :productId",
-                [
-                    "cantidad" => abs($diferencia),
-                    "productId" => $productId
-                ]
+                "UPDATE products SET productStock = productStock + :cantidad WHERE productId = :productId",
+                ["cantidad" => abs($diferencia), "productId" => $productId]
             );
         }
 
@@ -191,11 +172,13 @@ class CarretillaAnon extends Table
             "UPDATE carretillaanon
              SET crrctd = :crrctd
              WHERE anoncod = :anoncod
-             AND productId = :productId",
+             AND productId = :productId
+             AND crrestado = :estado",
             [
                 "crrctd" => $crrctd,
                 "anoncod" => $anoncod,
-                "productId" => $productId
+                "productId" => $productId,
+                "estado" => self::ESTADO_ABIERTO
             ]
         );
     }
@@ -205,69 +188,94 @@ class CarretillaAnon extends Table
         int $productId
     ) {
 
-        // Obtener cantidad para devolver al inventario
         $item = self::obtenerUnRegistro(
             "SELECT crrctd
              FROM carretillaanon
              WHERE anoncod = :anoncod
-             AND productId = :productId",
+             AND productId = :productId
+             AND crrestado = :estado",
             [
                 "anoncod" => $anoncod,
-                "productId" => $productId
+                "productId" => $productId,
+                "estado" => self::ESTADO_ABIERTO
             ]
         );
 
         if ($item) {
-
             self::executeNonQuery(
-                "UPDATE products
-                 SET productStock = productStock + :cantidad
-                 WHERE productId = :productId",
-                [
-                    "cantidad" => $item["crrctd"],
-                    "productId" => $productId
-                ]
+                "UPDATE products SET productStock = productStock + :cantidad WHERE productId = :productId",
+                ["cantidad" => $item["crrctd"], "productId" => $productId]
             );
         }
 
         return self::executeNonQuery(
             "DELETE FROM carretillaanon
              WHERE anoncod = :anoncod
-             AND productId = :productId",
+             AND productId = :productId
+             AND crrestado = :estado",
             [
                 "anoncod" => $anoncod,
-                "productId" => $productId
+                "productId" => $productId,
+                "estado" => self::ESTADO_ABIERTO
             ]
         );
     }
 
-    public static function clearCarretilla(string $anoncod)
+    public static function closeCarretilla(string $anoncod)
     {
+        return self::executeNonQuery(
+            "UPDATE carretillaanon
+             SET crrestado = :nuevo
+             WHERE anoncod = :anoncod
+             AND crrestado = :actual",
+            [
+                "nuevo" => self::ESTADO_CERRADO,
+                "actual" => self::ESTADO_ABIERTO,
+                "anoncod" => $anoncod
+            ]
+        );
+    }
+
+    public static function procesarCarretilla(string $anoncod)
+    {
+        return self::executeNonQuery(
+            "UPDATE carretillaanon
+             SET crrestado = :nuevo
+             WHERE anoncod = :anoncod
+             AND crrestado = :actual",
+            [
+                "nuevo" => self::ESTADO_PROCESADO,
+                "actual" => self::ESTADO_CERRADO,
+                "anoncod" => $anoncod
+            ]
+        );
+    }
+
+    public static function cancelarCarretilla(string $anoncod)
+    {
+        // Devolver stock de todas las líneas activas (ABIERTO o CERRADO)
         $items = self::obtenerRegistros(
             "SELECT productId, crrctd
              FROM carretillaanon
-             WHERE anoncod = :anoncod",
-            [
-                "anoncod" => $anoncod
-            ]
+             WHERE anoncod = :anoncod
+             AND crrestado IN ('ABIERTO','CERRADO')",
+            ["anoncod" => $anoncod]
         );
 
         foreach ($items as $item) {
             self::executeNonQuery(
-                "UPDATE products
-                 SET productStock = productStock + :cantidad
-                 WHERE productId = :productId",
-                [
-                    "cantidad" => $item["crrctd"],
-                    "productId" => $item["productId"]
-                ]
+                "UPDATE products SET productStock = productStock + :cantidad WHERE productId = :productId",
+                ["cantidad" => $item["crrctd"], "productId" => $item["productId"]]
             );
         }
 
         return self::executeNonQuery(
-            "DELETE FROM carretillaanon
-             WHERE anoncod = :anoncod",
+            "UPDATE carretillaanon
+             SET crrestado = :nuevo
+             WHERE anoncod = :anoncod
+             AND crrestado IN ('ABIERTO','CERRADO')",
             [
+                "nuevo" => self::ESTADO_CANCELADO,
                 "anoncod" => $anoncod
             ]
         );
@@ -278,9 +286,11 @@ class CarretillaAnon extends Table
         return self::obtenerUnRegistro(
             "SELECT COUNT(*) AS cantidad
              FROM carretillaanon
-             WHERE anoncod = :anoncod",
+             WHERE anoncod = :anoncod
+             AND crrestado = :estado",
             [
-                "anoncod" => $anoncod
+                "anoncod" => $anoncod,
+                "estado" => self::ESTADO_ABIERTO
             ]
         );
     }

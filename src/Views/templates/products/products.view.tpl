@@ -67,7 +67,7 @@
           </a>
         </td>
         <td class="center">
-          <form action="index.php?page=Carretilla_Carretilla" method="POST" style="display:inline;">
+          <form action="index.php?page={{~cartPage}}" method="POST" style="display:inline;">
             <input type="hidden" name="action" value="ADD">
             <input type="hidden" name="productId" value="{{productId}}">
             <input type="hidden" name="crrctd" value="1">

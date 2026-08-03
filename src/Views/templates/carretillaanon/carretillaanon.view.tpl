@@ -110,28 +110,14 @@
                 </div>
 
             </form>
-
-            {{else}}
-
-            <div class="cart-empty">
-
-                <h2>Tu carretilla está vacía</h2>
-
-                <p>
-                    Agrega algunos productos para comenzar.
-                </p>
-
-                <a
-                    href="index.php?page=Products_Products"
-                    class="cart-btn cart-btn-continue">
-
-                    Ver Productos
-
-                </a>
-
-            </div>
-
             {{endif items}}
+            {{ifnot items}}
+            <div class="cart-empty">
+                <h2>Tu carretilla está vacía</h2>
+                <p>Agrega algunos productos para comenzar.</p>
+                <a href="index.php?page=Products_Products" class="cart-btn cart-btn-continue">Ver Productos</a>
+            </div>
+            {{endifnot items}}
 
         </div>
 

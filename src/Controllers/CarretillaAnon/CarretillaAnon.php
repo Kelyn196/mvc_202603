@@ -33,23 +33,12 @@ class CarretillaAnon extends PublicController
                 case "ADD":
 
                     $crrctd = intval($_POST["crrctd"] ?? 1);
-
                     $product = DaoProducts::getProductById($productId);
 
-                    if (
-                        $product &&
-                        $product["productStatus"] === "DISPO"
-                    ) {
-
-                        DaoCarretillaAnon::addToCarretilla(
-                            $anoncod,
-                            $productId,
-                            $crrctd,
-                            $product["productPrice"]
-                        );
-
+                    if ($product && $product["productStatus"] === "DISPO") {
+                        DaoCarretillaAnon::addToCarretilla($anoncod, $productId, $crrctd, $product["productPrice"]);
                         Site::redirectToWithMsg(
-                            "index.php?page=CarretillaAnon_CarretillaAnon",
+                            "index.php?page=Products_Products",
                             "Producto agregado a la carretilla."
                         );
                     }
