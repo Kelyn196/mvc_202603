@@ -77,10 +77,10 @@ class Renderer
                 //Limpiar Saltos de Pagina
                 if (strpos($htmlContent, "<pre>")) {
                 } else {
-                    $htmlContent = str_replace("\n", "", $htmlContent);
-                    $htmlContent = str_replace("\r", "", $htmlContent);
-                    $htmlContent = str_replace("\t", "", $htmlContent);
-                    $htmlContent = str_replace("  ", "", $htmlContent);
+                    $htmlContent = str_replace("\n", " ", $htmlContent);
+                    $htmlContent = str_replace("\r", " ", $htmlContent);
+                    $htmlContent = str_replace("\t", " ", $htmlContent);
+                    $htmlContent = preg_replace('/ {2,}/', ' ', $htmlContent);
                 }
                 //obtiene un arreglo separando lo distintos tipos de nodos
                 $template_code = self::_parseTemplate($htmlContent);
