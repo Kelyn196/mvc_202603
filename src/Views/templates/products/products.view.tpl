@@ -39,7 +39,9 @@
         <th>Imagen</th>
         <th>Stock</th>
         <th>Estado</th>
+        {{if isLoggedIn}}
         <th>Acciones</th>
+        {{endif isLoggedIn}}
         <th class="center">Carretilla</th>
       </tr>
     </thead>
@@ -55,6 +57,7 @@
         </td>
         <td class="center">{{productStock}}</td>
         <td class="center">{{productStatusDsc}}</td>
+        {{if ~isLoggedIn}}  
         <td class="center">
           <a href="index.php?page=Products_Product&mode=DSP&productId={{productId}}" class="btn btn-info" title="Ver">
             <i class="fa-solid fa-eye"></i>
@@ -66,6 +69,7 @@
             <i class="fa-solid fa-trash"></i>
           </a>
         </td>
+        {{endif ~isLoggedIn}}
         <td class="center">
           <form action="index.php?page={{~cartPage}}" method="POST" style="display:inline;">
             <input type="hidden" name="action" value="ADD">

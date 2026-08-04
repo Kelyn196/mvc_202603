@@ -46,6 +46,7 @@ class Products extends PublicController
     $this->viewData["cartPage"] = Security::getUserId() > 0
         ? "Carretilla_Carretilla"
         : "CarretillaAnon_CarretillaAnon";
+    $this->viewData["isLoggedIn"] = Security::getUserId() > 0;
     $this->viewData["products"] = $this->products;
     Renderer::render("products/products", $this->viewData);
   }
