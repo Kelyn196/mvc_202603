@@ -2,14 +2,13 @@
 
 namespace Controllers\Checkout;
 
-use Controllers\PublicController;
-class Error extends PublicController
+use Controllers\PrivateController;
+use Utilities\Site;
+
+class Error extends PrivateController
 {
     public function run(): void
     {
-        echo "error";
-        die();
+        Site::redirectToWithMsg("index.php?page=Carretilla_Carretilla", "Pago cancelado o error en el proceso.");
     }
 }
-
-?>
