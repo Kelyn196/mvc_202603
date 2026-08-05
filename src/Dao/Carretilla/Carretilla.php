@@ -32,197 +32,96 @@ class Carretilla extends Table
         int $crrctd,
         float $crrprc
     ){
-
-        // Obtener stock actual
         $product = self::obtenerUnRegistro(
-            "SELECT productStock
-             FROM products
-             WHERE productId=:productId",
+            "SELECT productStock FROM products WHERE productId=:productId",
             ["productId"=>$productId]
         );
 
-        if(!$product){
-            return 0;
-        }
-
-        // Validar stock
-        if($product["productStock"] < $crrctd){
-            return 0;
-        }
+        if(!$product){ return 0; }
+        if($product["productStock"] < $crrctd){ return 0; }
 
         $exists = self::obtenerUnRegistro(
-            "SELECT crrctd
-             FROM carretilla
-             WHERE usercod=:usercod
-             AND productId=:productId",
-            [
-                "usercod"=>$usercod,
-                "productId"=>$productId
-            ]
+            "SELECT crrctd FROM carretilla WHERE usercod=:usercod AND productId=:productId",
+            ["usercod"=>$usercod, "productId"=>$productId]
         );
 
         if($exists){
-
             $newQty = $exists["crrctd"] + $crrctd;
-
             self::executeNonQuery(
-                "UPDATE carretilla
-                 SET crrctd=:crrctd,
-                     crrprc=:crrprc,
-                     crrfching=NOW()
-                 WHERE usercod=:usercod
-                 AND productId=:productId",
-                [
-                    "crrctd"=>$newQty,
-                    "crrprc"=>$crrprc,
-                    "usercod"=>$usercod,
-                    "productId"=>$productId
-                ]
+                "UPDATE carretilla SET crrctd=:crrctd, crrprc=:crrprc, crrfching=NOW() WHERE usercod=:usercod AND productId=:productId",
+                ["crrctd"=>$newQty, "crrprc"=>$crrprc, "usercod"=>$usercod, "productId"=>$productId]
             );
-
         }else{
-
             self::executeNonQuery(
-                "INSERT INTO carretilla
-                (usercod,productId,crrctd,crrprc,crrfching)
-                VALUES
-                (:usercod,:productId,:crrctd,:crrprc,NOW())",
-                [
-                    "usercod"=>$usercod,
-                    "productId"=>$productId,
-                    "crrctd"=>$crrctd,
-                    "crrprc"=>$crrprc
-                ]
+                "INSERT INTO carretilla (usercod,productId,crrctd,crrprc,crrfching) VALUES (:usercod,:productId,:crrctd,:crrprc,NOW())",
+                ["usercod"=>$usercod, "productId"=>$productId, "crrctd"=>$crrctd, "crrprc"=>$crrprc]
             );
         }
 
-        // Descontar stock
         self::executeNonQuery(
-            "UPDATE products
-             SET productStock = productStock - :cantidad
-             WHERE productId=:productId",
-            [
-                "cantidad"=>$crrctd,
-                "productId"=>$productId
-            ]
+            "UPDATE products SET productStock = productStock - :cantidad WHERE productId=:productId",
+            ["cantidad"=>$crrctd, "productId"=>$productId]
         );
 
         return 1;
     }
 
-    public static function updateQuantity(
-        int $usercod,
-        int $productId,
-        int $crrctd
-    ){
-
+    public static function updateQuantity(int $usercod, int $productId, int $crrctd){
         $actual = self::obtenerUnRegistro(
-            "SELECT crrctd
-             FROM carretilla
-             WHERE usercod=:usercod
-             AND productId=:productId",
-            [
-                "usercod"=>$usercod,
-                "productId"=>$productId
-            ]
+            "SELECT crrctd FROM carretilla WHERE usercod=:usercod AND productId=:productId",
+            ["usercod"=>$usercod, "productId"=>$productId]
         );
 
-        if(!$actual){
-            return 0;
-        }
-
-        if($crrctd<=0){
-            return self::removeFromCarretilla($usercod,$productId);
-        }
+        if(!$actual){ return 0; }
+        if($crrctd<=0){ return self::removeFromCarretilla($usercod,$productId); }
 
         $diferencia = $crrctd - $actual["crrctd"];
 
         if($diferencia>0){
-
-            $stock = self::obtenerUnRegistro(
-                "SELECT productStock
-                 FROM products
-                 WHERE productId=:productId",
-                ["productId"=>$productId]
-            );
-
-            if($stock["productStock"] < $diferencia){
-                return 0;
-            }
+            $stock = self::obtenerUnRegistro("SELECT productStock FROM products WHERE productId=:productId", ["productId"=>$productId]);
+            if($stock["productStock"] < $diferencia){ return 0; }
 
             self::executeNonQuery(
-                "UPDATE products
-                 SET productStock = productStock - :cantidad
-                 WHERE productId=:productId",
-                [
-                    "cantidad"=>$diferencia,
-                    "productId"=>$productId
-                ]
+                "UPDATE products SET productStock = productStock - :cantidad WHERE productId=:productId",
+                ["cantidad"=>$diferencia, "productId"=>$productId]
             );
-
         }elseif($diferencia<0){
-
             self::executeNonQuery(
-                "UPDATE products
-                 SET productStock = productStock + :cantidad
-                 WHERE productId=:productId",
-                [
-                    "cantidad"=>abs($diferencia),
-                    "productId"=>$productId
-                ]
+                "UPDATE products SET productStock = productStock + :cantidad WHERE productId=:productId",
+                ["cantidad"=>abs($diferencia), "productId"=>$productId]
             );
         }
 
         return self::executeNonQuery(
-            "UPDATE carretilla
-             SET crrctd=:crrctd
-             WHERE usercod=:usercod
-             AND productId=:productId",
-            [
-                "crrctd"=>$crrctd,
-                "usercod"=>$usercod,
-                "productId"=>$productId
-            ]
+            "UPDATE carretilla SET crrctd=:crrctd WHERE usercod=:usercod AND productId=:productId",
+            ["crrctd"=>$crrctd, "usercod"=>$usercod, "productId"=>$productId]
         );
     }
 
-    public static function removeFromCarretilla(
-        int $usercod,
-        int $productId
-    ){
-
+    public static function removeFromCarretilla(int $usercod, int $productId){
         $item = self::obtenerUnRegistro(
-            "SELECT crrctd
-             FROM carretilla
-             WHERE usercod=:usercod
-             AND productId=:productId",
-            [
-                "usercod"=>$usercod,
-                "productId"=>$productId
-            ]
+            "SELECT crrctd FROM carretilla WHERE usercod=:usercod AND productId=:productId",
+            ["usercod"=>$usercod, "productId"=>$productId]
         );
 
         if($item){
-
             self::executeNonQuery(
-                "UPDATE products
-                 SET productStock = productStock + :cantidad
-                 WHERE productId=:productId",
-                [
-                    "cantidad"=>$item["crrctd"],
-                    "productId"=>$productId
-                ]
+                "UPDATE products SET productStock = productStock + :cantidad WHERE productId=:productId",
+                ["cantidad"=>$item["crrctd"], "productId"=>$productId]
             );
         }
 
         return self::executeNonQuery(
-            "DELETE FROM carretilla
-             WHERE usercod=:usercod
-             AND productId=:productId",
-            [
-                "usercod"=>$usercod,
-                "productId"=>$productId
-            ]
+            "DELETE FROM carretilla WHERE usercod=:usercod AND productId=:productId",
+            ["usercod"=>$usercod, "productId"=>$productId]
+        );
+    }
+
+    public static function clearCarretillaByUser(int $usercod)
+    {
+        return self::executeNonQuery(
+            "DELETE FROM carretilla WHERE usercod=:usercod",
+            ["usercod"=>$usercod]
         );
     }
 }

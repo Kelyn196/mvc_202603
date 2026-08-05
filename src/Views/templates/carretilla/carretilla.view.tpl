@@ -102,7 +102,7 @@
           Total: L. {{totalGeneral}}
         </p>
 
-        <a href="#" class="cart-btn cart-btn-pay">
+               <a href="index.php?page=Checkout_Checkout" class="cart-btn cart-btn-pay">
           Proceder al Pago
         </a>
 

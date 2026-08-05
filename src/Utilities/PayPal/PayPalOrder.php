@@ -13,54 +13,9 @@ class PayPalOrder
             "return_url" => ""
         )
     );
-    private $_purchaseUnitTemplate = array(
-        "reference_id" => "",
-        "custom_id" => "",
-        "amount" => array(
-            "value" => "0.00",
-            "currency_code" => "USD",
-            "breakdown" => array(
-                "item_total" => array(
-                    "currency_code" => "USD",
-                    "value" => "0.00"
-                ),
-                "shipping" => array(
-                    "currency_code" => "USD",
-                    "value" => "0.00"
-                ),
-                "handling" => array(
-                    "currency_code" => "USD",
-                    "value" => "0.00"
-                ),
-                "tax_total" => array(
-                    "currency_code" => "USD",
-                    "value" => "0.00"
-                ),
-                "shipping_discount" => array(
-                    "currency_code" => "USD",
-                    "value" => "0.00"
-                ),
-            )
-        ),
-        "items" => array()
-    );
-    private $_itemTemplate = array(
-        "name" => "",
-        "description" => "",
-        "sku" => "",
-        "unit_amount" =>
-        array(
-            "currency_code" => "USD",
-            "value" => "0.00",
-        ),
-        "tax" =>
-        array(
-            "currency_code" => "USD",
-            "value" => "0.00",
-        ),
-        "quantity" => "0",
-        "category" => ""
-    );
+    private $_purchaseUnitTemplate = array();
+    private $_itemTemplate = array();
+    private $_currency = "USD";
 
     public function getOrder()
     {
@@ -73,8 +28,10 @@ class PayPalOrder
         $newItem["name"] = $name;
         $newItem["description"] = $description;
         $newItem["sku"] = $sku;
-        $newItem["unit_amount"]["value"] = (string) $price;
-        $newItem["tax"]["value"] = (string) $tax;
+        $newItem["unit_amount"]["value"] = (string) number_format((float)$price, 2, '.', '');
+        $newItem["unit_amount"]["currency_code"] = $this->_currency;
+        $newItem["tax"]["value"] = (string) number_format((float)$tax, 2, '.', '');
+        $newItem["tax"]["currency_code"] = $this->_currency;
         $newItem["quantity"] = (string) $quantity;
         $newItem["category"] = $category;
 
@@ -92,13 +49,42 @@ class PayPalOrder
         $taxTotal += ((float) $newItem["tax"]["value"]  *  (float) $newItem["quantity"]);
         $total = $itemTotal + $taxTotal;
 
-        $this->_body["purchase_units"][0]["amount"]["breakdown"]["item_total"]["value"] = (string) $itemTotal;
-        $this->_body["purchase_units"][0]["amount"]["breakdown"]["tax_total"]["value"] = (string) $taxTotal;
-        $this->_body["purchase_units"][0]["amount"]["value"] = (string) $total;
+        $this->_body["purchase_units"][0]["amount"]["breakdown"]["item_total"]["value"] = (string) number_format($itemTotal, 2, '.', '');
+        $this->_body["purchase_units"][0]["amount"]["breakdown"]["tax_total"]["value"] = (string) number_format($taxTotal, 2, '.', '');
+        $this->_body["purchase_units"][0]["amount"]["value"] = (string) number_format($total, 2, '.', '');
     }
 
-    public function  __construct($referenceID, $cancel_url, $return_url)
+    public function  __construct($referenceID, $cancel_url, $return_url, $currency = "USD")
     {
+        $this->_currency = $currency;
+
+        $this->_purchaseUnitTemplate = array(
+            "reference_id" => "",
+            "custom_id" => "",
+            "amount" => array(
+                "value" => "0.00",
+                "currency_code" => $this->_currency,
+                "breakdown" => array(
+                    "item_total" => array("currency_code" => $this->_currency, "value" => "0.00"),
+                    "shipping" => array("currency_code" => $this->_currency, "value" => "0.00"),
+                    "handling" => array("currency_code" => $this->_currency, "value" => "0.00"),
+                    "tax_total" => array("currency_code" => $this->_currency, "value" => "0.00"),
+                    "shipping_discount" => array("currency_code" => $this->_currency, "value" => "0.00"),
+                )
+            ),
+            "items" => array()
+        );
+
+        $this->_itemTemplate = array(
+            "name" => "",
+            "description" => "",
+            "sku" => "",
+            "unit_amount" => array("currency_code" => $this->_currency, "value" => "0.00"),
+            "tax" => array("currency_code" => $this->_currency, "value" => "0.00"),
+            "quantity" => "0",
+            "category" => ""
+        );
+
         $this->_body["purchase_units"][] = $this->_purchaseUnitTemplate;
         $this->_body["purchase_units"][0]["reference_id"] = (string) $referenceID;
         $this->_body["application_context"]["cancel_url"] = $cancel_url;
