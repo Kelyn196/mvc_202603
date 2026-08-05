@@ -1,5 +1,5 @@
-<section>
-    <h1>Gestión de Productos Lacteos Laxume</h1>
+<section class="grid">
+     <h2>Gestion de Productos Lacteos Axúme</h2>
 </section>
 <section class="WWList">
     <table>

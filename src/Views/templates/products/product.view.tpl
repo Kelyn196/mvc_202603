@@ -32,7 +32,7 @@
 
     <div class="form-group">
       <label for="productPrice">Precio</label>
-      <input {{~readonly}} type="number" name="productPrice" id="productPrice" 
+      <input {{~readonly}} type="text" name="productPrice" id="productPrice" 
              placeholder="Precio del Producto" value="{{productPrice}}" />
       {{if productPrice_error}}<div class="error">{{productPrice_error}}</div>{{endif productPrice_error}}
     </div>
@@ -58,20 +58,20 @@
         <option value="AGO" {{productStatus_AGO}}>Agotado</option>
       </select>
     </div>
+    {{endwith product}}
+  
+    <!-- Bloque de botones al final -->
+    <div class="form-actions">
+      {{if showCommitBtn}}
+      <button class="btn-brown" type="submit" name="btnConfirmar">Confirmar</button>
+      {{endif showCommitBtn}}
+      <button class="btn-brown" type="button" id="btnCancelar">
+        {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
+        {{ifnot showCommitBtn}}Regresar{{endifnot showCommitBtn}}
+      </button>
+    </div>
   </form>
-  {{endwith product}}
-
-  <form action="index.php?page=Products_Products" method="post">
-  <div class="form-actions">
-    {{if showCommitBtn}}
-    <button class="btn-brown" type="submit" name="btnConfirmar">Confirmar</button>
-    {{endif showCommitBtn}}
-    <button class="btn-brown" type="button" id="btnCancelar">
-      {{if showCommitBtn}}Cancelar{{endif showCommitBtn}}
-      {{ifnot showCommitBtn}}Regresar{{endifnot showCommitBtn}}
-    </button>
-  </div>
-</form>
+</section>
 
 <script>
   document.addEventListener("DOMContentLoaded", ()=>{

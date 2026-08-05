@@ -1,4 +1,5 @@
-<h1>Mi Carretilla de Compras</h1>
+<section class="grid">
+<h2 class="text-center">CARRETILLA</h2>
 
 <section class="cart-container">
     <div class="cart-grid">

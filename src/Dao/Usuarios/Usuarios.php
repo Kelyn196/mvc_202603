@@ -26,7 +26,7 @@ class Usuarios extends Table
                     u.userest,
                     u.useractcod,
                     u.userpswdchg,
-                    u.usertipo,
+                    u.tipousuario,
                     CASE
                         WHEN u.userest = 'ACT' THEN 'Activo'
                         WHEN u.userest = 'INA' THEN 'Inactivo'
@@ -115,7 +115,7 @@ class Usuarios extends Table
                     userest,
                     useractcod,
                     userpswdchg,
-                    usertipo
+                    tipousuario
                 FROM usuario
                 WHERE usercod = :usercod";
 
@@ -137,7 +137,7 @@ class Usuarios extends Table
         string $userest,
         string $useractcod,
         string $userpswdchg,
-        string $usertipo
+        string $tipousuario
     ) {
 
         $sqlstr = "INSERT INTO usuario (
@@ -150,7 +150,7 @@ class Usuarios extends Table
                         userest,
                         useractcod,
                         userpswdchg,
-                        usertipo
+                        tipousuario
                     ) VALUES (
                         :useremail,
                         :username,
@@ -161,7 +161,7 @@ class Usuarios extends Table
                         :userest,
                         :useractcod,
                         :userpswdchg,
-                        :usertipo
+                        :tipousuario
                     )";
 
         return self::executeNonQuery(
@@ -176,7 +176,7 @@ class Usuarios extends Table
                 "userest" => $userest,
                 "useractcod" => $useractcod,
                 "userpswdchg" => $userpswdchg,
-                "usertipo" => $usertipo
+                "tipousuario" => $tipousuario
             ]
         );
     }
@@ -192,7 +192,7 @@ class Usuarios extends Table
         string $userest,
         string $useractcod,
         string $userpswdchg,
-        string $usertipo
+        string $tipousuario
     ) {
 
         $sqlstr = "UPDATE usuario
@@ -206,7 +206,7 @@ class Usuarios extends Table
                         userest = :userest,
                         useractcod = :useractcod,
                         userpswdchg = :userpswdchg,
-                        usertipo = :usertipo
+                        tipousuario = :tipousuario
                     WHERE usercod = :usercod";
 
         return self::executeNonQuery(
@@ -222,7 +222,7 @@ class Usuarios extends Table
                 "userest" => $userest,
                 "useractcod" => $useractcod,
                 "userpswdchg" => $userpswdchg,
-                "usertipo" => $usertipo
+                "tipousuario" => $tipousuario
             ]
         );
     }

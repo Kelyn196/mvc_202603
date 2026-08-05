@@ -1,6 +1,4 @@
-
 <section class="grid">
-
   <h2 class="text-center">NUESTROS PRODUCTOS</h2>
   <div class="row filtros">
     <form class="col-12 col-m-8" action="index.php" method="get">
@@ -61,12 +59,6 @@
         <td class="center">
           <a href="index.php?page=Products_Product&mode=DSP&productId={{productId}}" class="btn btn-info" title="Ver">
             <i class="fa-solid fa-eye"></i>
-          </a>
-          <a href="index.php?page=Products_Product&mode=UPD&productId={{productId}}" class="btn btn-warning" title="Editar">
-            <i class="fa-solid fa-edit"></i>
-          </a>
-          <a href="index.php?page=Products_Product&mode=DEL&productId={{productId}}" class="btn btn-danger" title="Eliminar" onclick="return confirm('¿Seguro que deseas eliminar este registro?');">
-            <i class="fa-solid fa-trash"></i>
           </a>
         </td>
         {{endif ~isLoggedIn}}

@@ -14,9 +14,9 @@ class Usuario extends PublicController
     private $mode = "DSP";
 
     private $modeDescriptions = [
-        "DSP" => "Detalle del Usuario %s",
+        "DSP" => "Detalles Usuario %s",
         "INS" => "Nuevo Usuario",
-        "UPD" => "Editar Usuario %s",
+        "UPD" => "Edición Usuario %s",
         "DEL" => "Eliminar Usuario %s"
     ];
 
@@ -34,7 +34,7 @@ class Usuario extends PublicController
         "userest" => "ACT",
         "useractcod" => "",
         "userpswdchg" => "",
-        "usertipo" => "NOR"
+        "tipousuario" => "CLI"
     ];
 
     private $usuario_xss_token = "";
@@ -84,7 +84,7 @@ class Usuario extends PublicController
         if ($this->mode != "INS") {
 
             $this->usuario = UsuariosDAO::getUsuarioById(
-                intval($_GET["usercod"] ?? 0)
+                intval($_REQUEST["usercod"] ?? 0)
             );
 
             if (!$this->usuario) {
@@ -108,32 +108,36 @@ class Usuario extends PublicController
         $this->usuario["userfching"] = strval($_POST["userfching"] ?? "");
         $this->usuario["userpswdest"] = strval($_POST["userpswdest"] ?? "");
         $this->usuario["userpswdexp"] = strval($_POST["userpswdexp"] ?? "");
-        $this->usuario["userest"] = strval($_POST["userest"] ?? "");
+        $this->usuario["userest"] = strval($_POST["userest"] ?? $this->usuario["userest"]);
         $this->usuario["useractcod"] = strval($_POST["useractcod"] ?? "");
         $this->usuario["userpswdchg"] = strval($_POST["userpswdchg"] ?? "");
-        $this->usuario["usertipo"] = strval($_POST["usertipo"] ?? "");
+        $this->usuario["tipousuario"] = strval($_POST["tipousuario"] ?? $this->usuario["tipousuario"]);
 
-        if (Validators::IsEmpty($this->usuario["useremail"])) {
-            $errors["useremail_error"] = "El correo electrónico es requerido";
-        }
+        if ($this->mode != "DEL") {
 
-        if (Validators::IsEmpty($this->usuario["username"])) {
-            $errors["username_error"] = "El nombre del usuario es requerido";
-        }
+            if (Validators::IsEmpty($this->usuario["useremail"])) {
+                $errors["useremail_error"] = "El correo electrónico es requerido";
+            }
 
-        if ($this->mode == "INS") {
-            if (Validators::IsEmpty($this->usuario["userpswd"])) {
-                $errors["userpswd_error"] = "La contraseña es requerida";
+            if (Validators::IsEmpty($this->usuario["username"])) {
+                $errors["username_error"] = "El nombre del usuario es requerido";
+            }
+
+            if ($this->mode == "INS") {
+                if (Validators::IsEmpty($this->usuario["userpswd"])) {
+                    $errors["userpswd_error"] = "La contraseña es requerida";
+                }
+            }
+
+            if (!in_array($this->usuario["userest"], ["ACT", "INA"])) {
+                $errors["userest_error"] = "Estado inválido";
+            }
+
+            if (!in_array($this->usuario["tipousuario"], ["ADM", "SUP", "EMP", "CLI"])) {
+                $errors["tipousuario_error"] = "Tipo de usuario inválido";
             }
         }
 
-        if (!in_array($this->usuario["userest"], ["ACT", "INA"])) {
-            $errors["userest_error"] = "Estado inválido";
-        }
-
-        if (!in_array($this->usuario["usertipo"], ["NOR", "CON", "CLI"])) {
-            $errors["usertipo_error"] = "Tipo de usuario inválido";
-        }
 
         if (count($errors) > 0) {
             foreach ($errors as $key => $value) {
@@ -160,7 +164,7 @@ class Usuario extends PublicController
                     $this->usuario["userest"],
                     $this->usuario["useractcod"],
                     $this->usuario["userpswdchg"],
-                    $this->usuario["usertipo"]
+                    $this->usuario["tipousuario"]
                 );
                 break;
 
@@ -176,7 +180,7 @@ class Usuario extends PublicController
                     $this->usuario["userest"],
                     $this->usuario["useractcod"],
                     $this->usuario["userpswdchg"],
-                    $this->usuario["usertipo"]
+                    $this->usuario["tipousuario"]
                 );
                 break;
 
@@ -223,12 +227,13 @@ class Usuario extends PublicController
             $this->viewData["userest_" . $this->viewData["userest"]] = "selected";
         }
 
-        $this->viewData["usertipo_NOR"] = "";
-        $this->viewData["usertipo_CON"] = "";
-        $this->viewData["usertipo_CLI"] = "";
+        $this->viewData["tipousuario_ADM"] = "";
+        $this->viewData["tipousuario_SUP"] = "";
+        $this->viewData["tipousuario_EMP"] = "";
+        $this->viewData["tipousuario_CLI"] = "";
 
-        if (isset($this->viewData["usertipo"])) {
-            $this->viewData["usertipo_" . $this->viewData["usertipo"]] = "selected";
+        if (isset($this->viewData["tipousuario"])) {
+            $this->viewData["tipousuario_" . $this->viewData["tipousuario"]] = "selected";
         }
     }
 }

@@ -13,7 +13,7 @@
 
         <div class="row my-2">
             <label class="col-12 col-m-3">Código</label>
-            <input class="col-12 col-m-9" name="rolescod" value="{{rolescod}}" {{readonly}}>
+            <input type="text" class="col-12 col-m-9" name="rolescod" value="{{rolescod}}" {{readonly}}>
             
             {{if rolescod_error}}
             <div class="error">{{rolescod_error}}</div>
@@ -22,7 +22,7 @@
 
         <div class="row my-2">
             <label class="col-12 col-m-3">Descripción</label>
-            <input class="col-12 col-m-9"
+            <input type="text" class="col-12 col-m-9"
                    name="rolesdsc"
                    value="{{rolesdsc}}"
                    {{readonly}}>
@@ -39,7 +39,6 @@
                 <option value="INA" {{rolesest_ina}}>Inactivo</option>
             </select>
         </div>
-        
         <div class="row my-4 flex-end">
             <div class="form-actions">
                 {{if showCommitBtn}}
@@ -47,16 +46,14 @@
                         Confirmar
                     </button>
                 {{endif showCommitBtn}}
-
                 <!-- TEXTO CAMBIADO A "Regresar" -->
-                <button class="btn-brown" type="button" id="btnCancelar">
-                    Regresar
+                <button class="btn-brown" type="button" id="btnCancelar">Regresar
                 </button>
             </div>
         </div>
     </form>
+    
 </section>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnCancelar").addEventListener("click", () => {

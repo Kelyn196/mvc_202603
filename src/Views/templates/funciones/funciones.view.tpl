@@ -1,4 +1,5 @@
-<h1>Trabajar con Funciones</h1>
+<section class="grid">
+<h2 class="text-center">FUNCIONES</h2>
 
 <section>
     <form action="index.php" method="get">
@@ -67,19 +68,16 @@
                 </td>
 
                 <td class="center">
-
                     <a href="index.php?page=Funciones_Funcion&mode=DSP&fncod={{fncod}}" 
                        class="btn btn-info" 
                        title="Ver">
                         <i class="fa-solid fa-eye"></i>
                     </a>
-
                     <a href="index.php?page=Funciones_Funcion&mode=UPD&fncod={{fncod}}" 
                        class="btn btn-warning" 
                        title="Editar">
                         <i class="fa-solid fa-edit"></i>
                     </a>
-
                     <a href="index.php?page=Funciones_Funcion&mode=DEL&fncod={{fncod}}" 
                        class="btn btn-danger" 
                        title="Eliminar"

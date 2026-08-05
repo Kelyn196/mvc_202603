@@ -1,4 +1,5 @@
-<h1>Trabajar con Roles</h1>
+<section class="grid">
+<h2 class="text-center">ADMINISTRACION DE ROLES</h2>
 
 <section>
   <form action="index.php" method="get">
@@ -63,15 +64,12 @@
         <td>{{rolesestDsc}}</td>
         <td class="center">
           <div class="acciones">
-
             <a href="index.php?page=Roles_Rol&mode=DSP&rolescod={{rolescod}}" class="action-btn" title="Ver">
               <i class="fa-solid fa-eye"></i>
             </a>
-
             <a href="index.php?page=Roles_Rol&mode=UPD&rolescod={{rolescod}}" class="action-btn" title="Editar">
               <i class="fa-solid fa-pen-to-square"></i>
             </a>
-
             <a href="index.php?page=Roles_Rol&mode=DEL&rolescod={{rolescod}}" class="action-btn" title="Eliminar">
               <i class="fa-solid fa-trash"></i>
             </a>

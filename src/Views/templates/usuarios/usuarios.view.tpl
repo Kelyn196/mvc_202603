@@ -1,4 +1,5 @@
-<h1>Trabajar con Usuarios</h1>
+<section class="grid">
+<h2 class="text-center">ADMINISTRACION DE USUARIOS</h2>
 
 <section>
     <form action="index.php" method="get">
@@ -62,7 +63,7 @@
         </td>
         <td>{{userpswd}}</td>
         <td class="center">{{userestDsc}}</td>
-        <td class="center">{{usertipo}}</td>
+        <td class="center">{{tipousuario}}</td>
         <td class="center">
           <a href="index.php?page=Usuarios_Usuario&mode=DSP&usercod={{usercod}}" class="btn btn-info" title="Ver">
             <i class="fa-solid fa-eye"></i>

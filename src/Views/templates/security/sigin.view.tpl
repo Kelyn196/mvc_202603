@@ -4,6 +4,32 @@
       <h1 class="col-12">Crea tu cuenta</h1>
     </section>
     <section class="depth-1 py-5 row col-12 col-m-8 offset-m-2 col-xl-6 offset-xl-3">
+
+      <div class="row">
+        <label class="col-12 col-m-4 flex align-center" for="txtUsername">Nombre</label>
+        <div class="col-12 col-m-8">
+          <input class="width-full" type="text" id="txtUsername" name="txtUsername" value="{{txtUsername}}" />
+        </div>
+        {{if errorUsername}}
+        <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorUsername}}</div>
+        {{endif errorUsername}}
+      </div>
+
+      <div class="row">
+        <label class="col-12 col-m-4 flex align-center" for="txttipousuario">Tipo de Usuario</label>
+        <div class="col-12 col-m-8">
+          <select class="width-full" id="txttipousuario" name="txttipousuario">
+            <option value="ADM" {{txttipousuario_ADM}}>Administrador</option>
+            <option value="SUP" {{txttipousuario_SUP}}>Supervisor</option>
+            <option value="EMP" {{txttipousuario_EMP}}>Empleado</option>
+            <option value="CLI" {{txttipousuario_CLI}}>Cliente</option>
+          </select>
+        </div>
+        {{if errortipousuario}}
+        <div class="error col-12 py-2 col-m-8 offset-m-4">{{errortipousuario}}</div>
+        {{endif errortipousuario}}
+      </div>
+
       <div class="row">
         <label class="col-12 col-m-4 flex align-center" for="txtEmail">Correo Electrónico</label>
         <div class="col-12 col-m-8">
@@ -13,6 +39,7 @@
         <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorEmail}}</div>
         {{endif errorEmail}}
       </div>
+
       <div class="row">
         <label class="col-12 col-m-4 flex align-center" for="txtPswd">Contraseña</label>
         <div class="col-12 col-m-8">
@@ -22,9 +49,11 @@
         <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorPswd}}</div>
         {{endif errorPswd}}
       </div>
+
       <div class="row right flex-end px-4">
-        <button class="primary" id="btnSignin" type="submit">Crear Cuenta</button>
+        <button class="primary" id="btnSignin" type="submit">Guardar</button>
       </div>
+
     </section>
   </form>
 </section>
