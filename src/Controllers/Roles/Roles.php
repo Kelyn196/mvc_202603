@@ -5,6 +5,7 @@ namespace Controllers\Roles;
 use Controllers\PublicController;
 use Utilities\Context;
 use Utilities\Paging;
+use Utilities\Security;
 use Dao\Roles\Roles as DaoRoles;
 use Views\Renderer;
 
@@ -34,6 +35,7 @@ class Roles extends PublicController
             $this->orderDescending,
             $this->pageNumber - 1,
             $this->itemsPerPage
+
         );
 
         $this->roles = $tmpRoles["roles"] ?? [];
@@ -97,7 +99,10 @@ class Roles extends PublicController
             "itemsPerPage" => $this->itemsPerPage,
             "roles" => $this->roles,
             "rolesCount" => $this->rolesCount,
-            "pages" => $this->pages
+            "pages" => $this->pages,
+
+            "isLogged" => Security::isLogged()
+
         ];
 
         if ($this->orderBy != "") {

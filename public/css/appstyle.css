@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-/* ====== RESET Y BASE ====== */
+/* RESET Y BASE */
 * {
   box-sizing: border-box;
 }
@@ -20,7 +20,7 @@ body {
   overflow-y: auto;
 }
 
-/* ====== HEADER ====== */
+/* HEADER */
 header {
   position: fixed;
   top: 0;
@@ -44,7 +44,7 @@ header h1 {
   color: #fffffff8;
 }
 
-/* ====== MAIN ====== */
+/* MAIN */
 main {
   margin-top: 0px;
   padding: 0px;
@@ -83,7 +83,7 @@ main h1 {
 }
 
 
-/* ====== ICONO HAMBURGUESA ====== */
+/* ICONO HAMBURGUESA */
 .menu_toggle {
   display: none;
 }
@@ -124,7 +124,7 @@ main h1 {
   z-index: 1002;
 }
 
-/* ====== MENÚ LATERAL ====== */
+/* MENÚ LATERAL */
 #menu {
   position: fixed;
   top: 0;
@@ -163,7 +163,7 @@ main h1 {
   background-color: #6D4C41;
 }
 
-/* ====== FORMULARIOS ====== */
+/* FORMULARIOS */
 form {
   display: flex;
   flex-wrap: wrap;
@@ -194,7 +194,7 @@ textarea {
   font-size: 0.9rem;
 }
 
-/* ====== FILTROS ====== */
+/* FILTROS */
 .filtros-grid {
   display: grid;
   grid-template-columns: 1fr 120px;
@@ -232,7 +232,7 @@ textarea {
   justify-content: center;
 }
 
-/* ====== BOTONES ====== */
+/* BOTONES */
 .btn,
 button.primary {
   background-color: #8D6E63;
@@ -313,7 +313,7 @@ button.primary:active {
   background: #e9ecef;
 }
 
-/* ====== TABLA ====== */
+/* TABLA */
 table {
   width: 100%;
   padding: 10px 12px;
@@ -353,7 +353,7 @@ tbody tr:hover {
   transition: background 0.3s ease;
 }
 
-/* ====== LOGIN ====== */
+/* LOGIN */
 .fullCenter {
   display: flex;
   justify-content: center;
@@ -392,7 +392,7 @@ form.grid select {
   font-family: inherit;
   height: 38px;
 }
-/* ====== FORMULARIOS LOGIN & SIGNIN ====== */
+/* FORMULARIOS LOGIN & SIGNIN */
 .fullCenter {
   display: flex;
   justify-content: center;
@@ -575,7 +575,6 @@ form.grid .form-actions {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   margin-right: 10px;
-  position: absolute;
 }
 
 .btn-brown:hover {
@@ -698,7 +697,7 @@ form.grid .form-actions {
 
 
 
-/* ====== CARRETILLA ====== */
+/* CARRETILLA */
 .cart-container {
   margin-top: 80px;
   /* espacio debajo del header fijo */
@@ -933,7 +932,7 @@ form.grid .form-actions {
   text-align: center;
 }
 
-/* ====== Carrusel de productos ====== */
+/* Carrusel de productos */
 .btn-lg.mt-3 {
   background-color: #8b5e3c;   /* marrón cálido */
   color: #fff;                 /* texto blanco */
@@ -978,7 +977,7 @@ form.grid .form-actions {
   margin-bottom: 15px;
 }
 
-/* ====== Texto de productos ====== */
+/* Texto de productos */
 .carousel-item p {
   font-size: 1rem;
   color: #444;
@@ -986,7 +985,7 @@ form.grid .form-actions {
   max-width: 600px;
 }
 
-/* ====== Botón de carrito ====== */
+/* Botón de carrito */
 .carousel-item .btn-success {
   background-color: #2e7d32;
   border: none;
@@ -998,7 +997,7 @@ form.grid .form-actions {
 
 
 
-/* ====== Título de la sección ====== */
+/* Título de la sección */
 .container h2 {
   color: #2e7d32;
   font-weight: bold;
@@ -1019,7 +1018,7 @@ form.grid .form-actions {
   margin: 5px 0 10px;
 }
 
-/* ====== Sección de Promociones ====== */
+/* Sección de Promociones */
 section h2.text-success {
   font-weight: bold;
   text-transform: uppercase;
@@ -1068,7 +1067,7 @@ section h2.text-success {
   transform: scale(1.05);
 }
 
-/* ====== Sección Quiénes Somos ====== */
+/* Sección Quiénes Somos */
 .bg-light h2.text-success {
   font-weight: bold;
   text-transform: uppercase;
@@ -1092,7 +1091,7 @@ section h2.text-success {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* ====== Botón principal reutilizable ====== */
+/* Botón principal reutilizable */
 .btn-main {
   background-color: #8b5e3c;
   color: #fff;
@@ -1124,7 +1123,7 @@ section h2.text-success {
   height: auto;                    /* mantiene proporción */
 }
 
-/* ====== FOOTER ====== */
+/* FOOTER */
 .footer-axume {
   background-color: #4E342E;
   color: #fff;

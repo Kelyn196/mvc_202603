@@ -5,6 +5,7 @@ namespace Controllers\Usuarios;
 use Controllers\PublicController;
 use Utilities\Context;
 use Utilities\Paging;
+use Utilities\Security;
 use Dao\Usuarios\Usuarios as DaoUsuarios;
 use Views\Renderer;
 
@@ -185,7 +186,9 @@ class Usuarios extends PublicController
             "itemsPerPage" => $this->itemsPerPage,
             "usuariosCount" => $this->usuariosCount,
             "pages" => $this->pages,
-            "usuarios" => $this->usuarios
+            "usuarios" => $this->usuarios,
+            "isLogged" => Security::isLogged()
+
         ];
 
 

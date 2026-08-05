@@ -43,23 +43,42 @@ class Checkout extends PrivateController
             $baseUrl = $protocol . "://" . $host . $scriptDir . "/";
         }
 
-        $cancelUrl = str_replace('\\', '/', $baseUrl . "index.php?page=Checkout_Error");
-        $returnUrl = str_replace('\\', '/', $baseUrl . "index.php?page=Checkout_Accept");
-
+        $cancelUrl = "http://localhost/negociosWeb/Proyecto/mvc_202603/index.php?page=Checkout_Error";
+        $returnUrl = "http://localhost/negociosWeb/Proyecto/mvc_202603/index.php?page=Checkout_Accept";
+        
         $currency = "USD";
         $PayPalOrder = new PayPalOrder($referenceID, $cancelUrl, $returnUrl, $currency);
 
+        $tipoCambio = 26.00;
+
+        $tipoCambio = 26.00;
+
         foreach ($items as $item) {
-            $price = number_format((float)$item['crrprc'], 2, '.', '');
+
+            $price = number_format(
+                (float)$item['crrprc'] / $tipoCambio,
+                2,
+                '.',
+                ''
+            );
+
             $tax = "0.00";
             $qty = (int)$item['crrctd'];
-            
+
             $name = substr($item['productName'], 0, 127);
             $desc = substr($item['productDescription'], 0, 127);
             $sku = "PRD-" . $item['productId'];
-            
-            $PayPalOrder->addItem($name, $desc, $sku, $price, $tax, $qty, "PHYSICAL_GOODS");
-        }
+
+            $PayPalOrder->addItem(
+                $name,
+                $desc,
+                $sku,
+                $price,
+                $tax,
+                $qty,
+                "PHYSICAL_GOODS"
+            );
+        } 
 
         $env = Context::getContextByKey("PAYPAL_CLIENT_ENV");
         $paypalEnv = ($env === "PROD" || $env === "PRODUCTION") ? "production" : "sandbox";

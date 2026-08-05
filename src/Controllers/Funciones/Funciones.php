@@ -6,6 +6,7 @@ use Controllers\PublicController;
 use Dao\Funciones\Funciones as FuncionesDAO;
 use Utilities\Context;
 use Utilities\Paging;
+use Utilities\Security;
 use Views\Renderer;
 
 class Funciones extends PublicController
@@ -125,7 +126,9 @@ class Funciones extends PublicController
             "itemsPerPage" => $this->itemsPerPage,
             "funcionesCount" => $this->funcionesCount,
             "pages" => $this->pages,
-            "funciones" => $this->funciones
+            "funciones" => $this->funciones,
+            "isLogged" => Security::isLogged()
+
         ];
 
         $this->viewData["pagination"] = Paging::getPagination(

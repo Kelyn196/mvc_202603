@@ -32,14 +32,17 @@
                     Filtrar
                 </button>
 
+                {{if isLogged}}
                 <a href="index.php?page=Funciones_Funcion&mode=INS" class="btnop">
                     Nuevo
                 </a>
+                {{endif isLogged}}
 
             </div>
         </div>
     </form>
 </section>
+
 <section class="WWList">
     <table>
         <thead>
@@ -48,13 +51,21 @@
                 <th>Descripción</th>
                 <th>Tipo</th>
                 <th>Estado</th>
+
+                {{if isLogged}}
                 <th>Acciones</th>
+                {{endif isLogged}}
+
             </tr>
         </thead>
+
         <tbody>
+
             {{foreach funciones}}
             <tr>
+
                 <td>{{fncod}}</td>
+
                 <td>
                     <a class="link" href="index.php?page=Funciones_Funcion&mode=DSP&fncod={{fncod}}">
                         {{fndsc}}
@@ -67,32 +78,35 @@
                     {{fnestDsc}}
                 </td>
 
+                {{if ~isLogged}}
                 <td class="center">
-                    <a href="index.php?page=Funciones_Funcion&mode=DSP&fncod={{fncod}}" 
-                       class="btn btn-info" 
+
+                    <a href="index.php?page=Funciones_Funcion&mode=DSP&fncod={{fncod}}"
+                       class="btn btn-info"
                        title="Ver">
                         <i class="fa-solid fa-eye"></i>
                     </a>
-                    <a href="index.php?page=Funciones_Funcion&mode=UPD&fncod={{fncod}}" 
-                       class="btn btn-warning" 
+
+                    <a href="index.php?page=Funciones_Funcion&mode=UPD&fncod={{fncod}}"
+                       class="btn btn-warning"
                        title="Editar">
                         <i class="fa-solid fa-edit"></i>
                     </a>
-                    <a href="index.php?page=Funciones_Funcion&mode=DEL&fncod={{fncod}}" 
-                       class="btn btn-danger" 
+
+                    <a href="index.php?page=Funciones_Funcion&mode=DEL&fncod={{fncod}}"
+                       class="btn btn-danger"
                        title="Eliminar"
                        onclick="return confirm('¿Seguro que deseas eliminar este registro?');">
                         <i class="fa-solid fa-trash"></i>
                     </a>
 
                 </td>
+                {{endif ~isLogged}}
 
             </tr>
-
             {{endfor funciones}}
 
         </tbody>
-
     </table>
 
     {{pagination}}

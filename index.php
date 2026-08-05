@@ -20,6 +20,28 @@ session_start();
 try {
     Site::configure();
     $pageRequest = Site::getPageRequest();
+    // Controles de acceso para administradores
+    if (
+        \Utilities\Security::isLogged() &&
+        in_array(
+            $pageRequest,
+            [
+                "Controllers\\Roles\\Roles",
+                "Controllers\\Usuarios\\Usuarios",
+                "Controllers\\Funciones\\Funciones"
+            ]
+        ) &&
+        !\Utilities\Security::isAuthorized(
+            \Utilities\Security::getUserId(),
+            $pageRequest,
+            "CTR"
+        )
+    ) {
+        Site::redirectToWithMsg(
+            "index.php?page=Index",
+            "No tiene permisos para acceder a esta opción."
+        );
+    }
     $instance = new $pageRequest();
     $instance->run();
     die();
