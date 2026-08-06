@@ -2,6 +2,10 @@
     <h2>{{FormTitle}}</h2>
 </section>
 
+<section class="grid">
+    <h2>{{FormTitle}}</h2>
+</section>
+
 <section class="container-m row px-4 py-4" style="min-height: 60vh;">
 
     <form action="index.php?page=Usuarios_Usuario&mode={{~mode}}" method="POST"
@@ -56,6 +60,7 @@
         </div>
 
         <div class="uf-row-2">
+
             <div class="uf-group">
                 <label class="uf-label">Estado</label>
                 <select class="uf-input"
@@ -77,10 +82,11 @@
                     <option value="CLI" {{tipousuario_CLI}}>Cliente</option>
                 </select>
             </div>
+
         </div>
-        </div>
-    </form>
+
         <div class="uf-actions">
+
             {{if showCommitBtn}}
             <button class="uf-btn uf-btn-primary" type="submit" name="btnConfirmar">
                 Confirmar
@@ -90,12 +96,17 @@
             <button class="uf-btn uf-btn-secondary" type="button" id="btnCancelar">
                 Regresar
             </button>
+
+        </div>
+
+    </form>
+
 </section>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnCancelar").addEventListener("click", () => {
-        window.location = "index.php?page=Usuarios_Usuarios";
+        window.location.assign("index.php?page=Usuarios_Usuarios");
     });
 });
 </script>

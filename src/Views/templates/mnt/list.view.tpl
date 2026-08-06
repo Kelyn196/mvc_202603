@@ -1,5 +1,5 @@
 <section class="grid">
-     <h2>Gestion de Productos Lacteos Axúme</h2>
+    <h2>Gestion de Productos Lacteos Axúme</h2>
 </section>
 <section class="WWList">
     <table>
@@ -13,9 +13,11 @@
                 <th>Stock</th>
                 <th>Estado</th>
                 <th class="center">
+                    {{if ~PRODUCT_INS_MODE}}
                     <a href="index.php?page=Mnt_ProductForm&mode=INS" class="new-btn" title="Nuevo Producto">
                         <i class="fa-solid fa-plus"></i> Nuevo
                     </a>
+                    {{endif ~PRODUCT_INS_MODE}}
                 </th>
             </tr>
         </thead>
@@ -63,5 +65,5 @@
             {{endfor products}}
         </tbody>
     </table>
-{{pagination}}
+    {{pagination}}
 </section>
